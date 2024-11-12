@@ -1,0 +1,50 @@
+/* NavBar.css */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: end;
+  padding: 0 2rem;
+  background-color: #1f1f3d;
+  color: #fff;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 0.4rem #000);
+}
+
+* a {
+  text-decoration: none;
+  color: #ddd;
+}
+
+.navbar.visible {
+  opacity: 1;
+  pointer-events: auto;
+  /* Enable interaction when visible */
+}
+
+.navbar .logo {
+  position: absolute;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style-type: none;
+}
+
+.navbar ul li {
+  font-size: 1rem;
+  cursor: pointer;
+  color: #ddd;
+}
+
+.navbar ul li:hover {
+  color: #fff;
+}
