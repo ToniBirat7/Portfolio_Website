@@ -9,7 +9,7 @@ const AwardsAchievements = () => {
       <div className="award-card">
         <div className="award-header">
           <img
-            src="../src/assets/NewPP.jpg" // Replace with the profile image URL if available
+            src="NewPP.jpg" // Replace with the profile image URL if available
             alt="Profile"
             className="profile-image"
           />
@@ -22,7 +22,7 @@ const AwardsAchievements = () => {
           <p>Taking Flight to Success: Student of Year Award 🏆 ✈️ 💼 💰</p>
           <p>#UGSSAchieverAward2022 #UGSS #HighSchool </p>
           <img
-            src="../src/assets/Award.jpg"
+            src="Award.jpg"
             alt="Award Achievement"
             className="award-image"
           />
@@ -46,7 +46,7 @@ const AwardsAchievements = () => {
       <div className="award-card">
         <div className="award-header">
           <img
-            src="../src/assets/NewPP.jpg" // Replace with the profile image URL if available
+            src="NewPP.jpg" // Replace with the profile image URL if available
             alt="Profile"
             className="profile-image"
           />
@@ -58,11 +58,7 @@ const AwardsAchievements = () => {
         <div className="award-content">
           <p>Team Work: Innovation Fest 2023 🏆 </p>
           <p>#AMS_CV #Sunway #Attendees </p>
-          <img
-            src="../src/assets/AMS.png"
-            alt="Award Achievement"
-            className="award-image"
-          />
+          <img src="AMS.png" alt="Award Achievement" className="award-image" />
         </div>
         <div className="award-footer">
           <div className="icon">
@@ -83,7 +79,7 @@ const AwardsAchievements = () => {
       <div className="award-card">
         <div className="award-header">
           <img
-            src="../src/assets/NewPP.jpg" // Replace with the profile image URL if available
+            src="NewPP.jpg" // Replace with the profile image URL if available
             alt="Profile"
             className="profile-image"
           />
@@ -96,17 +92,17 @@ const AwardsAchievements = () => {
           <p>ICT Award 2024: Team Baali Bigyan 🏆 </p>
           <p>#YuwaYatra #BaaliBigyan #ICT_Top_5_Finalist_2024 </p>
           <img
-            src="../src/assets/ICT_Top5.jpg"
+            src="ICT_Top5.jpg"
             alt="Award Achievement"
             className="award-image"
           />
           <img
-            src="../src/assets/YuwaYatra_Team.jpg"
+            src="YuwaYatra_Team.jpg"
             alt="Award Achievement"
             className="award-image"
           />
           <img
-            src="../src/assets/ICT_Pic.jpg"
+            src="ICT_Pic.jpg"
             alt="Award Achievement"
             className="award-image"
           />

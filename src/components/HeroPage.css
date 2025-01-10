@@ -10,7 +10,7 @@ html {
 
 /* Background Image */
 .hero-container {
-  background-image: url('../assets/Bg.png');
+  background-image: url('Bg.png');
   background-size: cover;
   background-position: center;
   height: 100vh;

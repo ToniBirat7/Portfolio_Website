@@ -1,12 +1,12 @@
 import React from 'react';
 import './Profile.css';
-import resumePDF from '../assets/Birat_Gautam_2024_Resume.pdf';
+// import resumePDF from '../assets/Birat_Gautam_2024_Resume.pdf';
 import TypingText from './TypingText'; // Import TypingText component
 
 const Profile = () => {
   const handleResumeDownload = () => {
     const link = document.createElement('a');
-    link.href = resumePDF;
+    link.href = 'Birat_Gautam_Resume.pdf';
     link.download = 'Birat_Gautam_Resume.pdf';
     link.click();
   };
@@ -50,7 +50,7 @@ const Profile = () => {
         </div>
         <div className="profile-details">
           <img
-            src="../src/assets/NewPP.jpg" // Replace with your image URL
+            src="NewPP.jpg" // Replace with your image URL
             alt="Profile"
             className="profile-image"
           />
