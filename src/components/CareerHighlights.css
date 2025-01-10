@@ -72,15 +72,15 @@ html {
 }
 
 .timeline-item:nth-child(1)::before {
-  background-image: url('Bcu-logo.png');
+  background-image: url('../../public/Bcu-logo.png');
 }
 
 .timeline-item:nth-child(2)::before {
-  background-image: url('deerwalk-logo.png');
+  background-image: url('../../public/deerwalk-logo.png');
 }
 
 .timeline-item:nth-child(3)::before {
-  background-image: url('uni-logo.png');
+  background-image: url('../../public/uni-logo.png');
 }
 
 .timeline-item-flex {
