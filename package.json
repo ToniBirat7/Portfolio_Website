@@ -1,6 +1,6 @@
 {
   "name": "my-portfolio",
-  "homepage": "https://github.com/ToniBirat7/Portfolio_Website/",
+  "homepage": "https://ToniBirat7.github.io/Portfolio_Website/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build",                     
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
