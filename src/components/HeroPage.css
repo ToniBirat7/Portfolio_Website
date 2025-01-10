@@ -54,7 +54,7 @@ html {
   line-height: 1.48;
   text-align: left;
   font-size: 18px;
-  animation: typing 10s steps(40, end), fadeIn 2s ease-in;
+  animation: typing 10s steps(50, end), fadeIn 2s ease-in;
 }
 
 @keyframes fadeIn {
