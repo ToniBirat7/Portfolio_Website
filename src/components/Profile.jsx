@@ -1,38 +1,43 @@
-import React from 'react';
-import './Profile.css';
+import React from "react";
+import "./Profile.css";
 // import resumePDF from '../assets/Birat_Gautam_2024_Resume.pdf';
-import TypingText from './TypingText'; // Import TypingText component
+import TypingText from "./TypingText"; // Import TypingText component
 
 const Profile = () => {
   const handleResumeDownload = () => {
-    const link = document.createElement('a');
-    link.href = 'Birat_Gautam_Resume.pdf';
-    link.download = 'Birat_Gautam_Resume.pdf';
+    const link = document.createElement("a");
+    link.href = "Birat_Gautam_Resume.pdf";
+    link.download = "Birat_Gautam_Resume.pdf";
     link.click();
   };
 
-  const codeSnippet = `॥ श्रीशिव ध्यानम् ॥ \n
-ॐ डिं डिं डिंकत डिम्ब डिम्ब डमरु, पाणौ सदा यस्य वै। 
-फुं फुं फुंकत सर्पजाल हृदयं, घं घं च घण्टा रवम् ॥ 
-वं वं वंकत वम्ब वम्ब वहनं, कारुण्य पुण्यात् परम् ॥ 
-भं भं भंकत भम्ब भम्ब नयनं, ध्यायेत् शिवम् शंकरम्॥ 
+  const codeSnippet = `It's me Birat Gautam, a.k.a @ToniBirat7 in duality.
+⚽ Yes, Toni inspired by the calm, composed, and disciplined midfielder Toni Kroos. If code were football, I'd be playing deep building from the back, dictating the flow.
 
-यावत् तोय धरा धरा धर धरा, धारा धरा भूधरा॥ 
-यावत् चारु सुचारु चारू चमरं, चामीकरं चामरं॥ 
-यावत् रावण राम राम रमणं, रामायणे श्रुयताम्॥ 
-तावत् भोग विभोग भोगमतुलम् यो गायते नित्यस:॥ 
+What am I doing?
 
-यस्याग्रे द्राट द्राट द्रुट द्रुट ममलं, टंट टंट टंटटम् ॥ 
-तैलं तैलं तु तैलं खुखु खुखु खुखुमं, खंख खंख सखंखम्॥ 
-डंस डंस डुडंस डुहि चकितं, भूपकं भूय नालम्॥ 
-ध्यायस्ते विप्रगाहे सवसति सवलः पातु वः चंद्रचूडः॥ 
+Pursuing BSc (Hons) Computer Science with AI @ Birmingham City University.
+Want to understand the working of a computer from scratch—yes, I'm literally talking flip-flops and transistors.
+Currently learning Backend Engineering, AI, Fullstack Development, and DSA.
+"Fix each transistor to create a bit."
 
-गात्रं भस्मसितं सितं च हसितं हस्ते कपालं सितम्॥ 
-खट्वांग च सितं सितश्च भृषभः, कर्णेसिते कुण्डले॥ 
-गंगाफनेसिता जटापशु पतेश्चनद्रः सितो मूर्धनि॥ 
-सोऽयं सर्वसितो ददातु विभवं, पापक्षयं सर्वदा॥ 
+Sounds insane, right? That's the point. Sanity doesn't innovate.
 
-॥ इति शिव ध्यानम् ॥
+I'm not here just to use computers. I want to understand them, design them, breathe life into them bit by bit.
+
+You see code, it is not just logic; it's an unseen frequency that tunes into reality.
+Life? It's not just about 0s and 1s; it's about balance, depth, and knowing your true self.
+
+I love exploring things from scratch because starting from nothing is the closest you can get to creation.
+
+Are You Still Reading?
+So... ask yourself:
+
+What are you building?
+Why are you building it?
+And when the terminal clears, what remains?
+
+Happy Coding.
 `.trim();
 
   return (
@@ -49,11 +54,7 @@ const Profile = () => {
           <TypingText text={codeSnippet} /> {/* Animated typing effect */}
         </div>
         <div className="profile-details">
-          <img
-            src="NewPP.jpg" // Replace with your image URL
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src="pp.png" alt="Profile" className="profile-image" />
           <div className="about-me">
             <h3>ABOUT ME</h3>
             <h4>I'm Birat Gautam</h4>

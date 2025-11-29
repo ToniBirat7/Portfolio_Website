@@ -1,6 +1,6 @@
 // AwardsAchievements.js
-import React from 'react';
-import './Achievement.css';
+import React from "react";
+import "./Achievement.css";
 
 const AwardsAchievements = () => {
   return (
@@ -8,11 +8,7 @@ const AwardsAchievements = () => {
       <h2>Achievements and Awards</h2>
       <div className="award-card">
         <div className="award-header">
-          <img
-            src="NewPP.jpg" // Replace with the profile image URL if available
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src="pp.png" alt="Profile" className="profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>
@@ -45,11 +41,7 @@ const AwardsAchievements = () => {
 
       <div className="award-card">
         <div className="award-header">
-          <img
-            src="NewPP.jpg" // Replace with the profile image URL if available
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src="pp.png" alt="Profile" className="profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>
@@ -78,11 +70,7 @@ const AwardsAchievements = () => {
 
       <div className="award-card">
         <div className="award-header">
-          <img
-            src="NewPP.jpg" // Replace with the profile image URL if available
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src="pp.png" alt="Profile" className="profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>
