@@ -10,35 +10,31 @@ const Profile = () => {
     link.click();
   };
 
-  const codeSnippet =
-    `Birat Gautam, known online as @ToniBirat7, carrying the calm precision of Toni Kroos into the world of code.
+  const codeSnippet = `Birat Gautam // @ToniBirat7
+Toni Kroos calm → code precision.
 
-Currently pursuing BSc (Hons) Computer Science with AI at Birmingham City University.
+BSc (Hons) CS + AI @ Birmingham City Uni.
+Reverse-engineering flip-flops so software breathes.
 
-Drawn toward understanding computers from the transistor and flip-flop level upward—not just using machines but decoding their heartbeat.
+Shipping: backend, AI, fullstack, DSA.
+Belief: each bit is alchemy-curiosity over sanity.
 
-Learning and building in Backend Engineering, AI, Fullstack Development, and DSA.
-
-Believes that every transistor, every bit, is a tiny act of creation—sanity optional, curiosity required.
-
-Sees code as more than logic: a subtle frequency that shapes reality when tuned just right.
-
-Motivated by the idea that starting from nothing is where true creation begins.
-
-Lives with the question: What are you building, why are you building it, and what remains when the terminal clears?`.trim();
+Question: What are you building, why now,
+and what remains when the terminal clears?`.trim();
 
   return (
     <div className="profile-container" id="profile">
       <h2>Your Next Software Engineer</h2>
       <div className="profile-content">
-        <div className="code-window"></div>
-        <div className="code-snippet">
+        <div className="terminal-wrapper">
           <div className="mac-top-bar">
             <span className="red-circle"></span>
             <span className="yellow-circle"></span>
             <span className="green-circle"></span>
           </div>
-          <TypingText text={codeSnippet} /> {/* Animated typing effect */}
+          <div className="code-snippet">
+            <TypingText text={codeSnippet} /> {/* Animated typing effect */}
+          </div>
         </div>
         <div className="profile-details">
           <img src="pp.jpg" alt="Profile" className="profile-image" />

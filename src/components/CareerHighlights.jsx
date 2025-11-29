@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import './CareerHighlights.css';
+import React, { useRef, useEffect } from "react";
+import "./CareerHighlights.css";
 
 const CareerHighlights = () => {
   const timelineItemsRef = useRef([]);
@@ -15,9 +15,9 @@ const CareerHighlights = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add("visible");
           } else {
-            entry.target.classList.remove('visible');
+            entry.target.classList.remove("visible");
           }
         });
       },
@@ -42,6 +42,32 @@ const CareerHighlights = () => {
       <p>Career Highlights</p>
       <div className="timeline">
         <div className="timeline-item-flex">
+          <div className="timeline-item">
+            <div className="timeline-content" ref={addToRefs}>
+              <img
+                src="Synapse_Tech.svg"
+                alt="Synapse Technologies"
+                className="company-logo"
+              />
+              <h3>AI/ML Intern</h3>
+              <h4>Synapse Technologies | Nov 2024 - Present</h4>
+              <ul>
+                <li>
+                  Developing and implementing machine learning models for
+                  real-world applications.
+                </li>
+                <li>
+                  Working on AI-driven solutions to enhance business
+                  intelligence and automation.
+                </li>
+                <li>
+                  Collaborating with cross-functional teams to integrate AI
+                  capabilities into production systems.
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
               <h3>BSc (Hons) Computer Science with AI Student</h3>

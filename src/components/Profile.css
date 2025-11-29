@@ -22,19 +22,25 @@
   flex-wrap: wrap;
 }
 
-.code-snippet {
+.terminal-wrapper {
   width: min(90vw, 620px);
   margin: 0 auto;
-  padding: 1.25rem 1.5rem 1.5rem;
-  background-color: #282828;
   border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.code-snippet {
+  background-color: #282828;
+  padding: 1.25rem 1.5rem 1.5rem;
   font-family: "Consolas", "Consolas Italic";
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #c9d1d9;
   text-align: left;
-  line-height: 1.35;
+  line-height: 1.4;
   font-weight: 500;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .code-snippet code {
@@ -148,13 +154,10 @@
 .mac-top-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 12px 14px;
   background-color: #3b3b3b;
-  width: min(90vw, 620px);
-  border-radius: 12px 12px 0 0;
-  margin: -32px auto 12px;
-  height: 32px;
+  width: 100%;
 }
 
 /* Top bar circles */
