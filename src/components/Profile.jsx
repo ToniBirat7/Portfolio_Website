@@ -1,4 +1,3 @@
-import React from "react";
 import "./Profile.css";
 // import resumePDF from '../assets/Birat_Gautam_2024_Resume.pdf';
 import TypingText from "./TypingText"; // Import TypingText component
@@ -11,34 +10,22 @@ const Profile = () => {
     link.click();
   };
 
-  const codeSnippet = `It's me Birat Gautam, a.k.a @ToniBirat7 in duality.
-⚽ Yes, Toni inspired by the calm, composed, and disciplined midfielder Toni Kroos. If code were football, I'd be playing deep building from the back, dictating the flow.
+  const codeSnippet =
+    `Birat Gautam, known online as @ToniBirat7, carrying the calm precision of Toni Kroos into the world of code.
 
-What am I doing?
+Currently pursuing BSc (Hons) Computer Science with AI at Birmingham City University.
 
-Pursuing BSc (Hons) Computer Science with AI @ Birmingham City University.
-Want to understand the working of a computer from scratch—yes, I'm literally talking flip-flops and transistors.
-Currently learning Backend Engineering, AI, Fullstack Development, and DSA.
-"Fix each transistor to create a bit."
+Drawn toward understanding computers from the transistor and flip-flop level upward—not just using machines but decoding their heartbeat.
 
-Sounds insane, right? That's the point. Sanity doesn't innovate.
+Learning and building in Backend Engineering, AI, Fullstack Development, and DSA.
 
-I'm not here just to use computers. I want to understand them, design them, breathe life into them bit by bit.
+Believes that every transistor, every bit, is a tiny act of creation—sanity optional, curiosity required.
 
-You see code, it is not just logic; it's an unseen frequency that tunes into reality.
-Life? It's not just about 0s and 1s; it's about balance, depth, and knowing your true self.
+Sees code as more than logic: a subtle frequency that shapes reality when tuned just right.
 
-I love exploring things from scratch because starting from nothing is the closest you can get to creation.
+Motivated by the idea that starting from nothing is where true creation begins.
 
-Are You Still Reading?
-So... ask yourself:
-
-What are you building?
-Why are you building it?
-And when the terminal clears, what remains?
-
-Happy Coding.
-`.trim();
+Lives with the question: What are you building, why are you building it, and what remains when the terminal clears?`.trim();
 
   return (
     <div className="profile-container" id="profile">
@@ -54,7 +41,7 @@ Happy Coding.
           <TypingText text={codeSnippet} /> {/* Animated typing effect */}
         </div>
         <div className="profile-details">
-          <img src="pp.png" alt="Profile" className="profile-image" />
+          <img src="pp.jpg" alt="Profile" className="profile-image" />
           <div className="about-me">
             <h3>ABOUT ME</h3>
             <h4>I'm Birat Gautam</h4>
