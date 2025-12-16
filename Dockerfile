@@ -5,6 +5,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Build argument for base path
+ARG VITE_BASE_PATH=/
+ENV VITE_BASE_PATH=${VITE_BASE_PATH}
+
 # Copy package files
 COPY package*.json ./
 
@@ -14,8 +18,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Build the application with custom base path
+RUN npm run build -- --base=${VITE_BASE_PATH}
 
 # Stage 2: Serve with nginx
 FROM nginx:alpine

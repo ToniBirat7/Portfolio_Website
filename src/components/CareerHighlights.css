@@ -72,19 +72,19 @@ html {
 }
 
 .timeline-item:nth-child(1)::before {
-  background-image: url("../../public/Synapse_Tech.svg");
+  background-image: url("/Synapse_Tech.svg");
 }
 
 .timeline-item:nth-child(2)::before {
-  background-image: url("../../public/Bcu-logo.png");
+  background-image: url("/Bcu-logo.png");
 }
 
 .timeline-item:nth-child(3)::before {
-  background-image: url("../../public/deerwalk-logo.png");
+  background-image: url("/deerwalk-logo.png");
 }
 
 .timeline-item:nth-child(4)::before {
-  background-image: url("../../public/uni-logo.png");
+  background-image: url("/uni-logo.png");
 }
 
 .timeline-item-flex {
