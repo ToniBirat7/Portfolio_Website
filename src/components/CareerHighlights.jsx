@@ -44,11 +44,6 @@ const CareerHighlights = () => {
         <div className="timeline-item-flex">
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
-              <img
-                src="Synapse_Tech.svg"
-                alt="Synapse Technologies"
-                className="company-logo"
-              />
               <h3>AI/ML Intern</h3>
               <h4>Synapse Technologies | Nov 2024 - Present</h4>
               <ul>

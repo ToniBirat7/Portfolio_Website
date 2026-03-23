@@ -55,6 +55,8 @@ html {
   text-align: left;
   font-size: 18px;
   animation: typing 10s steps(50, end), fadeIn 2s ease-in;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -66,13 +68,23 @@ html {
   }
 }
 
+/* Cursor Animation */
+.cursor {
+  display: inline-block;
+  background-color: var(--primary-color);
+  width: 3px;
+  animation: blink 1s infinite;
+  margin-left: 5px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 @keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @keyframes bounce-nepali {
@@ -107,8 +119,10 @@ html {
     #c72c41,
     #005eb8
   ); /* Gradient for the flag colors */
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback */
 }
 
 .content {

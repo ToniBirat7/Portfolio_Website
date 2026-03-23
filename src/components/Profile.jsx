@@ -33,7 +33,11 @@ and what remains when the terminal clears?`.trim();
             <span className="green-circle"></span>
           </div>
           <div className="code-snippet">
-            <TypingText text={codeSnippet} /> {/* Animated typing effect */}
+            <TypingText 
+              words={[codeSnippet]} 
+              loop={false}
+              typingSpeed={30}
+            /> {/* Animated typing effect */}
           </div>
         </div>
         <div className="profile-details">

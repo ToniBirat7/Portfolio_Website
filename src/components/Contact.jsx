@@ -8,9 +8,22 @@ const Contact = () => {
   const [message, setMessage] = useState('');
   const [outputMessage, setOutputMessage] = useState('');
 
+  const [isCompiling, setIsCompiling] = useState(false);
+
   const handleFormSubmit = () => {
-    const displayMessage = `Thank you ${firstName} ${lastName} for contacting me. I will get back to you at ${userEmail}. Your message: "${message}"`;
-    setOutputMessage(displayMessage);
+    if (!firstName || !lastName || !userEmail || !message) return;
+    
+    setIsCompiling(true);
+    setOutputMessage("Compiling...");
+
+    setTimeout(() => {
+      setOutputMessage("Running...");
+      setTimeout(() => {
+        const displayMessage = `> Process finished with exit code 0\n> Thank you ${firstName} ${lastName}! I have received your message and will get back to you at ${userEmail}.`;
+        setOutputMessage(displayMessage);
+        setIsCompiling(false);
+      }, 1500);
+    }, 1500);
   };
 
   return (

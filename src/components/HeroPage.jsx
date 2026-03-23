@@ -1,4 +1,5 @@
 import './HeroPage.css';
+import TypingText from './TypingText';
 
 function HeroSection() {
   // const quote = `
@@ -20,8 +21,16 @@ function HeroSection() {
               Not Your Average <br />{' '}
               <span className="nepali-word">नेपाली</span> Learner!
             </h1>
+            <div style={{ marginTop: '10px', fontSize: '1.2rem', color: '#ccd6f6' }}>
+              I am a <TypingText 
+                words={['Full Stack Developer', 'AI Enthusiast', 'Tech Explorer']} 
+                typingSpeed={100}
+                deletingSpeed={50}
+                pauseTime={2000}
+              />
+            </div>
           </div>
-          <p>
+          <p className="fade-in-up" style={{ animationDelay: '2s' }}>
             I Build Everything From Scratch <br /> Connect Each Single
             Transistors to Make a Byte
           </p>

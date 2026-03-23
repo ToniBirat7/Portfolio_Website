@@ -1,21 +1,42 @@
 import React, { useEffect, useState } from 'react';
 
-const TypingText = ({ text }) => {
+const TypingText = ({ words, typingSpeed = 150, deletingSpeed = 100, pauseTime = 2000, loop = true }) => {
   const [displayedText, setDisplayedText] = useState('');
-  const [index, setIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
-    if (index < text.length) {
-      const timer = setTimeout(() => {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        setIndex((prev) => prev + 1);
-      }, 60); // Adjust speed as needed
+    const currentWord = words[wordIndex % words.length];
 
-      return () => clearTimeout(timer);
-    }
-  }, [index, text]);
+    const handleTyping = () => {
+      setDisplayedText((prev) => {
+        if (isDeleting) {
+          return currentWord.substring(0, prev.length - 1);
+        } else {
+          return currentWord.substring(0, prev.length + 1);
+        }
+      });
 
-  return <pre className="typing-text">{displayedText}</pre>;
+      if (!isDeleting && displayedText === currentWord) {
+        if (!loop) return; // Stop if not looping
+        setTimeout(() => setIsDeleting(true), pauseTime);
+      } else if (isDeleting && displayedText === '') {
+        setIsDeleting(false);
+        setWordIndex((prev) => prev + 1);
+      }
+    };
+
+    const timer = setTimeout(handleTyping, isDeleting ? deletingSpeed : typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, pauseTime, loop]);
+
+  return (
+    <span className="typing-text">
+      {displayedText}
+      <span className="cursor">|</span>
+    </span>
+  );
 };
 
 export default TypingText;
