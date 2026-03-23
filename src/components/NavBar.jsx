@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Nav.css';
 
 const NavBar = () => {
@@ -35,6 +35,7 @@ const NavBar = () => {
         <li onClick={() => handleScrollTo('profile')}>Profile</li>
         <li onClick={() => handleScrollTo('project')}>Projects</li>
         <li onClick={() => handleScrollTo('awards')}>Achievements</li>
+        <li onClick={() => handleScrollTo('research')}>Research</li>
         <li onClick={() => handleScrollTo('contact')}>Contact</li>
         <li>
           <a href="https://www.linkedin.com/pulse/demystifying-working-react-from-jsx-pixels-birat-gautam-4rqif/?trackingId=GiS%2B8t1YROKpAk9200dkig%3D%3D">

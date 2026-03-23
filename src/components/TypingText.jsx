@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const TypingText = ({ words, typingSpeed = 150, deletingSpeed = 100, pauseTime = 2000, loop = true }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -37,6 +38,15 @@ const TypingText = ({ words, typingSpeed = 150, deletingSpeed = 100, pauseTime =
       <span className="cursor">|</span>
     </span>
   );
+};
+
+
+TypingText.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.string).isRequired,
+  typingSpeed: PropTypes.number,
+  deletingSpeed: PropTypes.number,
+  pauseTime: PropTypes.number,
+  loop: PropTypes.bool,
 };
 
 export default TypingText;

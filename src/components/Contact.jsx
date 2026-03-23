@@ -1,94 +1,128 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Contact.css';
 
 const Contact = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [outputMessage, setOutputMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [status, setStatus] = useState('idle'); // idle, sending, sent
 
-  const [isCompiling, setIsCompiling] = useState(false);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleFormSubmit = () => {
-    if (!firstName || !lastName || !userEmail || !message) return;
-    
-    setIsCompiling(true);
-    setOutputMessage("Compiling...");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
 
+    setStatus('sending');
     setTimeout(() => {
-      setOutputMessage("Running...");
-      setTimeout(() => {
-        const displayMessage = `> Process finished with exit code 0\n> Thank you ${firstName} ${lastName}! I have received your message and will get back to you at ${userEmail}.`;
-        setOutputMessage(displayMessage);
-        setIsCompiling(false);
-      }, 1500);
+      setStatus('sent');
+      setTimeout(() => setStatus('idle'), 4000);
     }, 1500);
   };
 
   return (
-    <div className="contact-container" id="contact">
-      <h2 className="contact-header">Any Queries?</h2>
-      <div className="code-window">
-        <div className="code-snippet">
-          \\ Please enter your information in the input boxes and click Run to
-          contact me
-          <br />
-          <span style={{ color: '#f92672' }}>public</span>{' '}
-          <span style={{ color: '#66d9ef' }}>class</span> Contact &#123;
-          <br />
-          &nbsp;&nbsp;
-          <span style={{ color: '#66d9ef' }}>public static void</span> main(
-          <span style={{ color: '#66d9ef' }}>String</span>[] args) &#123;
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <span style={{ color: '#a6e22e' }}>String</span> firstName ={' '}
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          ;
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <span style={{ color: '#a6e22e' }}>String</span> lastName ={' '}
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          ;
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <span style={{ color: '#a6e22e' }}>String</span> userEmail ={' '}
-          <input
-            type="text"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
-          ;
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <span style={{ color: '#a6e22e' }}>String</span> message ={' '}
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          ;
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Thank you " + firstName +
-          " " + lastName + " for contacting me. I will get back to you as soon
-          as possible. Your message: " + message);
-          <br />
-          &nbsp;&nbsp;&#125;
-          <br />
-          &#125;
+    <section className="contact-section" id="contact">
+      <h2>Get In Touch</h2>
+      <p className="contact-subtitle">
+        Have a project in mind or want to collaborate? I&apos;d love to hear from you.
+      </p>
+      <div className="contact-card">
+        <div className="contact-info">
+          <div className="contact-info-item">
+            <i className="fas fa-envelope"></i>
+            <div>
+              <h4>Email</h4>
+              <p>birat@birat.codes</p>
+            </div>
+          </div>
+          <div className="contact-info-item">
+            <i className="fab fa-linkedin"></i>
+            <div>
+              <h4>LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/biratgautam7/" target="_blank" rel="noopener noreferrer">
+                /in/biratgautam7
+              </a>
+            </div>
+          </div>
+          <div className="contact-info-item">
+            <i className="fab fa-github"></i>
+            <div>
+              <h4>GitHub</h4>
+              <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer">
+                @ToniBirat7
+              </a>
+            </div>
+          </div>
         </div>
-        <button onClick={handleFormSubmit}>Run</button>
-        {outputMessage && <div className="message-output">{outputMessage}</div>}
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your@email.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="subject">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder="What's this about?"
+              value={formData.subject}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Your message..."
+              rows="5"
+              value={formData.message}
+              onChange={handleChange}
+              required
+            ></textarea>
+          </div>
+          <button type="submit" className="submit-btn" disabled={status === 'sending'}>
+            {status === 'idle' && (
+              <><i className="fas fa-paper-plane"></i> Send Message</>
+            )}
+            {status === 'sending' && (
+              <><i className="fas fa-spinner fa-spin"></i> Sending...</>
+            )}
+            {status === 'sent' && (
+              <><i className="fas fa-check"></i> Message Sent!</>
+            )}
+          </button>
+        </form>
       </div>
-    </div>
+    </section>
   );
 };
 

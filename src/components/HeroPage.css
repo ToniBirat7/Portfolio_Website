@@ -4,16 +4,16 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
-  font-family: "Arial", sans-serif;
+  font-family: var(--font-heading);
   box-sizing: border-box;
 }
 
 /* Background Image */
 .hero-container {
-  background-image: url("/Bg.png");
+  background-image: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)), url("/Bg.png");
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   position: relative;
@@ -22,15 +22,17 @@ html {
 }
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 5rem 1rem 3rem;
 }
 
+/* Nepali name - top left, fixed */
 .name {
   display: block;
   position: fixed;
@@ -40,31 +42,186 @@ html {
   margin-top: 20px;
   font-weight: 600;
   font-size: 1.1rem;
-  font-family: "Consolas", sans-serif;
-  z-index: 1;
+  font-family: var(--font-heading);
+  z-index: 1001;
+  color: var(--text-primary);
 }
 
+/* Sanskrit Quote - scrolling left to right */
 .quote {
   display: block;
   position: absolute;
-  top: 0;
-  left: 0;
-  margin-top: 50px;
-  margin-left: 70px;
-  line-height: 1.48;
+  top: 100px;
+  left: 30px;
+  max-width: 600px;
+  line-height: 1.6;
   text-align: left;
-  font-size: 18px;
-  animation: typing 10s steps(50, end), fadeIn 2s ease-in;
-  white-space: nowrap;
-  overflow: hidden;
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: rgba(204, 214, 246, 0.95);
+  font-family: var(--font-heading);
+  letter-spacing: 0.5px;
+  animation: fadeIn 2s ease-in;
+  z-index: 10;
+}
+
+.tagline {
+  margin-top: 30px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+
+.hover-word {
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: default;
+}
+
+.hover-word:hover {
+  color: var(--primary-color);
+  transform: translateY(-5px) scale(1.1);
+  text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
 }
 
 @keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .quote {
+    top: 75px;
+    font-size: 13px;
+  }
+}
+
+/* Nepali word - bounce + Nepal flag colors on hover */
+.nepali-word {
+  display: inline-block;
+  font-size: 1.2em;
+  font-weight: bold;
+  animation: bounce-nepali 1.5s ease infinite;
+  transition: all 0.4s ease;
+  font-family: var(--font-heading);
+  position: relative;
+  cursor: pointer;
+}
+
+@keyframes bounce-nepali {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-7px);
+  }
+}
+
+/* Nepal flag colors: crimson red #DC143C, dark blue #003893, white moon/sun */
+.nepali-word:hover {
+  background: linear-gradient(
+    135deg,
+    #DC143C 0%,
+    #DC143C 35%,
+    #ffffff 50%,
+    #003893 65%,
+    #003893 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 12px rgba(220, 20, 60, 0.4));
+  animation: flagShimmer 2s ease infinite, bounce-nepali 1.5s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes flagShimmer {
   0% {
-    opacity: 0;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Content glassmorphism box */
+.content {
+  text-align: center;
+  background: rgba(17, 34, 64, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(100, 255, 218, 0.15);
+  padding: 3rem 4rem;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  max-width: min(90vw, 800px);
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.content h1 {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.5;
+  font-family: var(--font-heading);
+}
+
+.overlay p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-top: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+}
+
+/* Scroll indicator - mouse icon */
+.hero-container::after {
+  content: "";
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 36px;
+  border: 2px solid rgba(100, 255, 218, 0.4);
+  border-radius: 11px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.hero-container::before {
+  content: "";
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 7px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  animation: scrollBounce 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0.3;
   }
 }
 
@@ -82,123 +239,7 @@ html {
   50% { opacity: 0; }
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes bounce-nepali {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-20px);
-  }
-  60% {
-    transform: translateY(-10px);
-  }
-}
-
-.nepali-word {
-  display: inline-block;
-  font-size: 1.2em;
-  font-weight: bold;
-  animation: bounce-nepali 1.5s ease infinite;
-  transition: color 0.5s ease;
-  font-family: "Consolas", sans-serif;
-}
-
-/* Change color on hover */
-.nepali-word:hover {
-  background: linear-gradient(
-    90deg,
-    #c72c41,
-    #005eb8
-  ); /* Gradient for the flag colors */
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent; /* Fallback */
-}
-
-.content {
-  text-align: center;
-  border: 4px solid rgba(255, 255, 255, 0.8);
-  padding: 20px 50px;
-}
-
-.content h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.5;
-  font-family: "Consolas", sans-serif;
-}
-
-.overlay p {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-top: 50px;
-  text-align: center;
-}
-
-/* Footer Arrow Icon */
-.hero-container::after {
-  content: "⌄";
-  position: absolute;
-  bottom: 21px;
-  font-size: 1.7rem;
-  color: white;
-  animation: bounce 2s infinite;
-}
-
-.hero-container::before {
-  content: "";
-  position: absolute;
-  bottom: 19px;
-  color: white;
-  animation: bounce 2s infinite;
-  border: 1px solid white;
-  border-radius: 50%;
-  height: 20px;
-  width: 20px;
-}
-
-/* Bounce Animation */
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-
-  40% {
-    transform: translateY(-10px);
-  }
-
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

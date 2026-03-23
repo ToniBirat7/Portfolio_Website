@@ -1,15 +1,4 @@
-/* General body and page settings */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1f1f3d;
-  font-family: "Arial", sans-serif;
-  box-sizing: border-box;
-}
-
+/* Career Highlights Section */
 .career-container {
   width: 100%;
   max-width: 100vw;
@@ -18,30 +7,22 @@ html {
   padding: 4rem 0;
 }
 
-.career-container p {
+.career-container > p {
   text-align: center;
-  color: #fff;
+  color: var(--text-primary);
   margin-top: 2rem;
   margin-bottom: 4rem;
-  font-size: 48px;
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
+  font-family: var(--font-heading);
 }
 
 .timeline {
   width: 100%;
-  max-width: 100vw;
+  max-width: 1200px;
   position: relative;
   margin: 0 auto;
   padding: 0 2rem;
-}
-
-.timeline-item {
-  position: relative;
-  width: auto;
-  max-width: 1000px;
-  display: flex;
-  justify-content: flex-start;
-  padding-bottom: 3rem;
 }
 
 .timeline::before {
@@ -50,9 +31,24 @@ html {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
+  width: 3px;
   height: 100%;
-  background-color: #f0f0f0;
+  background: linear-gradient(180deg, var(--primary-color), rgba(100,255,218,0.1));
+}
+
+.timeline-item-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.timeline-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: 3rem;
 }
 
 .timeline-item::before {
@@ -60,15 +56,17 @@ html {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 50px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   background-color: #fff;
-  border: 4px solid #6a67ce;
+  border: 3px solid var(--primary-color);
   top: 0;
-  background-size: 70%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
+  z-index: 2;
+  box-shadow: 0 0 20px var(--primary-glow);
 }
 
 .timeline-item:nth-child(1)::before {
@@ -87,39 +85,43 @@ html {
   background-image: url("/uni-logo.png");
 }
 
-.timeline-item-flex {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
 .timeline-content {
   background: rgba(17, 34, 64, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+  box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
   color: var(--text-primary);
-  max-width: auto;
-  width: auto;
-  min-width: 400px;
+  width: calc(50% - 50px);
   position: relative;
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.6s ease-in-out;
 }
 
+.timeline-item:nth-child(odd) .timeline-content {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 .timeline-content h3 {
-  font-size: 1.5rem;
-  color: #fff;
+  font-size: 1.3rem;
+  color: var(--white);
+  font-family: var(--font-heading);
 }
 
 .timeline-content h4 {
-  font-size: 1.2rem;
-  color: #6c63ff;
+  font-size: 1rem;
+  color: var(--primary-color);
   margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-weight: 400;
 }
 
 .timeline-content ul {
@@ -129,31 +131,17 @@ html {
 
 .timeline-content ul li {
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
-.company-logo {
-  width: 180px;
-  height: auto;
-  margin-bottom: 1rem;
-  display: block;
-  background-color: #fff;
-  padding: 0.75rem;
-  border-radius: 8px;
+.timeline-content ul li::before {
+  content: "▹ ";
+  color: var(--primary-color);
 }
 
-.timeline-item:nth-child(odd) .timeline-content {
-  margin-right: 540px;
-  margin-left: 0;
-}
-
-.timeline-item:nth-child(even) .timeline-content {
-  margin-left: 540px;
-  margin-right: 0;
-}
-
-.timeline-item.visible {
+.timeline-content.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -166,13 +154,11 @@ html {
   animation: slideInRight 0.6s forwards;
 }
 
-/* Animations for slide-in from left and right */
 @keyframes slideInLeft {
   0% {
-    transform: translateX(-150px);
+    transform: translateX(-80px);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -181,10 +167,9 @@ html {
 
 @keyframes slideInRight {
   0% {
-    transform: translateX(150px);
+    transform: translateX(80px);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -192,26 +177,31 @@ html {
 }
 
 .timeline-content:hover {
-  background-color: #353567;
-  transition: background-color 0.3s ease-in-out;
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 30px -15px rgba(100, 255, 218, 0.2);
+  transition: all 0.3s ease-in-out;
 }
 
-.timeline-item:not(:last-child) .timeline-content {
-  margin-bottom: 2rem;
-}
+/* Mobile / Tablet */
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 25px;
+  }
 
-@media (max-width: 950px) {
-  .timeline-item:nth-child(even) .timeline-content {
-    margin-left: 50vw;
-    margin-right: 0px;
+  .timeline-item::before {
+    left: 25px;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 36px;
   }
 
   .timeline-content {
-    min-width: auto;
+    width: calc(100% - 70px);
+    margin-left: 55px !important;
+    margin-right: 0 !important;
   }
 
-  .timeline-item:nth-child(odd) .timeline-content {
-    margin-left: 0px;
-    margin-right: 50vw;
+  .timeline-item:nth-child(odd) .timeline-content.visible {
+    animation: slideInRight 0.6s forwards;
   }
 }

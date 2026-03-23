@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import "./CareerHighlights.css";
 
 const CareerHighlights = () => {
@@ -26,12 +26,13 @@ const CareerHighlights = () => {
       }
     );
 
-    timelineItemsRef.current.forEach((item) => {
+    const currentRef = timelineItemsRef.current;
+    currentRef.forEach((item) => {
       observer.observe(item);
     });
 
     return () => {
-      timelineItemsRef.current.forEach((item) => {
+      currentRef.forEach((item) => {
         observer.unobserve(item);
       });
     };
@@ -45,7 +46,7 @@ const CareerHighlights = () => {
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
               <h3>AI/ML Intern</h3>
-              <h4>Synapse Technologies | Nov 2024 - Present</h4>
+              <h4>Synapse Technologies | Nov 2025 - Present</h4>
               <ul>
                 <li>
                   Developing and implementing machine learning models for
@@ -66,7 +67,7 @@ const CareerHighlights = () => {
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
               <h3>BSc (Hons) Computer Science with AI Student</h3>
-              <h4>Birmingham City University | 2023-Present</h4>
+              <h4>Birmingham City University | 2023 - Present</h4>
               <ul>
                 <li>Currently Third Semester Student.</li>
                 <li>
@@ -82,7 +83,7 @@ const CareerHighlights = () => {
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
               <h3>Backend Developer Intern</h3>
-              <h4>Deerwalk Compware Ltd. | Jun 2023- Aug 2023</h4>
+              <h4>Deerwalk Compware Ltd. | Jun 2023 - Aug 2023</h4>
               <ul>
                 <li>
                   Designed and developed the Attendance Management System, a web
@@ -100,7 +101,7 @@ const CareerHighlights = () => {
           <div className="timeline-item">
             <div className="timeline-content" ref={addToRefs}>
               <h3>High School Graduate</h3>
-              <h4>Uniglobe SS/College | 2020-2022</h4>
+              <h4>Uniglobe SS/College | 2020 - 2022</h4>
               <ul>
                 <li>Graduated with a 3.78/4 GPA.</li>
                 <li>

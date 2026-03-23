@@ -1,5 +1,5 @@
 // AwardsAchievements.js
-import React from "react";
+
 import "./Achievement.css";
 
 const AwardsAchievements = () => {
@@ -8,7 +8,7 @@ const AwardsAchievements = () => {
       <h2>Achievements and Awards</h2>
       <div className="award-card">
         <div className="award-header">
-          <img src="pp.jpg" alt="Profile" className="profile-image" />
+          <img src="pp.jpg" alt="Profile" className="award-profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>
@@ -41,7 +41,7 @@ const AwardsAchievements = () => {
 
       <div className="award-card">
         <div className="award-header">
-          <img src="pp.jpg" alt="Profile" className="profile-image" />
+          <img src="pp.jpg" alt="Profile" className="award-profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>
@@ -70,7 +70,7 @@ const AwardsAchievements = () => {
 
       <div className="award-card">
         <div className="award-header">
-          <img src="pp.jpg" alt="Profile" className="profile-image" />
+          <img src="pp.jpg" alt="Profile" className="award-profile-image" />
           <div className="details">
             <h3>Birat Gautam</h3>
             <p>Computer Science Student</p>

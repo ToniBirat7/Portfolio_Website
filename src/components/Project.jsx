@@ -4,49 +4,76 @@ import "./Project.css";
 
 const projects = [
   {
-    title: "Attendance Management System Using Computer Vision",
-    imageUrl: "AMS.png", // Replace with the actual image path
+    title: "MatchVision – End-to-End EPL Prediction Platform",
     description:
-      "By leveraging Attendance Management Web Application, educational institutions can streamline their operations, reduce administrative burden, and enhance overall efficiency. By eliminating the constraints of traditional attendance tracking methods, our platform empowers educators and administrators to focus their time and resources on delivering quality education and fostering student success",
-    githubUrl: "https://github.com/ToniBirat7/AMS_CV/tree/birat", // Replace with the actual URL
+      "Containerized ML pipeline using Airflow, MariaDB, Redis, and DVC to automate data ingestion, cleaning, validation, and model training for EPL match prediction. Tracked experiments with MLflow and served real-time predictions via DRF, integrated into a Django web app displaying live stats, fixtures, and betting probabilities.",
+    githubUrl: "https://github.com/ToniBirat7/English_Premier_League_End_To_End_Project",
+    techStack: ["Airflow", "Redis", "PostgreSQL", "Docker", "DRF", "MLFlow", "Node.js", "React.js"],
+    icon: "fas fa-futbol",
+  },
+  {
+    title: "AI Powered Document RAG System",
+    description:
+      "Modular backend enabling intelligent document-based conversations using a custom RAG pipeline. Document Ingestion API to upload and process PDF/TXT files, extract text, apply chunking strategies, and generate embeddings stored in Weaviate. Conversational RAG API with custom retrieval logic, integrated Redis for multi-turn chat memory.",
+    githubUrl: "https://github.com/ToniBirat7/RAG_Project_End_To_End",
+    techStack: ["FastAPI", "Weaviate", "LangChain", "Redis", "Next.js", "PostgreSQL"],
+    icon: "fas fa-brain",
+  },
+  {
+    title: "Automated Nuclei Segmentation in Microscopy Images",
+    description:
+      "A U-Net-based deep learning model for nuclei detection in microscopy images using the 2018 Data Science Bowl dataset, achieving an IoU score of 0.88. Automated segmentation reduces manual annotation and enhances diagnostic efficiency in resource-constrained medical environments.",
+    githubUrl: "https://github.com/ToniBirat7/Nuclei_Segmentation_U-Net_VGG_x_RFC",
+    techStack: ["CNN", "TensorFlow", "U-Net", "OpenCV", "Deep Learning"],
+    icon: "fas fa-microscope",
+  },
+  {
+    title: "Screen Recording & Video Sharing Platform",
+    description:
+      "Built with Next.js and Bunny.net CDN, featuring user authentication (Better Auth), screen recording, video uploads with public/private sharing, AI-generated transcripts, metadata access, and a search-enabled content library.",
+    githubUrl: "https://github.com/ToniBirat7/Screen_Recording_Full_Stack",
+    techStack: ["Next.js", "TypeScript", "TailwindCSS", "OAuth", "Drizzle ORM"],
+    icon: "fas fa-video",
+  },
+  {
+    title: "Steganography: Communicate with Hidden Images",
+    description:
+      "Real-time one-to-one chat application using DRF and Django Channels, featuring steganography-based messaging where secret text is hidden inside images fetched from APIs. Enabled instant WebSocket communication with a sleek UI for secure messaging.",
+    githubUrl: "https://github.com/ToniBirat7/stagnography_project",
+    techStack: ["DRF", "ReactJs", "PostgreSQL", "JavaScript", "WebSocket"],
+    icon: "fas fa-user-secret",
+  },
+  {
+    title: "Attendance Management System Using Computer Vision",
+    description:
+      "Web application enabling educational institutions to streamline attendance tracking using face recognition. Empowers educators to focus on delivering quality education by eliminating constraints of traditional attendance methods.",
+    githubUrl: "https://github.com/ToniBirat7/AMS_CV/tree/birat",
     techStack: ["Django", "ReactJs", "ResNet", "Computer Vision", "Docker"],
+    icon: "fas fa-camera",
   },
   {
     title: "Attendance Management System Web Application",
-    imageUrl: "AMS2.png", // Replace with the actual image path
     description:
-      "By leveraging Attendance Management Web Application, educational institutions can streamline their operations, reduce administrative burden, and enhance overall efficiency. By eliminating the constraints of traditional attendance tracking methods, our platform empowers educators and administrators to focus their time and resources on delivering quality education and fostering student success.",
-    githubUrl: "https://github.com/ToniBirat7/AMS_Deerwalk_Project.git", // Replace with the actual URL
+      "Full-stack attendance management platform built with Django. Streamlines operations, reduces administrative burden, and enhances overall efficiency for educational institutions.",
+    githubUrl: "https://github.com/ToniBirat7/AMS_Deerwalk_Project",
     techStack: ["Python", "Django", "JavaScript", "HTML", "CSS", "Bootstrap"],
+    icon: "fas fa-clipboard-check",
   },
   {
     title: "Hospital Management System GUI",
-    imageUrl: "HMS.png", // Replace with the actual image path
     description:
-      "This Hospital Management System is a Python-based application designed to streamline the management processes within a hospital or medical facility. The system provides various features such as admin login, CRUD operations on doctors and patients, assignment of doctors to patients, relocation of patients between doctors, and interactive visualization of statistics. Additionally, the system can be integrated with the ChatGPT API to detect illnesses based on patient symptoms, allowing for automatic assignment of doctors to patients.",
-    githubUrl: "https://github.com/ToniBirat7/AMS_Deerwalk_Project.git", // Replace with the actual URL
-    techStack: [
-      "Python",
-      "Tkinter",
-      "SQLite",
-      "ChatGPT API",
-      "Data Visualization",
-    ],
+      "Python-based application for managing hospital processes — admin login, CRUD operations on doctors/patients, assignment workflows, relocation, and interactive statistics visualization. Integrates ChatGPT API for illness detection.",
+    githubUrl: "https://github.com/ToniBirat7/Hospital-Management-System-GUI",
+    techStack: ["Python", "Tkinter", "SQLite", "ChatGPT API", "Data Viz"],
+    icon: "fas fa-hospital",
   },
   {
     title: "Baali Bigyan",
-    videoUrl: "Bali_Bigyan.mp4",
-    imageUrl: "HMS.png", // Replace with the actual image path
     description:
-      '𝗕𝗮𝗮𝗹𝗶 𝗕𝗶𝗴𝘆𝗮𝗻 is a mobile application powered by machine learning that detects plant diseases, suggests treatments, and supports urban agriculture by providing video tutorials and enabling farmers to purchase recommended products. It also connects users with agro-vet professionals for accurate consultation, promoting trust and effective solutions. Recognized for its innovation, Baali Bigyan was a Top 5 Finalist in the prestigious 𝗜𝗖𝗧 𝗔𝘄𝗮𝗿𝗱 2024 under the 𝗥𝗶𝘀𝗶𝗻𝗴 𝗦𝘁𝗮𝗿 𝗜𝗻𝗻𝗼𝘃𝗮𝘁𝗶𝗼𝗻 category, showcasing its impact on Nepal"s agriculture.',
-    githubUrl: "https://github.com/ToniBirat7/AMS_Deerwalk_Project.git", // Replace with the actual URL
-    techStack: [
-      "Python",
-      "Django",
-      "Deep Learning",
-      "ResNet50",
-      "Computer Vision",
-    ],
+      "Mobile application powered by ML that detects plant diseases, suggests treatments, and supports urban agriculture. Connects users with agro-vet professionals. Top 5 Finalist in ICT Award 2024 under Rising Star Innovation.",
+    githubUrl: "https://github.com/ToniBirat7/Baali-Bigyan",
+    techStack: ["Python", "Django", "Deep Learning", "ResNet50", "Computer Vision"],
+    icon: "fas fa-leaf",
   },
 ];
 
@@ -66,22 +93,16 @@ const Project = () => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
           }
-          // Don't remove visible class to prevent re-animation flicker
         });
       },
-      {
-        threshold: 0.1, // Adjust threshold if necessary
-      }
+      { threshold: 0.1 }
     );
 
-    timelineItemsRef.current.forEach((item) => {
-      observer.observe(item);
-    });
+    const currentRef = timelineItemsRef.current;
+    currentRef.forEach((item) => observer.observe(item));
 
     return () => {
-      timelineItemsRef.current.forEach((item) => {
-        observer.unobserve(item);
-      });
+      currentRef.forEach((item) => observer.unobserve(item));
     };
   }, []);
 
@@ -91,34 +112,22 @@ const Project = () => {
       <div className="project-cards">
         {projects.map((project, index) => (
           <div className="project-card" key={index} ref={addToRefs}>
-            {project.videoUrl ? (
-              <video
-                className="project-video"
-                src={project.videoUrl}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                poster="HMS.png"
-              />
-            ) : (
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="project-image"
-              />
-            )}
-            <div className="project-content">
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+            <div className="project-header">
+              <div className="project-icon">
+                <i className={project.icon}></i>
+              </div>
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="project-github-link"
               >
-                <i className="fab fa-github"></i> Github Repository
+                <i className="fab fa-github"></i>
               </a>
+            </div>
+            <div className="project-content">
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
               <div className="tech-stack">
                 {project.techStack.map((tech, i) => (
                   <span key={i}>{tech}</span>

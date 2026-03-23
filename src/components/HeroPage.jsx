@@ -30,9 +30,14 @@ function HeroSection() {
               />
             </div>
           </div>
-          <p className="fade-in-up" style={{ animationDelay: '2s' }}>
-            I Build Everything From Scratch <br /> Connect Each Single
-            Transistors to Make a Byte
+          <p className="fade-in-up tagline" style={{ animationDelay: '2s' }}>
+            {["I", "Build", "Everything", "From", "Scratch"].map((word, i) => (
+              <span key={i} className="hover-word">{word} </span>
+            ))}
+            <br />
+            {["Connect", "Each", "Single", "Transistors", "to", "Make", "a", "Byte"].map((word, i) => (
+              <span key={i} className="hover-word">{word} </span>
+            ))}
           </p>
         </div>
       </div>
