@@ -11,11 +11,10 @@ const Profile = () => {
             <h3>ABOUT ME</h3>
             <h4>I&apos;m Birat Gautam</h4>
             <p>
-              Coding is my canvas, and technology is my paintbrush. With 2+
-              years of experience and a passion for staying on the cutting edge,
-              I bring artistry and innovation to every project. From front-end
-              finesse to back-end brilliance, I&apos;m your versatile developer ready
-              to turn your vision into reality.
+              Computer Science student at <strong>Birmingham City University</strong> with a focus on AI/ML and Backend Engineering. Currently exploring the frontiers of <strong>LLMs and Agentic AI</strong>. 
+            </p>
+            <p>
+              My philosophy: Curiosity drives innovation. I spend most of my days diving &quot;under the hood&quot; to understand how systems work, learning how to explain complex concepts, and building to contribute for a better future.
             </p>
             <div className="skill-tags">
               <span>Python</span>
