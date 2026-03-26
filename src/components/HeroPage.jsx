@@ -31,12 +31,16 @@ function HeroSection() {
             </div>
           </div>
           <p className="fade-in-up tagline" style={{ animationDelay: '2s' }}>
-            {["Learn", "to", "explain"].map((word, i) => (
-              <span key={i} className="hover-word">{word} </span>
+            {"Learn to explain".split("").map((char, i) => (
+              <span key={i} className="hover-char" style={{ '--index': i }}>
+                {char === " " ? "\u00A0" : char}
+              </span>
             ))}
             <br />
-            {["Whisper", "that", "you", "haven't", "heard", "or", "thought"].map((word, i) => (
-              <span key={i} className="hover-word">{word} </span>
+            {"Whisper that you haven't heard or thought".split("").map((char, i) => (
+              <span key={i} className="hover-char" style={{ '--index': i }}>
+                {char === " " ? "\u00A0" : char}
+              </span>
             ))}
           </p>
         </div>

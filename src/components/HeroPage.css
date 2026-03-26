@@ -66,23 +66,41 @@ html {
 
 .tagline {
   margin-top: 30px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  line-height: 1.8;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  line-height: 2;
+  font-family: var(--font-mono); /* Monospaced for a tech feel */
+  color: var(--text-secondary);
 }
 
-.hover-word {
+.hover-char {
   display: inline-block;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: default;
   position: relative;
+  opacity: 0;
+  animation: charFadeIn 0.5s ease forwards;
+  animation-delay: calc(2s + (var(--index) * 0.03s));
 }
 
-.hover-word:hover {
+.hover-char:hover {
   color: var(--primary-color);
-  transform: translateY(-8px);
-  text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
-  letter-spacing: 2px;
+  transform: translateY(-5px) scale(1.4);
+  text-shadow: 0 0 15px var(--primary-color), 
+               0 0 30px var(--primary-color);
+  z-index: 10;
+  filter: brightness(1.2);
+}
+
+@keyframes charFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
