@@ -22,8 +22,8 @@ function HeroSection() {
               <span className="nepali-word">नेपाली</span> Learner!
             </h1>
             <div style={{ marginTop: '10px', fontSize: '1.2rem', color: '#ccd6f6' }}>
-              I am a <TypingText 
-                words={['Full Stack Developer', 'AI Enthusiast', 'Tech Explorer']} 
+              Currently, <TypingText 
+                words={['Replanning', 'Adopting', 'Stacking Bricks']} 
                 typingSpeed={100}
                 deletingSpeed={50}
                 pauseTime={2000}
@@ -31,11 +31,11 @@ function HeroSection() {
             </div>
           </div>
           <p className="fade-in-up tagline" style={{ animationDelay: '2s' }}>
-            {["I", "Build", "Everything", "From", "Scratch"].map((word, i) => (
+            {["Learn", "to", "explain"].map((word, i) => (
               <span key={i} className="hover-word">{word} </span>
             ))}
             <br />
-            {["Connect", "Each", "Single", "Transistors", "to", "Make", "a", "Byte"].map((word, i) => (
+            {["Whisper", "that", "you", "haven't", "heard", "or", "thought"].map((word, i) => (
               <span key={i} className="hover-word">{word} </span>
             ))}
           </p>

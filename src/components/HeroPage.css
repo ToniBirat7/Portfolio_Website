@@ -73,14 +73,16 @@ html {
 
 .hover-word {
   display: inline-block;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   cursor: default;
+  position: relative;
 }
 
 .hover-word:hover {
   color: var(--primary-color);
-  transform: translateY(-5px) scale(1.1);
-  text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+  transform: translateY(-8px);
+  text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+  letter-spacing: 2px;
 }
 
 @keyframes fadeIn {
