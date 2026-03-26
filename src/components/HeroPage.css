@@ -65,12 +65,14 @@ html {
 }
 
 .tagline {
-  margin-top: 30px;
+  margin-top: 60px;
   font-weight: 300;
   letter-spacing: 0.5px;
   line-height: 2;
   font-family: var(--font-mono); /* Monospaced for a tech feel */
   color: var(--text-secondary);
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  text-align: center;
 }
 
 .hover-char {
@@ -85,7 +87,7 @@ html {
 
 .hover-char:hover {
   color: var(--primary-color);
-  transform: translateY(-5px) scale(1.4);
+  transform: translateY(-5px) scale(1.5);
   text-shadow: 0 0 15px var(--primary-color), 
                0 0 30px var(--primary-color);
   z-index: 10;
