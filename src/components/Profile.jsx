@@ -3,7 +3,9 @@ import "./Profile.css";
 const Profile = () => {
   return (
     <div className="profile-container" id="profile">
-      <h2>Your Next Software Engineer</h2>
+      <h2 className="philosophy-title">
+        Read, Reverse, Rebuild <span>&rarr; AI Agents</span>
+      </h2>
       <div className="profile-content">
         <div className="profile-details">
           <img src="pp.jpg" alt="Profile" className="profile-image" />
