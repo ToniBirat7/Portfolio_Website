@@ -18,15 +18,17 @@ const Profile = () => {
             </p>
             <div className="skill-tags">
               <span>Python</span>
-              <span>Django</span>
-              <span>React.js</span>
-              <span>Next.js</span>
-              <span>Node.js</span>
+              <span>PyTorch</span>
+              <span>LLM Fine-Tuning</span>
+              <span>RAG</span>
+              <span>Agentic AI</span>
+              <span>LangChain</span>
               <span>FastAPI</span>
-              <span>TensorFlow</span>
+              <span>Django</span>
               <span>Docker</span>
-              <span>PostgreSQL</span>
               <span>Redis</span>
+              <span>PostgreSQL</span>
+              <span>Vector Databases</span>
               <span>Git</span>
             </div>
             <div className="buttons">
