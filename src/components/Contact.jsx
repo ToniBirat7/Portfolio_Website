@@ -34,13 +34,6 @@ const Contact = () => {
       <div className="contact-card">
         <div className="contact-info">
           <div className="contact-info-item">
-            <i className="fas fa-envelope"></i>
-            <div>
-              <h4>Email</h4>
-              <p>birat@birat.codes</p>
-            </div>
-          </div>
-          <div className="contact-info-item">
             <i className="fab fa-linkedin"></i>
             <div>
               <h4>LinkedIn</h4>
