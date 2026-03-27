@@ -1,5 +1,6 @@
 // Project.js
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import "./Project.css";
 
 const projects = [
@@ -77,7 +78,126 @@ const projects = [
   },
 ];
 
+const TerminalModal = ({ project, onClose }) => {
+  const [logs, setLogs] = useState([]);
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    const executionLogs = {
+      "MatchVision – End-to-End EPL Prediction Platform": [
+        "> Initializing Airflow DAG...",
+        "> Connecting to MariaDB Cluster...",
+        "> Loading DVC tracked model...",
+        "> Fetching real-time odds via DRF...",
+        "> System: Optimal. Predictions live."
+      ],
+      "AI Powered Document RAG System": [
+        "> Connecting to Weaviate Vector DB...",
+        "> Loading LangChain Embeddings...",
+        "> Initializing PDF Ingestion Engine...",
+        "> Setting up Redis cache...",
+        "> RAG Pipeline: Ready for queries."
+      ],
+      "Automated Nuclei Segmentation in Microscopy Images": [
+        "> Loading TensorFlow weights (U-Net)...",
+        "> Initializing OpenCV image pipeline...",
+        "> Normalizing microscopy dataset...",
+        "> Running inference on nuclei detection...",
+        "> IoU Score: 0.88. Segmentation complete."
+      ],
+      "Screen Recording & Video Sharing Platform": [
+        "> Initializing Better Auth session...",
+        "> Connecting to Bunny.net CDN...",
+        "> Loading AI transcription engine...",
+        "> Syncing metadata with Drizzle ORM...",
+        "> Status: Online. Recording interface ready."
+      ],
+      "Steganography: Communicate with Hidden Images": [
+        "> Establishing WebSocket connection...",
+        "> Initializing bit-shifting encryption...",
+        "> Connecting to Image API...",
+        "> Security: E2EE enabled.",
+        "> Chat: Listening for hidden messages."
+      ],
+      "Attendance Management System Using Computer Vision": [
+        "> Activating Camera Feed...",
+        "> Loading ResNet50 Face Encoding...",
+        "> Fetching student registration DB...",
+        "> Matching faces in real-time...",
+        "> Status: 98.5% Accuracy. Logging attendance."
+      ],
+      "Attendance Management System Web Application": [
+        "> Connecting to Django Backend...",
+        "> Fetching department records...",
+        "> Generating attendance reports...",
+        "> Status: Operational."
+      ],
+      "Hospital Management System GUI": [
+        "> Initializing Tkinter UI...",
+        "> Connecting to SQLite database...",
+        "> Integrating ChatGPT API illness detection...",
+        "> Ready: Hospital environment stable."
+      ],
+      "Baali Bigyan": [
+        "> Loading ResNet50 Plant Disease Model...",
+        "> Initializing Agro-vet matching engine...",
+        "> Analyzing leaf symptoms...",
+        "> Diagnosis: Early Blight detection active.",
+        "> ICT Award Status: Finalist Confirmed."
+      ]
+    };
+
+    let currentLog = 0;
+    const interval = setInterval(() => {
+      if (currentLog < executionLogs[project.title].length) {
+        setLogs(prev => [...prev, executionLogs[project.title][currentLog]]);
+        currentLog++;
+      } else {
+        setIsTyping(false);
+        clearInterval(interval);
+      }
+    }, 800);
+    return () => clearInterval(interval);
+  }, [project.title]);
+
+  return (
+    <div className="terminal-overlay" onClick={onClose}>
+      <div className="terminal-window" onClick={e => e.stopPropagation()}>
+        <div className="terminal-header">
+          <div className="terminal-buttons">
+            <span className="dot red"></span>
+            <span className="dot yellow"></span>
+            <span className="dot green"></span>
+          </div>
+          <span className="terminal-title">birat@terminal:~/{project.title.toLowerCase().replace(/\s+/g, '_').substring(0, 15)}</span>
+          <button className="terminal-close" onClick={onClose}>&times;</button>
+        </div>
+        <div className="terminal-body">
+          {logs.map((log, i) => (
+            <div key={i} className="log-line">{log}</div>
+          ))}
+          {isTyping && <div className="command-line">_</div>}
+          {!isTyping && (
+            <div className="terminal-footer">
+              <span className="prompt">birat@terminal:~$</span>
+              <span className="cursor-blink">|</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+TerminalModal.propTypes = {
+  project: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
 const Project = () => {
+  const [activeProject, setActiveProject] = useState(null);
   const timelineItemsRef = useRef([]);
 
   const addToRefs = (el) => {
@@ -128,6 +248,14 @@ const Project = () => {
             <div className="project-content">
               <h3>{project.title}</h3>
               <p>{project.description}</p>
+              <div className="project-actions">
+                <button 
+                  className="preview-btn"
+                  onClick={() => setActiveProject(project)}
+                >
+                  <i className="fas fa-terminal"></i> Build Logs
+                </button>
+              </div>
               <div className="tech-stack">
                 {project.techStack.map((tech, i) => (
                   <span key={i}>{tech}</span>
@@ -137,6 +265,12 @@ const Project = () => {
           </div>
         ))}
       </div>
+      {activeProject && (
+        <TerminalModal 
+          project={activeProject} 
+          onClose={() => setActiveProject(null)} 
+        />
+      )}
     </div>
   );
 };

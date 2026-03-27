@@ -16,9 +16,9 @@ function App() {
       <HeroSection />
       <Profile />
       <CareerHighlights />
+      <Research />
       <Project />
       <AwardsAchievements />
-      <Research />
       <Contact />
     </>
   );

@@ -48,17 +48,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
 }
-
-/* Utility Class for Animations */
-.fade-in-up {
-    animation: fadeInUp 1s ease-out forwards;
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
