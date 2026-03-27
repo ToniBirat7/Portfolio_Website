@@ -32,13 +32,25 @@ function HeroSection() {
           </div>
           <p className="fade-in-up tagline" style={{ animationDelay: '2s' }}>
             {"Learn to explain".split("").map((char, i) => (
-              <span key={i} className="hover-char" style={{ '--index': i }}>
+              <span key={`l1-${i}`} className="hover-char" style={{ '--index': i }}>
                 {char === " " ? "\u00A0" : char}
               </span>
             ))}
             <br />
-            {"Whisper that you haven't heard or thought".split("").map((char, i) => (
-              <span key={i} className="hover-char" style={{ '--index': i }}>
+            {"You can’t learn the unlearned, unheard".split("").map((char, i) => (
+              <span key={`l2-${i}`} className="hover-char" style={{ '--index': i + 15 }}>
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+            <br />
+            {"from someone who hasn’t".split("").map((char, i) => (
+              <span key={`l3-${i}`} className="hover-char" style={{ '--index': i + 50 }}>
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+            <br />
+            {"unlearned, unheard.".split("").map((char, i) => (
+              <span key={`l4-${i}`} className="hover-char" style={{ '--index': i + 75 }}>
                 {char === " " ? "\u00A0" : char}
               </span>
             ))}
