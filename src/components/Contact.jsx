@@ -102,7 +102,7 @@ const Contact = () => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="submit-btn" disabled={status === 'sending'}>
+          <button type="submit" className="submit-btn" disabled={status === 'sending'} aria-busy={status === 'sending'}>
             {status === 'idle' && (
               <><i className="fas fa-paper-plane"></i> Send Message</>
             )}

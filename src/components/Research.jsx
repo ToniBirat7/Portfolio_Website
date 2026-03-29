@@ -2,10 +2,10 @@ import "./Research.css";
 
 const Research = () => {
   return (
-    <div className="research-section" id="research">
-      <h2>Research &amp; Publications</h2>
+    <section className="research-section" id="research" aria-labelledby="research-heading">
+      <h2 id="research-heading">Research &amp; Publications</h2>
       <div className="research-cards">
-        <div className="research-card">
+        <article className="research-card">
           <div className="research-badge">
             <i className="fas fa-scroll"></i>
             <span>Published</span>
@@ -49,9 +49,9 @@ const Research = () => {
               <span>Deep Learning</span>
             </div>
           </div>
-        </div>
+        </article>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -14,3 +14,6 @@ yarn-error.log*
 coverage
 .vscode
 .idea
+Dockerfile
+docker-compose.yml
+.github

@@ -161,7 +161,7 @@ const TerminalModal = ({ project, onClose }) => {
   }, [project.title]);
 
   return (
-    <div className="terminal-overlay" onClick={onClose}>
+    <div className="terminal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Build logs for ${project.title}`}>
       <div className="terminal-window" onClick={e => e.stopPropagation()}>
         <div className="terminal-header">
           <div className="terminal-buttons">
@@ -170,7 +170,7 @@ const TerminalModal = ({ project, onClose }) => {
             <span className="dot green"></span>
           </div>
           <span className="terminal-title">birat@terminal:~/{project.title.toLowerCase().replace(/\s+/g, '_').substring(0, 15)}</span>
-          <button className="terminal-close" onClick={onClose}>&times;</button>
+          <button className="terminal-close" onClick={onClose} aria-label="Close build logs">&times;</button>
         </div>
         <div className="terminal-body">
           {logs.map((log, i) => (
@@ -227,11 +227,11 @@ const Project = () => {
   }, []);
 
   return (
-    <div className="project-gallery">
-      <h2 id="project">Project Gallery</h2>
+    <section className="project-gallery" id="project" aria-labelledby="project-heading">
+      <h2 id="project-heading">Project Gallery</h2>
       <div className="project-cards">
         {projects.map((project, index) => (
-          <div className="project-card" key={index} ref={addToRefs}>
+          <article className="project-card" key={index} ref={addToRefs}>
             <div className="project-header">
               <div className="project-icon">
                 <i className={project.icon}></i>
@@ -262,7 +262,7 @@ const Project = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
       {activeProject && (
@@ -271,7 +271,7 @@ const Project = () => {
           onClose={() => setActiveProject(null)} 
         />
       )}
-    </div>
+    </section>
   );
 };
 

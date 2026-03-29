@@ -12,14 +12,20 @@ import Contact from './components/Contact.jsx';
 function App() {
   return (
     <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <NavBar />
       <HeroSection />
-      <Profile />
-      <CareerHighlights />
-      <Research />
-      <Project />
-      <AwardsAchievements />
-      <Contact />
+      <main id="main-content">
+        <Profile />
+        <CareerHighlights />
+        <Research />
+        <Project />
+        <AwardsAchievements />
+        <Contact />
+      </main>
+      <footer style={{ textAlign: 'center', padding: '2rem 1rem', color: '#8892b0', fontSize: '0.9rem', borderTop: '1px solid #112240' }}>
+        <p>&copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.</p>
+      </footer>
     </>
   );
 }

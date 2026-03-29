@@ -33,9 +33,9 @@ const TypingText = ({ words, typingSpeed = 150, deletingSpeed = 100, pauseTime =
   }, [displayedText, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, pauseTime, loop]);
 
   return (
-    <span className="typing-text">
+    <span className="typing-text" aria-live="polite" aria-atomic="true" role="status">
       {displayedText}
-      <span className="cursor">|</span>
+      <span className="cursor" aria-hidden="true">|</span>
     </span>
   );
 };

@@ -2,13 +2,13 @@ import "./Profile.css";
 
 const Profile = () => {
   return (
-    <div className="profile-container" id="profile">
-      <h2 className="philosophy-title">
+    <section className="profile-container" id="profile" aria-labelledby="profile-heading">
+      <h2 className="philosophy-title" id="profile-heading">
         Read, Reverse, Rebuild <span>&rarr; AI Agents</span>
       </h2>
       <div className="profile-content">
         <div className="profile-details">
-          <img src="pp.jpg" alt="Profile" className="profile-image" />
+          <img src="pp.jpg" alt="Birat Gautam, AI/ML Engineer and Full Stack Developer" className="profile-image" width="200" height="200" />
           <div className="about-me">
             <h3>ABOUT ME</h3>
             <h4>I&apos;m Birat Gautam</h4>
@@ -39,29 +39,32 @@ const Profile = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn linkedin"
+                aria-label="Visit Birat Gautam's LinkedIn profile"
               >
-                <i className="fab fa-linkedin"></i> LinkedIn
+                <i className="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
               </a>
               <a
                 href="https://github.com/ToniBirat7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn github"
+                aria-label="Visit Birat Gautam's GitHub profile"
               >
-                <i className="fab fa-github"></i> Github
+                <i className="fab fa-github" aria-hidden="true"></i> Github
               </a>
               <a 
                 href="Birat_Gautam_2025_Resume.pdf" 
                 download="Birat_Gautam_2025_Resume.pdf" 
                 className="btn resume"
+                aria-label="Download Birat Gautam's resume"
               >
-                <i className="fas fa-file-download"></i> Resume
+                <i className="fas fa-file-download" aria-hidden="true"></i> Resume
               </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

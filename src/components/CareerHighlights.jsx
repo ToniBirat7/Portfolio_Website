@@ -39,8 +39,8 @@ const CareerHighlights = () => {
   }, []);
 
   return (
-    <div className="career-container" id="experience">
-      <p>Career Highlights</p>
+    <section className="career-container" id="experience" aria-labelledby="career-heading">
+      <h2 id="career-heading">Career Highlights</h2>
       <div className="timeline">
         <div className="timeline-item-flex">
           <div className="timeline-item">
@@ -113,7 +113,7 @@ const CareerHighlights = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

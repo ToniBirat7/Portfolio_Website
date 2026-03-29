@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /assets/
 
 Sitemap: https://birat.codes/sitemap.xml
+
+Host: https://birat.codes

@@ -8,7 +8,7 @@ function HeroSection() {
   // ॐ शान्तिः शान्तिः शान्तिः ॥`.trim();
   return (
     <>
-      <div className="hero-container">
+      <header className="hero-container">
         <p className="name">विराट गौतम</p>
         <p className="quote">
           ॐ पूर्णमदः पूर्णमिदं पूर्णात्पूर्णमुदच्यते । <br />
@@ -56,7 +56,7 @@ function HeroSection() {
             ))}
           </p>
         </div>
-      </div>
+      </header>
     </>
   );
 }

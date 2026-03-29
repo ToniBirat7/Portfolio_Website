@@ -28,17 +28,17 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className={`navbar ${isVisible ? 'visible' : ''}`}>
+    <nav className={`navbar ${isVisible ? 'visible' : ''}`} aria-label="Main navigation">
       <ul>
-        <li onClick={() => handleScrollTo('root')}>Home</li>
-        <li onClick={() => handleScrollTo('experience')}>Experience</li>
-        <li onClick={() => handleScrollTo('profile')}>Profile</li>
-        <li onClick={() => handleScrollTo('project')}>Projects</li>
-        <li onClick={() => handleScrollTo('awards')}>Achievements</li>
-        <li onClick={() => handleScrollTo('research')}>Research</li>
-        <li onClick={() => handleScrollTo('contact')}>Contact</li>
+        <li><a href="#root" onClick={(e) => { e.preventDefault(); handleScrollTo('root'); }}>Home</a></li>
+        <li><a href="#experience" onClick={(e) => { e.preventDefault(); handleScrollTo('experience'); }}>Experience</a></li>
+        <li><a href="#profile" onClick={(e) => { e.preventDefault(); handleScrollTo('profile'); }}>Profile</a></li>
+        <li><a href="#project" onClick={(e) => { e.preventDefault(); handleScrollTo('project'); }}>Projects</a></li>
+        <li><a href="#awards" onClick={(e) => { e.preventDefault(); handleScrollTo('awards'); }}>Achievements</a></li>
+        <li><a href="#research" onClick={(e) => { e.preventDefault(); handleScrollTo('research'); }}>Research</a></li>
+        <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleScrollTo('contact'); }}>Contact</a></li>
         <li>
-          <a href="https://www.linkedin.com/pulse/demystifying-working-react-from-jsx-pixels-birat-gautam-4rqif/?trackingId=GiS%2B8t1YROKpAk9200dkig%3D%3D">
+          <a href="https://www.linkedin.com/pulse/demystifying-working-react-from-jsx-pixels-birat-gautam-4rqif/?trackingId=GiS%2B8t1YROKpAk9200dkig%3D%3D" target="_blank" rel="noopener noreferrer">
             Blog
           </a>
         </li>
