@@ -7,5 +7,12 @@ export default defineConfig({
   base: '/',
   build: {
     modulePreload: { polyfill: false },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+        },
+      },
+    },
   },
 });

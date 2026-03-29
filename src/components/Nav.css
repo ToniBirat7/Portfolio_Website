@@ -80,6 +80,15 @@
   color: var(--primary-color);
 }
 
+/* Active section indicator */
+.navbar ul li.active a {
+  color: var(--primary-color);
+}
+
+.navbar ul li.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .navbar {

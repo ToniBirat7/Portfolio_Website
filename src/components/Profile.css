@@ -111,6 +111,8 @@
 .skill-tags span:hover {
   background-color: rgba(100, 255, 218, 0.2);
   transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(100, 255, 218, 0.15);
+  text-shadow: 0 0 8px rgba(100, 255, 218, 0.3);
 }
 
 .buttons {

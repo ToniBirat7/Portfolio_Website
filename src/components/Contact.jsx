@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useInView } from '../hooks/useInView';
 import './Contact.css';
 
 const Contact = () => {
@@ -8,7 +9,8 @@ const Contact = () => {
     subject: '',
     message: '',
   });
-  const [status, setStatus] = useState('idle'); // idle, sending, sent
+  const [status, setStatus] = useState('idle');
+  const [ref, inView] = useInView({ threshold: 0.1 });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,7 +33,7 @@ const Contact = () => {
       <p className="contact-subtitle">
         Have a project in mind or want to collaborate? I&apos;d love to hear from you.
       </p>
-      <div className="contact-card">
+      <div className={`contact-card animate-in ${inView ? 'in-view' : ''}`} ref={ref}>
         <div className="contact-info">
           <div className="contact-info-item">
             <i className="fab fa-linkedin"></i>

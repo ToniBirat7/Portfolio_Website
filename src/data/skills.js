@@ -1,0 +1,15 @@
+export const skills = [
+  "Python",
+  "PyTorch",
+  "LLM Fine-Tuning",
+  "RAG",
+  "Agentic AI",
+  "LangChain",
+  "FastAPI",
+  "Django",
+  "Docker",
+  "Redis",
+  "PostgreSQL",
+  "Vector Databases",
+  "Git",
+];

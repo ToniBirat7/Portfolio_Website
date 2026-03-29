@@ -1,11 +1,16 @@
+import { useInView } from "../hooks/useInView";
 import "./Research.css";
 
+const techStack = ["U-Net", "TensorFlow", "CNN", "OpenCV", "Deep Learning"];
+
 const Research = () => {
+  const [ref, inView] = useInView({ threshold: 0.1 });
+
   return (
     <section className="research-section" id="research" aria-labelledby="research-heading">
       <h2 id="research-heading">Research &amp; Publications</h2>
-      <div className="research-cards">
-        <article className="research-card">
+      <div className="research-cards" ref={ref}>
+        <article className={`research-card animate-in ${inView ? 'in-view' : ''}`}>
           <div className="research-badge">
             <i className="fas fa-scroll"></i>
             <span>Published</span>
@@ -42,11 +47,15 @@ const Research = () => {
               </a>
             </div>
             <div className="tech-stack">
-              <span>U-Net</span>
-              <span>TensorFlow</span>
-              <span>CNN</span>
-              <span>OpenCV</span>
-              <span>Deep Learning</span>
+              {techStack.map((tech, i) => (
+                <span
+                  key={tech}
+                  className={`stagger-item ${inView ? 'in-view' : ''}`}
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           </div>
         </article>

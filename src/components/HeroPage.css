@@ -30,6 +30,7 @@ html {
   justify-content: center;
   flex-direction: column;
   padding: 5rem 1rem 3rem;
+  will-change: opacity, transform;
 }
 
 /* Nepali name - top left, fixed */
@@ -87,11 +88,10 @@ html {
 
 .hover-char:hover {
   color: var(--primary-color);
-  transform: translateY(-5px) scale(1.5);
-  text-shadow: 0 0 15px var(--primary-color), 
-               0 0 30px var(--primary-color);
+  transform: translateY(-3px) scale(1.2);
+  text-shadow: 0 0 10px var(--primary-color),
+               0 0 20px rgba(100, 255, 218, 0.3);
   z-index: 10;
-  filter: brightness(1.2);
 }
 
 @keyframes charFadeIn {

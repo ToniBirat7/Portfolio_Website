@@ -1,116 +1,31 @@
-import { useRef, useEffect } from "react";
+import { useInView } from "../hooks/useInView";
+import { careerItems } from "../data/career";
 import "./CareerHighlights.css";
 
 const CareerHighlights = () => {
-  const timelineItemsRef = useRef([]);
-
-  const addToRefs = (el) => {
-    if (el && !timelineItemsRef.current.includes(el)) {
-      timelineItemsRef.current.push(el);
-    }
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
-        });
-      },
-      {
-        threshold: 0.1, // Adjust threshold if necessary
-      }
-    );
-
-    const currentRef = timelineItemsRef.current;
-    currentRef.forEach((item) => {
-      observer.observe(item);
-    });
-
-    return () => {
-      currentRef.forEach((item) => {
-        observer.unobserve(item);
-      });
-    };
-  }, []);
+  const [ref, inView] = useInView({ threshold: 0.1, once: false });
 
   return (
-    <section className="career-container" id="experience" aria-labelledby="career-heading">
+    <section className="career-container" id="experience" aria-labelledby="career-heading" ref={ref}>
       <h2 id="career-heading">Career Highlights</h2>
       <div className="timeline">
         <div className="timeline-item-flex">
-          <div className="timeline-item">
-            <div className="timeline-content" ref={addToRefs}>
-              <h3>AI/ML Intern</h3>
-              <h4>Synapse Technologies | Nov 2025 - Present</h4>
-              <ul>
-                <li>
-                  Developing and implementing machine learning models for
-                  real-world applications.
-                </li>
-                <li>
-                  Working on AI-driven solutions to enhance business
-                  intelligence and automation.
-                </li>
-                <li>
-                  Collaborating with cross-functional teams to integrate AI
-                  capabilities into production systems.
-                </li>
-              </ul>
+          {careerItems.map((item, i) => (
+            <div className="timeline-item" key={item.id}>
+              <div
+                className={`timeline-content ${inView ? 'in-view' : ''}`}
+                style={{ transitionDelay: `${i * 200}ms` }}
+              >
+                <h3>{item.title}</h3>
+                <h4>{item.company} | {item.dateRange}</h4>
+                <ul>
+                  {item.bullets.map((bullet, j) => (
+                    <li key={j}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-content" ref={addToRefs}>
-              <h3>BSc (Hons) Computer Science with AI Student</h3>
-              <h4>Birmingham City University | 2023 - Present</h4>
-              <ul>
-                <li>Currently Third Semester Student.</li>
-                <li>
-                  Spearheaded a team of five developers to create a web
-                  application that automated attendance taking using face
-                  recognition.
-                </li>
-                <li>Completed First Year with First Class Honors.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-content" ref={addToRefs}>
-              <h3>Backend Developer Intern</h3>
-              <h4>Deerwalk Compware Ltd. | Jun 2023 - Aug 2023</h4>
-              <ul>
-                <li>
-                  Designed and developed the Attendance Management System, a web
-                  application using Django.
-                </li>
-                <li>
-                  Implemented functionality to generate detailed attendance
-                  reports in Excel format.
-                </li>
-                <li>Successfully developed Admin Panel for CRUD operations.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-content" ref={addToRefs}>
-              <h3>High School Graduate</h3>
-              <h4>Uniglobe SS/College | 2020 - 2022</h4>
-              <ul>
-                <li>Graduated with a 3.78/4 GPA.</li>
-                <li>
-                  Awarded the Student of the Year Award (UGSS Achievers Award
-                  2022).
-                </li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

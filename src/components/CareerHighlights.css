@@ -158,16 +158,16 @@
   color: var(--primary-color);
 }
 
-.timeline-content.visible {
+.timeline-content.in-view {
   opacity: 1;
   transform: translateY(0);
 }
 
-.timeline-item:nth-child(odd) .timeline-content.visible {
+.timeline-item:nth-child(odd) .timeline-content.in-view {
   animation: slideInLeft 0.6s forwards;
 }
 
-.timeline-item:nth-child(even) .timeline-content.visible {
+.timeline-item:nth-child(even) .timeline-content.in-view {
   animation: slideInRight 0.6s forwards;
 }
 
@@ -222,7 +222,7 @@
     display: none;
   }
 
-  .timeline-item:nth-child(odd) .timeline-content.visible {
+  .timeline-item:nth-child(odd) .timeline-content.in-view {
     animation: slideInRight 0.6s forwards;
   }
 }

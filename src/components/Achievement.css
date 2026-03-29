@@ -32,6 +32,11 @@
 .award-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(100, 255, 218, 0.08);
+}
+
+.award-card:hover .award-footer .icon {
+    color: var(--primary-color);
 }
 
 .award-header {
@@ -122,4 +127,42 @@
 
 .icon i {
   font-size: 1.2rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .awards-section {
+    padding: 3rem 1rem;
+  }
+
+  .awards-section h2 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .award-card {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .award-image {
+    max-height: 300px;
+  }
+
+  .award-footer {
+    gap: 0.5rem;
+  }
+
+  .icon i {
+    font-size: 1rem;
+  }
+
+  .icon span {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .awards-section {
+    padding: 2rem 0.75rem;
+  }
 }
