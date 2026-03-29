@@ -7,7 +7,7 @@
   padding: 4rem 0;
 }
 
-.career-container > p {
+.career-container > h2 {
   text-align: center;
   color: var(--text-primary);
   margin-top: 2rem;
@@ -39,8 +39,7 @@
 .timeline-item-flex {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  align-items: stretch;
 }
 
 .timeline-item {
@@ -88,16 +87,34 @@
 .timeline-content {
   background: rgba(17, 34, 64, 0.7);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1.5rem;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.8rem;
+  border-radius: 10px;
   box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
   color: var(--text-primary);
-  width: calc(50% - 50px);
+  width: calc(50% - 60px);
   position: relative;
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.6s ease-in-out;
+}
+
+/* Connector line from card to timeline center */
+.timeline-content::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  width: 25px;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.timeline-item:nth-child(odd) .timeline-content::after {
+  right: -25px;
+}
+
+.timeline-item:nth-child(even) .timeline-content::after {
+  left: -25px;
 }
 
 .timeline-item:nth-child(odd) .timeline-content {
@@ -199,6 +216,10 @@
     width: calc(100% - 70px);
     margin-left: 55px !important;
     margin-right: 0 !important;
+  }
+
+  .timeline-content::after {
+    display: none;
   }
 
   .timeline-item:nth-child(odd) .timeline-content.visible {
