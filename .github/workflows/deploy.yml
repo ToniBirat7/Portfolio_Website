@@ -65,6 +65,10 @@ jobs:
             # Pull latest changes from master (fast-forward only for predictable deploys)
             git pull --ff-only origin master
 
+            # Ensure deterministic installs on long-lived VM workspace.
+            # Prevent npm ENOTEMPTY errors from stale directories.
+            rm -rf node_modules package-lock.json
+
             # Install and build on the server
             npm ci
             npm run build
