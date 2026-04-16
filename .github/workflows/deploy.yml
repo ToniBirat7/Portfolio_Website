@@ -58,8 +58,12 @@ jobs:
             # Navigate to the project folder
             cd ~/portfolio
 
-            # Pull latest changes from master
-            git pull origin master
+            # Stash any local modifications created on the VM so pull can proceed.
+            # This keeps deploy non-interactive and avoids merge-abort failures.
+            git stash push --include-untracked -m "pre-deploy-$(date +%s)" || true
+
+            # Pull latest changes from master (fast-forward only for predictable deploys)
+            git pull --ff-only origin master
 
             # Install and build on the server
             npm ci
