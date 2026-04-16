@@ -18,6 +18,36 @@ export default function Page({ filename, title }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const siteUrl = 'https://birat.codes';
+    const canonicalUrl = `${siteUrl}${location.pathname}`;
+
+    if (title) {
+      document.title = `${title} | Birat Gautam`;
+    }
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', canonicalUrl);
+
+    const setMeta = (attr, key, content) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    setMeta('property', 'og:url', canonicalUrl);
+    setMeta('name', 'twitter:url', canonicalUrl);
+  }, [location.pathname, title]);
+
+  useEffect(() => {
     // Track page view
     trackPageView(location.pathname, title || document.title);
   }, [location.pathname, title]);

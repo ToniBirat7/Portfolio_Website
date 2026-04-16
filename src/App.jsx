@@ -62,13 +62,6 @@ function Portfolio() {
         <p>
           &copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.
         </p>
-        <p className="site-footer-links">
-          <a href="/about">About</a>
-          <span> · </span>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <span> · </span>
-          <a href="/terms">Terms</a>
-        </p>
       </footer>
     </>
   );
