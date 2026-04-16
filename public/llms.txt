@@ -7,12 +7,25 @@ Use this file as a curated index of high-value pages for question answering and 
 ## Primary Pages
 
 - [Portfolio Home](https://birat.codes/): Overview, profile, projects, achievements, and contact.
+- [About](https://birat.codes/about): Author background and credentials.
+- [Privacy Policy](https://birat.codes/privacy-policy): Data handling and privacy disclosures.
+- [Terms of Service](https://birat.codes/terms): Site usage terms and legal conditions.
 - [Blog Home](https://birat.codes/blog): All technical posts with metadata.
 
 ## Blog Posts
 
-- [The Architecture of Agency: Model Context Protocol (MCP)](https://birat.codes/blog/model-context-protocol-mcp-intro): Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.
-- [Demystifying the Working of ReactJs: From JSX to Pixels](https://birat.codes/blog/demystifying-working-react-from-jsx-pixels): A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.
+- [When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff](https://birat.codes/blog/agent-confidence-thresholds): Agents need explicit rejection regions and must know their limits. Appropriate autonomy beats unlimited autonomy. Learn to build confidence thresholds that keep humans in the loop. (Topic: Agentic AI)
+- [Observability for Black-Box Agents: Tracing Decisions in Production](https://birat.codes/blog/agent-observability): Agent observability requires reasoning traces, not just logs. You need to see why the agent acted, not just what it did. (Topic: Agentic AI)
+- [The Hallucination Budget: Quantifying Risk for Mission-Critical Agents](https://birat.codes/blog/hallucination-budget): Hallucinations aren't random. They're predictable under specific input conditions. Here's how to quantify your cost-of-correction and build agents that fail safely. (Topic: Agentic AI)
+- [Agents in the Loop: Designing for Human-AI Collaboration Instead of Replacement](https://birat.codes/blog/human-ai-collaboration): The best production agents augment human expertise, not replace it. This requires different architecture: partial tasks, confidence signals, and designed interruption points. (Topic: Agentic AI)
+- [The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average](https://birat.codes/blog/latency-percentiles): Agentic latency isn't Gaussian—it's multimodal and heavy-tailed. User experience is determined by percentiles, not averages. (Topic: Agentic AI)
+- [Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model](https://birat.codes/blog/orchestrating-agents-scale): Why throwing a bigger model at multi-agent problems is a trap. Specialized agents + orchestration layers beat a single monolithic agent every time. (Topic: Agentic AI)
+- [Prompt Injection in Agents: Defense Patterns That Actually Work](https://birat.codes/blog/prompt-injection-defense): Prompt injection in agents isn't a ChatGPT problem—it's an architecture problem. Real defenses are architectural, not literary. (Topic: Agentic AI)
+- [State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems](https://birat.codes/blog/state-management-agent-memory): Vector databases are sexy. Event-sourcing is not. Here's why deterministic, versioned memory is what mission-critical agents actually need for reproducibility and compliance. (Topic: Agentic AI)
+- [Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should](https://birat.codes/blog/token-economics-agent-architecture): You're optimizing prompts when you should be optimizing architecture. Token efficiency is architectural, not literary. (Topic: Agentic AI)
+- [The Tool-Use Illusion: Why Most Agent Frameworks Fail at Production Scale](https://birat.codes/blog/tool-use-illusion): Why adding more tools to your agent stack creates exponential latency costs. Discover why orchestrating failures—not accumulating tools—is the real bottleneck. (Topic: Agentic AI)
+- [The Architecture of Agency: Model Context Protocol (MCP)](https://birat.codes/blog/model-context-protocol-mcp-intro): Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments. (Topic: Agentic AI)
+- [Demystifying the Working of ReactJs: From JSX to Pixels](https://birat.codes/blog/demystifying-working-react-from-jsx-pixels): A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds. (Topic: React)
 
 ## Optional
 

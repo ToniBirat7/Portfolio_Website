@@ -17,6 +17,14 @@ const BlogSEO = ({ post, type = 'article' }) => {
       : `${siteUrl}/blog`;
     const authorName = post.author || 'Birat Gautam';
     const authorUrl = post.authorUrl || `${siteUrl}/#profile`;
+    const description = post.seoDescription || post.excerpt || '';
+    const authorSameAs =
+      Array.isArray(post.authorSameAs) && post.authorSameAs.length
+        ? post.authorSameAs
+        : [authorUrl];
+    const keywords = [...(post.tags || []), ...(post.relatedTags || [])].filter(
+      Boolean,
+    );
     const toIso = (value) => {
       if (!value) return null;
       const d = new Date(value);
@@ -46,15 +54,18 @@ const BlogSEO = ({ post, type = 'article' }) => {
     };
 
     if (isArticle) {
-      setMeta('name', 'description', post.excerpt);
+      setMeta('name', 'description', description);
       setMeta('name', 'author', authorName);
-      setMeta('name', 'article:published_time', publishedAt || '');
-      setMeta('name', 'article:modified_time', modifiedAt || '');
+      setMeta('property', 'article:published_time', publishedAt || '');
+      setMeta('property', 'article:modified_time', modifiedAt || '');
+      if (keywords.length) {
+        setMeta('name', 'keywords', keywords.join(', '));
+      }
 
       // Open Graph
       setMeta('property', 'og:type', 'article');
       setMeta('property', 'og:title', post.title);
-      setMeta('property', 'og:description', post.excerpt);
+      setMeta('property', 'og:description', description);
       setMeta('property', 'og:url', postUrl);
       if (post.coverImage) {
         setMeta('property', 'og:image', `${siteUrl}${post.coverImage}`);
@@ -63,7 +74,7 @@ const BlogSEO = ({ post, type = 'article' }) => {
       // Twitter Card
       setMeta('name', 'twitter:card', 'summary_large_image');
       setMeta('name', 'twitter:title', post.title);
-      setMeta('name', 'twitter:description', post.excerpt);
+      setMeta('name', 'twitter:description', description);
 
       // Canonical
       let canonical = document.querySelector('link[rel="canonical"]');
@@ -82,28 +93,86 @@ const BlogSEO = ({ post, type = 'article' }) => {
         ldScript.type = 'application/ld+json';
         document.head.appendChild(ldScript);
       }
+      const schemas = [
+        {
+          '@type': 'WebPage',
+          '@id': postUrl,
+          url: postUrl,
+          name: post.title,
+          description,
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: siteUrl,
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Blog',
+              item: `${siteUrl}/blog`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: post.title,
+              item: postUrl,
+            },
+          ],
+        },
+        {
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description,
+          author: {
+            '@type': 'Person',
+            name: authorName,
+            url: authorUrl,
+            sameAs: authorSameAs,
+          },
+          datePublished: publishedAt,
+          dateModified: modifiedAt,
+          url: postUrl,
+          mainEntityOfPage: postUrl,
+          articleSection: post.tags || [],
+          keywords: keywords.join(', '),
+          ...(post.coverImage && {
+            image: {
+              '@type': 'ImageObject',
+              url: `${siteUrl}${post.coverImage}`,
+              width: 1200,
+              height: 630,
+            },
+          }),
+          publisher: {
+            '@type': 'Person',
+            name: authorName,
+            url: siteUrl,
+          },
+        },
+      ];
+
+      if (Array.isArray(post.faqs) && post.faqs.length) {
+        schemas.push({
+          '@type': 'FAQPage',
+          mainEntity: post.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        });
+      }
+
       ldScript.textContent = JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'BlogPosting',
-        headline: post.title,
-        description: post.excerpt,
-        author: {
-          '@type': 'Person',
-          name: authorName,
-          url: authorUrl,
-        },
-        datePublished: publishedAt,
-        dateModified: modifiedAt,
-        url: postUrl,
-        mainEntityOfPage: postUrl,
-        ...(post.coverImage && {
-          image: `${siteUrl}${post.coverImage}`,
-        }),
-        publisher: {
-          '@type': 'Person',
-          name: authorName,
-          url: siteUrl,
-        },
+        '@graph': schemas,
       });
     } else {
       setMeta(
@@ -165,6 +234,16 @@ BlogSEO.propTypes = {
     title: PropTypes.string,
     excerpt: PropTypes.string,
     coverImage: PropTypes.string,
+    seoDescription: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    relatedTags: PropTypes.arrayOf(PropTypes.string),
+    authorSameAs: PropTypes.arrayOf(PropTypes.string),
+    faqs: PropTypes.arrayOf(
+      PropTypes.shape({
+        question: PropTypes.string.isRequired,
+        answer: PropTypes.string.isRequired,
+      }),
+    ),
   }),
   type: PropTypes.string,
 };

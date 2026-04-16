@@ -148,6 +148,19 @@ body {
   border-top: 1px solid var(--bg-light);
 }
 
+.site-footer-links {
+  margin-top: 0.5rem;
+}
+
+.site-footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.site-footer-links a:hover {
+  color: var(--primary-color);
+}
+
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,

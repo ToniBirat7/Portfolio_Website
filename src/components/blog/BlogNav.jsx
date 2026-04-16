@@ -11,10 +11,28 @@ const BlogNav = () => {
         </Link>
 
         <Link to="/blog" className="blog-nav-brand">
-          birat<span className="brand-dot">.</span>codes<span className="brand-slash">/</span>blog
+          birat<span className="brand-dot">.</span>codes
+          <span className="brand-slash">/</span>blog
         </Link>
 
         <div className="blog-nav-actions">
+          <Link to="/about" className="blog-nav-icon" aria-label="About">
+            <i className="fas fa-user" aria-hidden="true"></i>
+          </Link>
+          <Link
+            to="/privacy-policy"
+            className="blog-nav-icon"
+            aria-label="Privacy Policy"
+          >
+            <i className="fas fa-shield-alt" aria-hidden="true"></i>
+          </Link>
+          <Link
+            to="/terms"
+            className="blog-nav-icon"
+            aria-label="Terms of Service"
+          >
+            <i className="fas fa-file-contract" aria-hidden="true"></i>
+          </Link>
           <a
             href="/rss.xml"
             className="blog-nav-icon"

@@ -2,7 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Nav.css';
 
-const sections = ['root', 'profile', 'experience', 'research', 'project', 'awards', 'contact'];
+const sections = [
+  'root',
+  'profile',
+  'experience',
+  'research',
+  'project',
+  'awards',
+  'contact',
+];
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +44,7 @@ const NavBar = () => {
           }
         });
       },
-      { threshold: 0.3, rootMargin: '-70px 0px 0px 0px' }
+      { threshold: 0.3, rootMargin: '-70px 0px 0px 0px' },
     );
 
     sections.forEach((id) => {
@@ -48,7 +56,10 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className={`navbar ${isVisible ? 'visible' : ''}`} aria-label="Main navigation">
+    <nav
+      className={`navbar ${isVisible ? 'visible' : ''}`}
+      aria-label="Main navigation"
+    >
       <ul>
         {[
           { id: 'root', label: 'Home' },
@@ -60,13 +71,28 @@ const NavBar = () => {
           { id: 'contact', label: 'Contact' },
         ].map(({ id, label }) => (
           <li key={id} className={activeSection === id ? 'active' : ''}>
-            <a href={`#${id}`} onClick={(e) => { e.preventDefault(); handleScrollTo(id); }}>
+            <a
+              href={`#${id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleScrollTo(id);
+              }}
+            >
               {label}
             </a>
           </li>
         ))}
         <li>
           <Link to="/blog">Blog</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/privacy-policy">Privacy</Link>
+        </li>
+        <li>
+          <Link to="/terms">Terms</Link>
         </li>
       </ul>
     </nav>

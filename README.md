@@ -1,3 +1,7 @@
+> Future Implementation 
+
+> Create LMS as well, make it paid service, to access the video tutorials make the payment via PayPal or Stripe, and then give them access to the content. This can be done by integrating a payment gateway and setting up user authentication to manage access to the paid content.
+
 # Birat Gautam - Portfolio Website
 
 Welcome to the repository for my personal portfolio website. This project showcases my journey, projects, skills, and career highlights, built to provide a professional overview of my work and goals.
@@ -10,6 +14,27 @@ The blog is markdown-driven and auto-generated. You do not need to create React 
 - Add posts in: `src/content/blog/*.md`
 - Build pipeline auto-generates: `public/sitemap.xml`, `public/rss.xml`, `public/llms.txt`, `public/llms-full.txt`
 - Production build also prerenders blog pages into `dist/blog/**`
+
+## Analytics (GA4)
+
+Event tracking is wired in code and can be enabled by setting a GA4 Measurement ID.
+
+1. Copy `.env.example` to `.env`
+2. Set `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX`
+3. Restart dev server or rebuild for production
+
+Optional debug mode (dev only):
+- Set `VITE_ANALYTICS_DEBUG=true` to show an in-app analytics debug panel with recent events
+
+Tracked events include:
+- `page_view` for route changes
+- `blog_index_view` and `blog_post_open`
+- `post_view` and `scroll_depth` milestones
+- `share_click` and `share_copy_link`
+- `cta_click` for blog monetization actions
+- `newsletter_view`, `newsletter_submit_attempt`, `newsletter_submit`
+- `outbound_link_click` and `affiliate_link_click`
+- `contact_submit_attempt` and `contact_submit`
 
 ## Project Overview
 

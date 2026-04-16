@@ -1,5 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {
+  normalizeFaqs,
+  normalizeStringArray,
+  parseFrontmatter,
+  stripMarkdown,
+  toDateOnly,
+  toIsoDate,
+} from '../src/utils/frontmatter.js';
 
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', 'blog');
@@ -11,55 +19,6 @@ function slugFromFile(fileName) {
   return fileName.replace(/\.md$/, '');
 }
 
-function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { attributes: {}, content: raw.trim() };
-
-  const attributes = {};
-  const frontmatterStr = match[1];
-  const content = match[2].trim();
-
-  for (const line of frontmatterStr.split('\n')) {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    if (value.startsWith('[') && value.endsWith(']')) {
-      value = value
-        .slice(1, -1)
-        .split(',')
-        .map((v) => v.trim().replace(/^["']|["']$/g, ''))
-        .filter(Boolean);
-    } else if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    } else if (!Number.isNaN(Number(value)) && value !== '') {
-      value = Number(value);
-    }
-
-    attributes[key] = value;
-  }
-
-  return { attributes, content };
-}
-
-function toIsoDate(input) {
-  if (!input) return null;
-  const d = new Date(input);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toISOString();
-}
-
-function toDateOnly(input) {
-  const iso = toIsoDate(input);
-  if (!iso) return null;
-  return iso.split('T')[0];
-}
-
 function escapeXml(str) {
   return String(str)
     .replaceAll('&', '&amp;')
@@ -67,18 +26,6 @@ function escapeXml(str) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&apos;');
-}
-
-function stripMarkdown(md) {
-  return md
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/^#+\s+/gm, '')
-    .replace(/[>*_~]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 async function loadPosts() {
@@ -95,9 +42,10 @@ async function loadPosts() {
     const { attributes, content } = parseFrontmatter(raw);
     const slug = slugFromFile(file.name);
 
-    let tags = attributes.tags || [];
-    if (typeof tags === 'string') tags = [tags];
+    let tags = normalizeStringArray(attributes.tags);
     if (!tags.length && attributes.tag) tags = [attributes.tag];
+    const relatedTags = normalizeStringArray(attributes.relatedTags);
+    const faqs = normalizeFaqs(attributes.faqs);
 
     const datePublished =
       toIsoDate(attributes.date) || new Date().toISOString();
@@ -113,11 +61,17 @@ async function loadPosts() {
       excerpt: attributes.excerpt || attributes.description || '',
       author: attributes.author || 'Birat Gautam',
       authorUrl: attributes.authorUrl || `${SITE_URL}/#profile`,
+      authorSameAs: normalizeStringArray(attributes.authorSameAs),
       tags,
+      relatedTags,
       coverImage: attributes.coverImage || '',
       datePublished,
       dateModified,
       content,
+      difficulty: attributes.difficulty || '',
+      topic: attributes.topic || tags[0] || '',
+      faqs,
+      monetizationCTA: attributes.monetizationCTA || null,
     });
   }
 
@@ -129,6 +83,18 @@ function buildSitemap(posts) {
   const urls = [
     {
       loc: `${SITE_URL}/`,
+      lastmod: new Date().toISOString(),
+    },
+    {
+      loc: `${SITE_URL}/about`,
+      lastmod: new Date().toISOString(),
+    },
+    {
+      loc: `${SITE_URL}/privacy-policy`,
+      lastmod: new Date().toISOString(),
+    },
+    {
+      loc: `${SITE_URL}/terms`,
       lastmod: new Date().toISOString(),
     },
     {
@@ -203,14 +169,21 @@ function buildLlmsTxt(posts) {
     '## Primary Pages',
     '',
     `- [Portfolio Home](${SITE_URL}/): Overview, profile, projects, achievements, and contact.`,
+    `- [About](${SITE_URL}/about): Author background and credentials.`,
+    `- [Privacy Policy](${SITE_URL}/privacy-policy): Data handling and privacy disclosures.`,
+    `- [Terms of Service](${SITE_URL}/terms): Site usage terms and legal conditions.`,
     `- [Blog Home](${BLOG_BASE}): All technical posts with metadata.`,
     '',
     '## Blog Posts',
     '',
-    ...posts.map(
-      (post) =>
-        `- [${post.title}](${post.url}): ${post.excerpt || 'Technical article.'}`,
-    ),
+    ...posts.map((post) => {
+      const extras = [
+        post.difficulty ? `Difficulty: ${post.difficulty}` : null,
+        post.topic ? `Topic: ${post.topic}` : null,
+      ].filter(Boolean);
+
+      return `- [${post.title}](${post.url}): ${post.excerpt || 'Technical article.'}${extras.length ? ` (${extras.join(', ')})` : ''}`;
+    }),
     '',
     '## Optional',
     '',
@@ -237,8 +210,30 @@ function buildLlmsFull(posts) {
     lines.push(`- Published: ${toDateOnly(post.datePublished)}`);
     lines.push(`- Updated: ${toDateOnly(post.dateModified)}`);
     lines.push(`- Author: ${post.author}`);
+    if (post.authorSameAs.length) {
+      lines.push(`- Author links: ${post.authorSameAs.join(', ')}`);
+    }
+    if (post.difficulty) {
+      lines.push(`- Difficulty: ${post.difficulty}`);
+    }
+    if (post.topic) {
+      lines.push(`- Topic: ${post.topic}`);
+    }
     if (post.tags.length) {
       lines.push(`- Tags: ${post.tags.join(', ')}`);
+    }
+    if (post.relatedTags.length) {
+      lines.push(`- Related tags: ${post.relatedTags.join(', ')}`);
+    }
+    if (post.monetizationCTA?.type) {
+      lines.push(`- Monetization CTA: ${post.monetizationCTA.type}`);
+    }
+    if (post.faqs.length) {
+      lines.push('- FAQs:');
+      for (const faq of post.faqs) {
+        lines.push(`  - Q: ${faq.question}`);
+        lines.push(`    A: ${faq.answer}`);
+      }
     }
     lines.push('');
     lines.push(post.excerpt || stripMarkdown(post.content).slice(0, 500));

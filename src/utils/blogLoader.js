@@ -1,77 +1,10 @@
-/**
- * Blog post loader & parser.
- * Discovers .md files via Vite glob, parses YAML frontmatter,
- * extracts table-of-contents headings, and calculates read time.
- */
-
-function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { attributes: {}, content: raw };
-
-  const frontmatterStr = match[1];
-  const content = match[2].trim();
-
-  const attributes = {};
-  for (const line of frontmatterStr.split('\n')) {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    // Handle arrays: tags: ["AI", "MCP", "Agents"]
-    if (value.startsWith('[') && value.endsWith(']')) {
-      value = value
-        .slice(1, -1)
-        .split(',')
-        .map((v) => v.trim().replace(/^["']|["']$/g, ''));
-    }
-    // Strip surrounding quotes
-    else if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    // Numbers
-    else if (!isNaN(value) && value !== '') {
-      value = Number(value);
-    }
-
-    attributes[key] = value;
-  }
-
-  return { attributes, content };
-}
-
-/**
- * Extract h2/h3 headings from markdown for Table of Contents.
- */
-function extractTOC(markdown) {
-  const headings = [];
-  const regex = /^(#{2,3})\s+(.+)$/gm;
-  let m;
-  while ((m = regex.exec(markdown)) !== null) {
-    headings.push({
-      level: m[1].length, // 2 or 3
-      text: m[2].trim(),
-      id: m[2]
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-'),
-    });
-  }
-  return headings;
-}
-
-/**
- * Calculate reading time from word count (~238 wpm average).
- */
-function calcReadTime(text) {
-  const words = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(words / 238));
-}
+import {
+  calcReadTime,
+  extractTOC,
+  normalizeFaqs,
+  normalizeStringArray,
+  parseFrontmatter,
+} from './frontmatter.js';
 
 export const getPosts = async () => {
   const modules = import.meta.glob('../content/blog/*.md', {
@@ -86,12 +19,14 @@ export const getPosts = async () => {
       const { attributes, content } = parseFrontmatter(raw);
 
       // Normalize tags to always be an array
-      let tags = attributes.tags || [];
-      if (typeof tags === 'string') tags = [tags];
+      let tags = normalizeStringArray(attributes.tags);
       // Also keep legacy single `tag` field
       if (!tags.length && attributes.tag) {
         tags = [attributes.tag];
       }
+
+      const relatedTags = normalizeStringArray(attributes.relatedTags);
+      const faqs = normalizeFaqs(attributes.faqs);
 
       return {
         slug,
@@ -104,11 +39,22 @@ export const getPosts = async () => {
           '',
         tags,
         tag: tags[0] || attributes.tag || '',
+        relatedTags,
         excerpt: attributes.excerpt || attributes.description || '',
+        seoDescription:
+          attributes.seoDescription ||
+          attributes.excerpt ||
+          attributes.description ||
+          '',
         readTime: attributes.readTime || calcReadTime(content),
         coverImage: attributes.coverImage || null,
         author: attributes.author || 'Birat Gautam',
         authorUrl: attributes.authorUrl || 'https://birat.codes/#profile',
+        authorSameAs: normalizeStringArray(attributes.authorSameAs),
+        difficulty: attributes.difficulty || '',
+        topic: attributes.topic || tags[0] || '',
+        faqs,
+        monetizationCTA: attributes.monetizationCTA || null,
         content,
         toc: extractTOC(content),
       };

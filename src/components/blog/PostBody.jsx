@@ -2,8 +2,13 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { trackEvent } from '../../utils/analytics.js';
+import {
+  getUrlHost,
+  isAffiliateUrl,
+  isExternalUrl,
+  markdownLikelyHasAffiliateLinks,
+} from '../../utils/linkAttribution.js';
 import './PostBody.css';
 
 const CopyButton = ({ text }) => {
@@ -28,9 +33,21 @@ const CopyButton = ({ text }) => {
   );
 };
 
-const PostBody = ({ content }) => {
+const PostBody = ({ content, postSlug }) => {
+  const hasAffiliateDisclosure = markdownLikelyHasAffiliateLinks(content);
+
   return (
     <div className="post-body">
+      {hasAffiliateDisclosure && (
+        <aside
+          className="affiliate-disclosure"
+          aria-label="Affiliate disclosure"
+        >
+          Disclosure: Some links in this post may be affiliate links. If you use
+          them, I may earn a commission at no extra cost to you.
+        </aside>
+      )}
+
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -44,16 +61,9 @@ const PostBody = ({ content }) => {
                   <span className="code-lang">{match[1]}</span>
                   <CopyButton text={codeString} />
                 </div>
-                <SyntaxHighlighter
-                  {...props}
-                  style={oneDark}
-                  language={match[1]}
-                  PreTag="div"
-                  className="code-block-body"
-                  showLineNumbers={codeString.split('\n').length > 3}
-                >
-                  {codeString}
-                </SyntaxHighlighter>
+                <pre className="code-block-body" {...props}>
+                  <code className={`language-${match[1]}`}>{codeString}</code>
+                </pre>
               </div>
             ) : (
               <code className="inline-code" {...props}>
@@ -86,15 +96,50 @@ const PostBody = ({ content }) => {
           blockquote: ({ children }) => (
             <blockquote className="post-quote">{children}</blockquote>
           ),
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              target={href?.startsWith('http') ? '_blank' : undefined}
-              rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
-              {children}
-            </a>
-          ),
+          a: ({ href, children }) => {
+            const external = isExternalUrl(href);
+            const affiliate = isAffiliateUrl(href);
+
+            const onTrackedClick = () => {
+              if (!external) return;
+              trackEvent(
+                affiliate ? 'affiliate_link_click' : 'outbound_link_click',
+                {
+                  href,
+                  host: getUrlHost(href),
+                  post_slug: postSlug,
+                },
+              );
+            };
+
+            if (!external) {
+              return <a href={href}>{children}</a>;
+            }
+
+            if (affiliate) {
+              return (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow sponsored"
+                  onClick={onTrackedClick}
+                >
+                  {children}
+                </a>
+              );
+            }
+
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onTrackedClick}
+              >
+                {children}
+              </a>
+            );
+          },
           table: ({ children }) => (
             <div className="table-wrapper">
               <table>{children}</table>
@@ -114,6 +159,7 @@ CopyButton.propTypes = {
 
 PostBody.propTypes = {
   content: PropTypes.string.isRequired,
+  postSlug: PropTypes.string,
 };
 
 export default PostBody;

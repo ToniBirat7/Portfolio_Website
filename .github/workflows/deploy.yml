@@ -1,7 +1,7 @@
 name: Deploy to birat.codes
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to run it manually from the "Actions" tab
   push:
     branches:
       - master
@@ -25,39 +25,47 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
-      - name: Connect to Tailscale (OAuth)
-        if: ${{ secrets.TS_OAUTH_CLIENT_ID != '' && secrets.TS_OAUTH_SECRET != '' }}
+      - name: Connect to Tailscale
         uses: tailscale/github-action@v2
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:ci
-
-      - name: Connect to Tailscale (Auth key fallback)
-        if: ${{ !(secrets.TS_OAUTH_CLIENT_ID != '' && secrets.TS_OAUTH_SECRET != '') }}
-        uses: tailscale/github-action@v2
-        with:
+          # Using Auth Key for immediate recovery and stability
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
           tags: tag:ci
 
-      - name: Deploy to VM
+      - name: Verify Connection (Port 22 Check)
+        run: |
+          echo "Checking Tailscale status..."
+          tailscale status
+          echo "Testing SSH connection to ${{ secrets.VM_HOST }} on port 22..."
+          # 'nc' (netcat) is used instead of 'ping' because your ACLs block ping 
+          # but allow SSH. This prevents the workflow from failing unnecessarily.
+          nc -zv ${{ secrets.VM_HOST }} 22
+
+      - name: Deploy to VM via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          passphrase: ${{ secrets.VM_SSH_PASSPHRASE }}
           port: 22
           timeout: 30s
           command_timeout: 10m
           script_stop: true
           script: |
+            # Navigate to the project folder
             cd ~/portfolio
+
+            # Pull latest changes from master
             git pull origin master
+
+            # Install and build on the server
             npm ci
             npm run build
+
+            # Copy the built files to the web server directory
             sudo cp -r dist/* /var/www/html/
-            echo "Deployed at $(date)"
+
+            echo "Successfully deployed at $(date)"

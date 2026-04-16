@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect, lazy, Suspense } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import CareerHighlights from './components/CareerHighlights';
 import HeroSection from './components/HeroPage';
 import NavBar from './components/NavBar';
@@ -7,10 +8,43 @@ import AwardsAchievements from './components/Achievements.jsx';
 import Profile from './components/Profile.jsx';
 import Research from './components/Research.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import Contact from './components/Contact.jsx';
-import BlogHome from './components/blog/BlogHome.jsx';
-import BlogPost from './components/blog/BlogPost.jsx';
+import { initializeAnalytics, trackPageView } from './utils/analytics.js';
+
+const BlogHome = lazy(() => import('./components/blog/BlogHome.jsx'));
+const BlogPost = lazy(() => import('./components/blog/BlogPost.jsx'));
+const Page = lazy(() => import('./components/Page.jsx'));
+const AnalyticsDebugPanel = lazy(
+  () => import('./components/AnalyticsDebugPanel.jsx'),
+);
+
+function AnalyticsBridge() {
+  const location = useLocation();
+
+  useEffect(() => {
+    initializeAnalytics();
+
+    // Load icon font stylesheet lazily to keep first paint lightweight.
+    const existing = document.querySelector('link[data-fontawesome="true"]');
+    if (!existing) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href =
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css';
+      link.crossOrigin = 'anonymous';
+      link.setAttribute('data-fontawesome', 'true');
+      document.head.appendChild(link);
+    }
+
+    const timer = window.setTimeout(() => {
+      trackPageView(`${location.pathname}${location.search}`, document.title);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [location.pathname, location.search]);
+
+  return null;
+}
 
 function Portfolio() {
   return (
@@ -25,7 +59,16 @@ function Portfolio() {
       <AwardsAchievements />
       <Contact />
       <footer className="site-footer">
-        <p>&copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.
+        </p>
+        <p className="site-footer-links">
+          <a href="/about">About</a>
+          <span> · </span>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <span> · </span>
+          <a href="/terms">Terms</a>
+        </p>
       </footer>
     </>
   );
@@ -33,11 +76,37 @@ function Portfolio() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Portfolio />} />
-      <Route path="/blog" element={<BlogHome />} />
-      <Route path="/blog/:slug" element={<BlogPost />} />
-    </Routes>
+    <>
+      <AnalyticsBridge />
+      <Suspense fallback={null}>
+        <AnalyticsDebugPanel />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="blog-loading">
+            <div className="blog-spinner"></div>
+          </div>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<Portfolio />} />
+          <Route path="/blog" element={<BlogHome />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route
+            path="/privacy-policy"
+            element={<Page filename="privacy-policy" title="Privacy Policy" />}
+          />
+          <Route
+            path="/terms"
+            element={<Page filename="terms" title="Terms of Service" />}
+          />
+          <Route
+            path="/about"
+            element={<Page filename="about" title="About" />}
+          />
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 

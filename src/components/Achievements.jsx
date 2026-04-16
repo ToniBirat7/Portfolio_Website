@@ -1,12 +1,17 @@
-import { useInView } from "../hooks/useInView";
-import { achievements } from "../data/achievements";
-import "./Achievement.css";
+import { useInView } from '../hooks/useInView';
+import { achievements } from '../data/achievements';
+import './Achievement.css';
 
 const AwardsAchievements = () => {
   const [ref, inView] = useInView({ threshold: 0.1 });
 
   return (
-    <section className="awards-section" id="awards" aria-labelledby="awards-heading" ref={ref}>
+    <section
+      className="awards-section"
+      id="awards"
+      aria-labelledby="awards-heading"
+      ref={ref}
+    >
       <h2 id="awards-heading">Achievements and Awards</h2>
       {achievements.map((award, i) => (
         <article
@@ -15,7 +20,15 @@ const AwardsAchievements = () => {
           style={{ transitionDelay: `${i * 150}ms` }}
         >
           <div className="award-header">
-            <img src="pp.jpg" alt={award.name} className="award-profile-image" width="50" height="50" />
+            <img
+              src="pp.jpg"
+              alt={award.name}
+              className="award-profile-image"
+              width="50"
+              height="50"
+              loading="lazy"
+              decoding="async"
+            />
             <div className="details">
               <h3>{award.name}</h3>
               <p>{award.subtitle}</p>
@@ -31,6 +44,7 @@ const AwardsAchievements = () => {
                 alt={img.alt}
                 className="award-image"
                 loading="lazy"
+                decoding="async"
               />
             ))}
           </div>

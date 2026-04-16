@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useInView } from '../hooks/useInView';
 import './Contact.css';
+import { trackEvent } from '../utils/analytics.js';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -20,9 +21,18 @@ const Contact = () => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
+    trackEvent('contact_submit_attempt', {
+      has_subject: Boolean(formData.subject),
+      message_length: formData.message.length,
+    });
+
     setStatus('sending');
     setTimeout(() => {
       setStatus('sent');
+      trackEvent('contact_submit', {
+        has_subject: Boolean(formData.subject),
+        message_length: formData.message.length,
+      });
       setTimeout(() => setStatus('idle'), 4000);
     }, 1500);
   };
@@ -31,15 +41,29 @@ const Contact = () => {
     <section className="contact-section" id="contact">
       <h2>Get In Touch</h2>
       <p className="contact-subtitle">
-        Have a project in mind or want to collaborate? I&apos;d love to hear from you.
+        Have a project in mind or want to collaborate? I&apos;d love to hear
+        from you.
       </p>
-      <div className={`contact-card animate-in ${inView ? 'in-view' : ''}`} ref={ref}>
+      <div
+        className={`contact-card animate-in ${inView ? 'in-view' : ''}`}
+        ref={ref}
+      >
         <div className="contact-info">
           <div className="contact-info-item">
             <i className="fab fa-linkedin"></i>
             <div>
               <h4>LinkedIn</h4>
-              <a href="https://www.linkedin.com/in/biratgautam7/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.linkedin.com/in/biratgautam7/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent('social_click', {
+                    network: 'linkedin',
+                    location: 'contact',
+                  })
+                }
+              >
                 /in/biratgautam7
               </a>
             </div>
@@ -48,7 +72,17 @@ const Contact = () => {
             <i className="fab fa-github"></i>
             <div>
               <h4>GitHub</h4>
-              <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com/ToniBirat7"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent('social_click', {
+                    network: 'github',
+                    location: 'contact',
+                  })
+                }
+              >
                 @ToniBirat7
               </a>
             </div>
@@ -104,15 +138,26 @@ const Contact = () => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="submit-btn" disabled={status === 'sending'} aria-busy={status === 'sending'}>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={status === 'sending'}
+            aria-busy={status === 'sending'}
+          >
             {status === 'idle' && (
-              <><i className="fas fa-paper-plane"></i> Send Message</>
+              <>
+                <i className="fas fa-paper-plane"></i> Send Message
+              </>
             )}
             {status === 'sending' && (
-              <><i className="fas fa-spinner fa-spin"></i> Sending...</>
+              <>
+                <i className="fas fa-spinner fa-spin"></i> Sending...
+              </>
             )}
             {status === 'sent' && (
-              <><i className="fas fa-check"></i> Message Sent!</>
+              <>
+                <i className="fas fa-check"></i> Message Sent!
+              </>
             )}
           </button>
         </form>

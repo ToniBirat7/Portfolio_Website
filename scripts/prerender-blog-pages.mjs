@@ -1,55 +1,17 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
+import {
+  normalizeStringArray,
+  parseFrontmatter,
+  toIsoDate,
+} from '../src/utils/frontmatter.js';
 
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', 'blog');
 const DIST_DIR = path.join(ROOT, 'dist');
 const SITE_URL = 'https://birat.codes';
 const BLOG_BASE = `${SITE_URL}/blog`;
-
-function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { attributes: {}, content: raw.trim() };
-
-  const attributes = {};
-  const frontmatterStr = match[1];
-  const content = match[2].trim();
-
-  for (const line of frontmatterStr.split('\n')) {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    if (value.startsWith('[') && value.endsWith(']')) {
-      value = value
-        .slice(1, -1)
-        .split(',')
-        .map((v) => v.trim().replace(/^["']|["']$/g, ''))
-        .filter(Boolean);
-    } else if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    } else if (!Number.isNaN(Number(value)) && value !== '') {
-      value = Number(value);
-    }
-
-    attributes[key] = value;
-  }
-
-  return { attributes, content };
-}
-
-function toIsoDate(input) {
-  if (!input) return new Date().toISOString();
-  const d = new Date(input);
-  if (Number.isNaN(d.getTime())) return new Date().toISOString();
-  return d.toISOString();
-}
 
 function escapeHtml(str) {
   return String(str)
@@ -74,9 +36,9 @@ async function loadPosts() {
     const { attributes, content } = parseFrontmatter(raw);
     const slug = slugFromFile(file.name);
 
-    let tags = attributes.tags || [];
-    if (typeof tags === 'string') tags = [tags];
+    let tags = normalizeStringArray(attributes.tags);
     if (!tags.length && attributes.tag) tags = [attributes.tag];
+    const relatedTags = normalizeStringArray(attributes.relatedTags);
 
     const datePublished = toIsoDate(attributes.date);
     const dateModified = toIsoDate(
@@ -90,11 +52,14 @@ async function loadPosts() {
       title: attributes.title || slug,
       excerpt: attributes.excerpt || attributes.description || '',
       author: attributes.author || 'Birat Gautam',
+      authorUrl: attributes.authorUrl || `${SITE_URL}/#profile`,
       tags,
+      relatedTags,
       coverImage: attributes.coverImage || '',
       datePublished,
       dateModified,
       html,
+      difficulty: attributes.difficulty || '',
       url: `${BLOG_BASE}/${slug}`,
     });
   }
@@ -161,7 +126,7 @@ function renderPostHtml(post) {
     author: {
       '@type': 'Person',
       name: post.author,
-      url: `${SITE_URL}/#profile`,
+      url: post.authorUrl,
     },
     publisher: {
       '@type': 'Person',
@@ -178,6 +143,8 @@ function renderPostHtml(post) {
       <h1>${escapeHtml(post.title)}</h1>
       <div class="meta">${new Date(post.datePublished).toDateString()} • ${escapeHtml(post.author)}</div>
       ${post.tags.length ? `<div class="tags">${post.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+      ${post.relatedTags.length ? `<div class="tags">${post.relatedTags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+      ${post.difficulty ? `<p class="meta">Difficulty: ${escapeHtml(post.difficulty)}</p>` : ''}
       ${post.coverImage ? `<p><img src="${escapeHtml(post.coverImage)}" alt="${escapeHtml(post.title)}" /></p>` : ''}
       ${post.html}
     </article>

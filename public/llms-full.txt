@@ -2,12 +2,123 @@
 
 > Expanded context view for AI assistants. Includes article metadata plus content excerpts.
 
+## When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff
+
+- URL: https://birat.codes/blog/agent-confidence-thresholds
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Human-AI Collaboration, Risk Management
+
+Agents need explicit rejection regions and must know their limits. Appropriate autonomy beats unlimited autonomy. Learn to build confidence thresholds that keep humans in the loop.
+
+## Observability for Black-Box Agents: Tracing Decisions in Production
+
+- URL: https://birat.codes/blog/agent-observability
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Observability, Production Systems
+
+Agent observability requires reasoning traces, not just logs. You need to see why the agent acted, not just what it did.
+
+## The Hallucination Budget: Quantifying Risk for Mission-Critical Agents
+
+- URL: https://birat.codes/blog/hallucination-budget
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Risk Management, Production Systems
+
+Hallucinations aren't random. They're predictable under specific input conditions. Here's how to quantify your cost-of-correction and build agents that fail safely.
+
+## Agents in the Loop: Designing for Human-AI Collaboration Instead of Replacement
+
+- URL: https://birat.codes/blog/human-ai-collaboration
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Human-AI Collaboration, UX Design
+
+The best production agents augment human expertise, not replace it. This requires different architecture: partial tasks, confidence signals, and designed interruption points.
+
+## The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average
+
+- URL: https://birat.codes/blog/latency-percentiles
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Performance, Production Systems
+
+Agentic latency isn't Gaussian—it's multimodal and heavy-tailed. User experience is determined by percentiles, not averages.
+
+## Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model
+
+- URL: https://birat.codes/blog/orchestrating-agents-scale
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Multi-Agent Systems, Architecture
+
+Why throwing a bigger model at multi-agent problems is a trap. Specialized agents + orchestration layers beat a single monolithic agent every time.
+
+## Prompt Injection in Agents: Defense Patterns That Actually Work
+
+- URL: https://birat.codes/blog/prompt-injection-defense
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Security, Production Systems
+
+Prompt injection in agents isn't a ChatGPT problem—it's an architecture problem. Real defenses are architectural, not literary.
+
+## State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems
+
+- URL: https://birat.codes/blog/state-management-agent-memory
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, State Management, Production Systems
+
+Vector databases are sexy. Event-sourcing is not. Here's why deterministic, versioned memory is what mission-critical agents actually need for reproducibility and compliance.
+
+## Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should
+
+- URL: https://birat.codes/blog/token-economics-agent-architecture
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Cost Optimization, Architecture
+
+You're optimizing prompts when you should be optimizing architecture. Token efficiency is architectural, not literary.
+
+## The Tool-Use Illusion: Why Most Agent Frameworks Fail at Production Scale
+
+- URL: https://birat.codes/blog/tool-use-illusion
+- Published: 2026-04-16
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Topic: Agentic AI
+- Tags: Agentic AI, Production Systems, Architecture
+
+Why adding more tools to your agent stack creates exponential latency costs. Discover why orchestrating failures—not accumulating tools—is the real bottleneck.
+
 ## The Architecture of Agency: Model Context Protocol (MCP)
 
 - URL: https://birat.codes/blog/model-context-protocol-mcp-intro
 - Published: 2026-04-15
 - Updated: 2026-04-16
 - Author: Birat Gautam
+- Topic: Agentic AI
 - Tags: Agentic AI, MCP, AI Systems
 
 Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.
@@ -18,6 +129,7 @@ Exploring the Model Context Protocol (MCP) — the new standard for connecting A
 - Published: 2024-08-30
 - Updated: 2024-08-30
 - Author: Birat Gautam
+- Topic: React
 - Tags: React, JSX, Babel, Vite, Frontend
 
 A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.

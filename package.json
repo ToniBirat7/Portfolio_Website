@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sync:pages": "node scripts/sync-static-pages.mjs",
     "generate:blog": "node scripts/generate-blog-artifacts.mjs",
-    "prebuild": "npm run generate:blog",
+    "prebuild": "npm run sync:pages && npm run generate:blog",
     "build": "vite build",
     "postbuild": "node scripts/prerender-blog-pages.mjs",
     "lint": "eslint .",
@@ -23,7 +24,8 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.27.0",
     "react-syntax-highlighter": "^16.1.1",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
