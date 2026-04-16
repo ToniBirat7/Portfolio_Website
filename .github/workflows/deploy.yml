@@ -67,7 +67,7 @@ jobs:
 
             # Ensure deterministic installs on long-lived VM workspace.
             # Prevent npm ENOTEMPTY errors from stale directories.
-            rm -rf node_modules package-lock.json
+            rm -rf node_modules
 
             # Install and build on the server
             npm ci
