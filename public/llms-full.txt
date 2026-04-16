@@ -1,0 +1,23 @@
+# Birat Gautam Blog Full Context
+
+> Expanded context view for AI assistants. Includes article metadata plus content excerpts.
+
+## The Architecture of Agency: Model Context Protocol (MCP)
+
+- URL: https://birat.codes/blog/model-context-protocol-mcp-intro
+- Published: 2026-04-15
+- Updated: 2026-04-16
+- Author: Birat Gautam
+- Tags: Agentic AI, MCP, AI Systems
+
+Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.
+
+## Demystifying the Working of ReactJs: From JSX to Pixels
+
+- URL: https://birat.codes/blog/demystifying-working-react-from-jsx-pixels
+- Published: 2024-08-30
+- Updated: 2024-08-30
+- Author: Birat Gautam
+- Tags: React, JSX, Babel, Vite, Frontend
+
+A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.

@@ -1,4 +1,4 @@
-
+import { Routes, Route } from 'react-router-dom';
 import CareerHighlights from './components/CareerHighlights';
 import HeroSection from './components/HeroPage';
 import NavBar from './components/NavBar';
@@ -9,26 +9,35 @@ import Research from './components/Research.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Contact from './components/Contact.jsx';
+import BlogHome from './components/blog/BlogHome.jsx';
+import BlogPost from './components/blog/BlogPost.jsx';
 
-function App() {
+function Portfolio() {
   return (
     <>
-      <a href="#main-content" className="skip-link">Skip to main content</a>
       <ScrollProgress />
       <NavBar />
       <HeroSection />
-      <main id="main-content">
-        <Profile />
-        <CareerHighlights />
-        <Research />
-        <Project />
-        <AwardsAchievements />
-        <Contact />
-      </main>
+      <Profile />
+      <CareerHighlights />
+      <Research />
+      <Project />
+      <AwardsAchievements />
+      <Contact />
       <footer className="site-footer">
         <p>&copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.</p>
       </footer>
     </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Portfolio />} />
+      <Route path="/blog" element={<BlogHome />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+    </Routes>
   );
 }
 

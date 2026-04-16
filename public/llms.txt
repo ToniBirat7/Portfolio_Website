@@ -1,0 +1,20 @@
+# Birat Gautam Portfolio and Blog
+
+> Personal portfolio and technical blog focused on AI engineering, MCP, RAG systems, and production ML workflows.
+
+Use this file as a curated index of high-value pages for question answering and retrieval.
+
+## Primary Pages
+
+- [Portfolio Home](https://birat.codes/): Overview, profile, projects, achievements, and contact.
+- [Blog Home](https://birat.codes/blog): All technical posts with metadata.
+
+## Blog Posts
+
+- [The Architecture of Agency: Model Context Protocol (MCP)](https://birat.codes/blog/model-context-protocol-mcp-intro): Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.
+- [Demystifying the Working of ReactJs: From JSX to Pixels](https://birat.codes/blog/demystifying-working-react-from-jsx-pixels): A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.
+
+## Optional
+
+- [Sitemap](https://birat.codes/sitemap.xml): Full indexable URL list.
+- [RSS Feed](https://birat.codes/rss.xml): Recent publishing updates.

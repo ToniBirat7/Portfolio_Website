@@ -2,6 +2,15 @@
 
 Welcome to the repository for my personal portfolio website. This project showcases my journey, projects, skills, and career highlights, built to provide a professional overview of my work and goals.
 
+## Blog Publishing Workflow
+
+The blog is markdown-driven and auto-generated. You do not need to create React pages for each post.
+
+- Operational guide: `BLOG_OPERATIONS_GUIDE.md`
+- Add posts in: `src/content/blog/*.md`
+- Build pipeline auto-generates: `public/sitemap.xml`, `public/rss.xml`, `public/llms.txt`, `public/llms-full.txt`
+- Production build also prerenders blog pages into `dist/blog/**`
+
 ## Project Overview
 
 This portfolio website is designed to present my professional background, skills, achievements, and personal interests in a visually appealing, user-friendly format. Built using **ReactJS** and **Vite Bundler**, the website demonstrates modern web design practices with a responsive, interactive layout.

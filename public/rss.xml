@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Birat's Notebook</title>
+    <link>https://birat.codes/blog</link>
+    <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 16 Apr 2026 07:21:35 GMT</lastBuildDate>
+    <item>
+      <title>The Architecture of Agency: Model Context Protocol (MCP)</title>
+      <link>https://birat.codes/blog/model-context-protocol-mcp-intro</link>
+      <guid>https://birat.codes/blog/model-context-protocol-mcp-intro</guid>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.</description>
+      <category>Agentic AI</category>
+      <category>MCP</category>
+      <category>AI Systems</category>
+    </item>
+    <item>
+      <title>Demystifying the Working of ReactJs: From JSX to Pixels</title>
+      <link>https://birat.codes/blog/demystifying-working-react-from-jsx-pixels</link>
+      <guid>https://birat.codes/blog/demystifying-working-react-from-jsx-pixels</guid>
+      <pubDate>Fri, 30 Aug 2024 00:00:00 GMT</pubDate>
+      <description>A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.</description>
+      <category>React</category>
+      <category>JSX</category>
+      <category>Babel</category>
+      <category>Vite</category>
+      <category>Frontend</category>
+    </item>
+  </channel>
+</rss>

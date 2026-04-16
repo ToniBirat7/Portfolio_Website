@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Nav.css';
 
 const sections = ['root', 'profile', 'experience', 'research', 'project', 'awards', 'contact'];
@@ -65,9 +66,7 @@ const NavBar = () => {
           </li>
         ))}
         <li>
-          <a href="https://www.linkedin.com/pulse/demystifying-working-react-from-jsx-pixels-birat-gautam-4rqif/?trackingId=GiS%2B8t1YROKpAk9200dkig%3D%3D" target="_blank" rel="noopener noreferrer">
-            Blog
-          </a>
+          <Link to="/blog">Blog</Link>
         </li>
       </ul>
     </nav>
