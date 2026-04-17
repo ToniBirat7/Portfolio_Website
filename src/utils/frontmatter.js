@@ -1,5 +1,13 @@
 import YAML from 'yaml';
 
+function slugifyHeading(text) {
+  return String(text)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-');
+}
+
 export function parseFrontmatter(raw) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return { attributes: {}, content: raw.trim() };
@@ -71,18 +79,14 @@ export function normalizeFaqs(value) {
 
 export function extractTOC(markdown) {
   const headings = [];
-  const regex = /^(#{2,3})\s+(.+)$/gm;
+  const regex = /^(#{2,4})\s+(.+)$/gm;
   let match;
 
   while ((match = regex.exec(markdown)) !== null) {
     headings.push({
       level: match[1].length,
       text: match[2].trim(),
-      id: match[2]
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-'),
+      id: slugifyHeading(match[2]),
     });
   }
 

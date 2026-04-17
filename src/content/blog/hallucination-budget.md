@@ -1,107 +1,135 @@
 ---
 title: "The Hallucination Budget: Quantifying Risk for Mission-Critical Agents"
 date: "2026-04-16"
-dateModified: "2026-04-16"
-tags: ["Agentic AI", "Risk Management", "Production Systems"]
-excerpt: "Hallucinations aren't random. They're predictable under specific input conditions. Here's how to quantify your cost-of-correction and build agents that fail safely."
-readTime: 15
+dateModified: "2026-04-17"
+tags: ["Agentic AI", "Risk Management", "Production Systems", "Safety", "Evaluation"]
+topic: "Risk Management"
+difficulty: "Advanced"
+excerpt: "Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk."
+readTime: 14
 author: "Birat Gautam"
 authorUrl: "https://birat.codes/#profile"
 ---
 
-## Hallucinations Are Not Random
+## Hallucinations are a risk profile, not a mystery
 
-The conventional wisdom is that hallucinations are unpredictable demons that pop up randomly in LLM outputs. You can't prevent them; you can only detect and correct them after the fact.
+The useful question is not whether a model can hallucinate.
 
-This is wrong.
+The useful question is: what kind of hallucination, how often, and what does it cost when it slips through?
 
-In 2026, with models like GPT-4 and Claude achieving 95%+ accuracy on benchmark tasks, the remaining hallucinations are highly correlated with specific input conditions. They're systematic, not random.
+In production, hallucinations cluster around a small set of situations: conflicting sources, novel inputs, overconfident synthesis, and domains where the model can sound plausible while being wrong.
 
-Understanding this is the key to building production agents that fail safely.
+```mermaid
+flowchart TB
+  A[Input conditions] --> B{Failure mode}
+  B --> C[Wrong fact]
+  B --> D[Wrong policy]
+  B --> E[Wrong action]
+  C --> F[Low correction cost]
+  D --> G[Medium correction cost]
+  E --> H[High correction cost]
+```
 
-### The Predictability Thesis
+That structure is what makes a hallucination budget possible.
 
-Hallucinations tend to cluster around:
+## Classify the failure modes first
 
-1. **Out-of-distribution inputs**: Scenarios the model's training data rarely covered
-2. **Contradiction pressure**: When multiple sources conflict and the model must choose
-3. **Extrapolation boundaries**: When asked to synthesize beyond its training data
-4. **Confidence-accuracy mismatch**: High-confidence outputs on low-confidence tasks
+Not all hallucinations carry the same risk.
 
-Once you characterize your hallucination distribution, you can quantify the cost of each type and decide where to add safeguards.
+1. Feature claims: the agent invents product capabilities.
+2. Pricing claims: the agent states the wrong plan or discount.
+3. Availability claims: the agent says a service exists when it does not.
+4. Timeline claims: the agent invents a delivery date or roadmap.
+5. Procedural claims: the agent tells a user to do the wrong next step.
 
-### Real-World Data: Customer Support Bot
+These categories matter because each one has a different correction cost.
 
-A customer support agent for a SaaS company showed a 2.3% hallucination rate. Seems acceptable—until you analyze the cost.
+## Turn hallucination rate into business risk
+
+A flat accuracy metric hides the actual damage.
+
+What matters is the expected cost of a mistake.
 
 ```python
 from dataclasses import dataclass
 from enum import Enum
 
+
 class HallucinationType(Enum):
-    FEATURE_CLAIM = "feature_claim"
-    PRICING_CLAIM = "pricing_claim"
-    AVAILABILITY_CLAIM = "availability_claim"
-    INTEGRATION_CLAIM = "integration_claim"
-    TIMELINE_CLAIM = "timeline_claim"
+    FEATURE = "feature"
+    PRICING = "pricing"
+    AVAILABILITY = "availability"
+    TIMELINE = "timeline"
+    PROCEDURE = "procedure"
+
 
 @dataclass
 class HallucinationEvent:
-    hallucination_type: HallucinationType
-    input_length: int
-    model_confidence: float
-    output_length: int
-    was_caught: bool
-    cost_of_correction: float
-    days_to_catch: int
+    kind: HallucinationType
+    confidence: float
+    caught: bool
+    correction_cost: float
 
-# Sample data from 3 months of logging
-hallucinations = [
-    HallucinationEvent(HallucinationType.FEATURE_CLAIM, 145, 0.89, 42, True, 150, 2),
-    HallucinationEvent(HallucinationType.PRICING_CLAIM, 89, 0.92, 31, False, 2500, 14),
-    HallucinationEvent(HallucinationType.AVAILABILITY_CLAIM, 234, 0.87, 68, True, 300, 1),
-]
 
-# Analyze by hallucination type
-from collections import defaultdict
-
-by_type = defaultdict(list)
-for h in hallucinations:
-    by_type[h.hallucination_type].append(h)
-
-for hal_type, events in by_type.items():
-    caught_rate = sum(1 for e in events if e.was_caught) / len(events)
-    avg_correction_cost = sum(e.cost_of_correction for e in events) / len(events)
-    
-    print(f"{hal_type.value}: caught={caught_rate:.0%}, cost=${avg_correction_cost}")
+def budget(events: list[HallucinationEvent]) -> dict[str, float]:
+    total_cost = sum(event.correction_cost for event in events)
+    caught_rate = sum(1 for event in events if event.caught) / max(1, len(events))
+    return {"total_cost": total_cost, "caught_rate": caught_rate}
 ```
 
-The critical insight: **Not all hallucinations are equally costly.**
+This is the metric that matters in production: how much damage the model causes before the correction loop catches it.
 
-Pricing claims have a low catch rate and high correction cost (lost trust, potential legal exposure). They're the bottleneck.
+## Build a risk matrix
 
-### The Contrarian Position: Accuracy Metrics Miss Decision Harm
+```mermaid
+quadrantChart
+  title Hallucination Risk Matrix
+  x-axis Low frequency --> High frequency
+  y-axis Low cost --> High cost
+  quadrant-1 Critical
+  quadrant-2 Watch closely
+  quadrant-3 Tolerate with guardrails
+  quadrant-4 Rare but expensive
+  pricing claims: [0.82, 0.86]
+  availability claims: [0.62, 0.74]
+  feature claims: [0.44, 0.30]
+  timeline claims: [0.72, 0.68]
+  procedure claims: [0.58, 0.88]
+```
 
-Standard benchmarks measure accuracy: "Of 1000 outputs, how many were factually correct?"
+The top-right quadrant is where engineering time should go first.
 
-But this misses the real cost: **what happens when the agent makes a decision based on a hallucination?**
+## Defenses should match the cost
 
-A 99% accurate agent that hallucinates on high-stakes decisions is worse than a 95% accurate agent that hallucinates on low-stakes decisions.
+Cheap mistakes can be handled with lightweight validation.
 
-### Actionable Takeaways
+Expensive mistakes need stricter controls.
 
-- [ ] Log every hallucination with type, model confidence, and correction cost
-- [ ] Build a cost matrix for each hallucination type in your domain
-- [ ] Allocate your hallucination prevention budget to the highest-impact types
-- [ ] Implement fact validation for high-cost claim types
-- [ ] Monitor realized hallucination costs daily against budget
-- [ ] For high-stakes decisions, require human review before agent commits
-- [ ] Never use accuracy alone as your success metric—measure cost-of-correction
+- Low-cost claims: post-generation checks and user-visible disclaimers.
+- Medium-cost claims: retrieval validation and source citations.
+- High-cost claims: schema-checked answers, policy gates, or human review.
+- Critical claims: do not let the model commit the action alone.
 
----
+The point is not to eliminate all hallucinations. The point is to spend defense effort where the expected loss is highest.
+
+## What to measure every day
+
+- Hallucination type frequency.
+- Correction cost by type.
+- Time to detection.
+- Time to correction.
+- Confidence versus actual correctness.
+
+If confidence is high and correctness is low, calibration is broken.
+
+## Practical rule
+
+Treat hallucination risk like any other production risk budget.
+
+If the agent can be wrong, classify the wrongness, estimate the cost, and put the expensive cases behind stronger controls.
 
 ## Related Posts
 
+- [Observability for Black-Box Agents: Tracing Decisions in Production](/blog/agent-observability)
+- [When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff](/blog/agent-confidence-thresholds)
 - [State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems](/blog/state-management-agent-memory)
-- [The Tool-Use Illusion: Why Most Agent Frameworks Fail at Production Scale](/blog/tool-use-illusion)
-- [Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should](/blog/token-economics-agent-architecture)

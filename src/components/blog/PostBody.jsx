@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import mermaid from 'mermaid';
 import { trackEvent } from '../../utils/analytics.js';
 import {
   getUrlHost,
@@ -10,6 +11,12 @@ import {
   markdownLikelyHasAffiliateLinks,
 } from '../../utils/linkAttribution.js';
 import './PostBody.css';
+
+mermaid.initialize({
+  startOnLoad: false,
+  securityLevel: 'strict',
+  theme: 'dark',
+});
 
 const CopyButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
@@ -31,6 +38,81 @@ const CopyButton = ({ text }) => {
       )}
     </button>
   );
+};
+
+const toPlainText = (value) => {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') return String(value);
+  if (Array.isArray(value)) return value.map(toPlainText).join('');
+  if (value?.props?.children) return toPlainText(value.props.children);
+  return '';
+};
+
+const slugify = (text) =>
+  String(text)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-');
+
+const normalizeImageSrc = (value) => {
+  if (!value) return '';
+
+  const src = String(value).trim();
+  if (/^(https?:|data:|blob:)/i.test(src)) return src;
+
+  let normalized = src
+    .replace(/^\.\/+/, '')
+    .replace(/^public\//, '')
+    .replace(/^\/public\//, '/');
+
+  if (!normalized.startsWith('/')) {
+    normalized = `/${normalized}`;
+  }
+
+  return normalized;
+};
+
+const MermaidBlock = ({ chart }) => {
+  const id = useId();
+  const containerId = `mermaid-${id.replace(/:/g, '')}`;
+
+  useEffect(() => {
+    let active = true;
+
+    const render = async () => {
+      const target = document.getElementById(containerId);
+      if (!target) return;
+
+      try {
+        const { svg } = await mermaid.render(containerId, chart);
+        if (active) target.innerHTML = svg;
+      } catch {
+        if (active) target.textContent = chart;
+      }
+    };
+
+    render();
+
+    return () => {
+      active = false;
+    };
+  }, [chart, containerId]);
+
+  return <div id={containerId} className="mermaid-block" />;
+};
+
+MermaidBlock.propTypes = {
+  chart: PropTypes.string.isRequired,
+};
+
+const Callout = ({ type = 'note', children }) => (
+  <aside className={`callout callout-${type}`}>{children}</aside>
+);
+
+Callout.propTypes = {
+  type: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 const PostBody = ({ content, postSlug }) => {
@@ -55,6 +137,10 @@ const PostBody = ({ content, postSlug }) => {
             const match = /language-(\w+)/.exec(className || '');
             const codeString = String(children).replace(/\n$/, '');
 
+            if (!inline && match?.[1] === 'mermaid') {
+              return <MermaidBlock chart={codeString} />;
+            }
+
             return !inline && match ? (
               <div className="code-block">
                 <div className="code-block-header">
@@ -71,31 +157,41 @@ const PostBody = ({ content, postSlug }) => {
               </code>
             );
           },
-          h2: ({ children }) => {
-            const text = String(children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^a-z0-9\s-]/g, '')
-              .replace(/\s+/g, '-');
-            return <h2 id={id}>{children}</h2>;
-          },
-          h3: ({ children }) => {
-            const text = String(children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^a-z0-9\s-]/g, '')
-              .replace(/\s+/g, '-');
-            return <h3 id={id}>{children}</h3>;
-          },
+          h2: ({ children }) => (
+            <h2 id={slugify(toPlainText(children))}>{children}</h2>
+          ),
+          h3: ({ children }) => (
+            <h3 id={slugify(toPlainText(children))}>{children}</h3>
+          ),
+          h4: ({ children }) => (
+            <h4 id={slugify(toPlainText(children))}>{children}</h4>
+          ),
           img: ({ src, alt }) => (
-            <figure className="post-figure">
-              <img src={src} alt={alt || ''} loading="lazy" />
-              {alt && <figcaption>{alt}</figcaption>}
-            </figure>
+            <img
+              className="post-md-image"
+              src={normalizeImageSrc(src)}
+              alt={alt || ''}
+              loading="lazy"
+              decoding="async"
+            />
           ),
-          blockquote: ({ children }) => (
-            <blockquote className="post-quote">{children}</blockquote>
-          ),
+          blockquote: ({ children }) => {
+            const text = toPlainText(children).trim();
+            const calloutMatch = text.match(
+              /^\[!(NOTE|TIP|WARNING|DANGER)\]\s*/i,
+            );
+
+            if (calloutMatch) {
+              const type = calloutMatch[1].toLowerCase();
+              const body = text.replace(
+                /^\[!(NOTE|TIP|WARNING|DANGER)\]\s*/i,
+                '',
+              );
+              return <Callout type={type}>{body}</Callout>;
+            }
+
+            return <blockquote className="post-quote">{children}</blockquote>;
+          },
           a: ({ href, children }) => {
             const external = isExternalUrl(href);
             const affiliate = isAffiliateUrl(href);

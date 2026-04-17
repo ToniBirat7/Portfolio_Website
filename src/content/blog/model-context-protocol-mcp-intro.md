@@ -1,87 +1,159 @@
 ---
 title: "The Architecture of Agency: Model Context Protocol (MCP)"
 date: "2026-04-15"
-dateModified: "2026-04-16"
-tags: ["Agentic AI", "MCP", "AI Systems"]
-excerpt: "Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments."
-readTime: 12
+dateModified: "2026-04-17"
+tags: ["Agentic AI", "MCP", "AI Systems", "Developer Experience", "Tooling"]
+excerpt: "MCP turns tool integration from custom glue code into a protocol. This guide explains the architecture, the trade-offs, and how to build a server that is actually useful in production."
+readTime: 16
 coverImage: "/blog/mcp/mcp.png"
 author: "Birat Gautam"
 authorUrl: "https://birat.codes/#profile"
+difficulty: "intermediate"
+topic: "AI Systems"
 ---
 
-## What is Model Context Protocol (MCP)?
+## Why MCP matters
 
-The **Model Context Protocol (MCP)** is an open standard designed to harmonize how AI models interact with their surrounding environment. As we move from standalone chat models to **Agentic Workflows**, we need a robust way to give LLMs "hands" and "eyes."
+Before MCP, every model integration was a one-off project. If you wanted your agent to read files, query a database, or call an internal API, you wrote a custom adapter for each stack and duplicated the same plumbing across providers.
 
-MCP provides a standardized interface for:
-1. **Tools**: Execution capabilities (e.g., searching the web, running code).
-2. **Resources**: Data access (e.g., reading local files, querying databases).
-3. **Prompts**: Contextual templates for complex tasks.
+MCP changes the shape of the problem. It gives you a protocol instead of a pile of wrappers. That matters because protocols create ecosystems: one server can serve many clients, and one client can talk to many servers.
 
-> "MCP is the USB-C version for AI Model connectivity. It doesn't matter who built the model or who built the tool; if they speak MCP, they can collaborate instantly."
+> [!TIP]
+> If your current agent architecture has model-specific glue code scattered across services, MCP is usually a better abstraction boundary than more prompt engineering.
 
----
+## The mental model
 
-## Technical Architecture
+```mermaid
+flowchart LR
+  Host[Host App\nDesktop, IDE, or Agent UI] --> Client[MCP Client Layer]
+  Client --> Server1[Filesystem MCP Server]
+  Client --> Server2[Database MCP Server]
+  Client --> Server3[Internal API MCP Server]
+  Server1 --> Resource1[Resources]
+  Server2 --> Tool1[Tools]
+  Server3 --> Prompt1[Prompts]
+```
 
-At its core, MCP follows a **Client-Server-Host** pattern. 
+The important shift is not only technical. It is organizational. A host owns the conversation. A client owns transport and connection management. A server owns a narrow capability surface.
 
-### 1. The Host
-The application where the user interacts with the AI (e.g., Claude Desktop, IDEs, or a custom-built agent interface).
+That separation keeps your agent from becoming a monolith of tool calls.
 
-### 2. The Client
-A layer within the Host that manages individual connections to various servers.
+![MCP architecture overview](/blog/mcp/architecture.png)
 
-### 3. The Server
-Exposes specific resources or tools via the protocol. For example, a "Google Search MCP Server" or a "Local Filesystem MCP Server."
+## What MCP standardizes
 
-![MCP Architecture](/blog/mcp/archi2.png)
-*Figure 1: Traditional siloed connectivity vs. the standardized MCP ecosystem.*
+MCP is most useful when the model needs to interact with the real world in a structured way.
 
----
+### Tools
 
-## Why standardizing Context matters?
+Tools are actions. They should be explicit, typed, and easy to audit. If the agent can trigger a side effect, that side effect should live behind a tool boundary.
 
-Before MCP, every integration was a customized, brittle piece of glue-code. If you wanted your agent to use a PostgreSQL database, you had to write a specific wrapper for OpenAI, another for Anthropic, and another for Llama.
+### Resources
 
-With MCP:
-- **Write once**: Build a database connector as an MCP server.
-- **Run anywhere**: Any MCP-compliant model can now query that database.
+Resources are data. They are read-only by default and should be easy to paginate, filter, and stream.
 
-### Core Capabilities
-- **Sampling**: When a server needs the model to perform a task (e.g., "Summarize this file").
-- **Transport**: Supports both `stdio` (local processes) and `HTTP/SSE` (cloud-based).
+### Prompts
 
----
+Prompts are reusable context packages. They are the difference between "here is a giant system prompt" and "here is a named, versioned behavior contract."
 
-## Implementation Example: A Simple Python Server
+### Sampling
 
-Here is how you can define an MCP server in Python to provide system metadata:
+Sampling lets the server request model assistance during a workflow. That is useful when the server has domain logic but still needs the model for reasoning or summarization.
+
+## A practical implementation pattern
+
+The best MCP server is not a demo that looks clever in a README. It is a narrow service that does one job well.
+
+For example, a local system-monitor server might expose:
+
+- `get_system_load`
+- `list_recent_errors`
+- `read_config`
+- `summarize_log_window`
 
 ```python
 from mcp.server.fastmcp import FastMCP
 
-# Create an MCP server
+import psutil
+
 mcp = FastMCP("SystemMonitor")
 
+
 @mcp.tool()
-def get_system_load() -> str:
-    """Returns the current CPU and Memory load."""
-    import psutil
-    return f"CPU: {psutil.cpu_percent()}% | RAM: {psutil.virtual_memory().percent}%"
+def get_system_load() -> dict:
+    """Return a structured snapshot of current machine load."""
+    return {
+        "cpu_percent": psutil.cpu_percent(interval=0.2),
+        "memory_percent": psutil.virtual_memory().percent,
+        "disk_percent": psutil.disk_usage("/").percent,
+    }
+
+
+@mcp.tool()
+def summarize_recent_logs(path: str, limit: int = 80) -> dict:
+    """Read the tail of a log file and return a compact summary."""
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            lines = handle.readlines()[-limit:]
+        return {
+            "path": path,
+            "line_count": len(lines),
+            "preview": "".join(lines[-20:]),
+        }
+    except FileNotFoundError:
+        return {"error": f"File not found: {path}"}
+
 
 if __name__ == "__main__":
     mcp.run()
 ```
 
+This is more valuable than a generic demo because it shows two things production systems need: narrow scope and predictable outputs.
+
+## Where MCP improves the stack
+
+MCP is most useful in systems where the model is not the entire product. In practice, that means:
+
+1. Desktop hosts that need secure local tools.
+2. IDE integrations that need project-aware context.
+3. Internal agent platforms that talk to databases or ticketing systems.
+4. Multi-model apps that should not duplicate tool adapters.
+
+## What to watch out for
+
+MCP is not a magic answer to bad architecture. If your server exposes too many tools, you will recreate the same complexity you were trying to remove.
+
+Keep these rules in mind:
+
+- Prefer small, composable tool surfaces.
+- Return structured data, not prose, whenever possible.
+- Version your prompts and schema contracts.
+- Treat server outputs as untrusted until validated.
+- Put permissions and audit logging around anything that can mutate state.
+
+> [!WARNING]
+> A protocol makes integration easier, but it also makes overexposure easier. If every internal service becomes an MCP server, you have to be more disciplined about scope and authentication.
+
+## A decision checklist
+
+Use MCP when:
+
+- You need one integration standard for many hosts or models.
+- Your tools have structured inputs and outputs.
+- You care about separation between reasoning and execution.
+
+Do not use MCP as a band-aid when:
+
+- The integration is a one-off script.
+- The capability is not stable enough to publish as a contract.
+- You cannot define safe permissions or outputs.
+
+## The bigger picture
+
+MCP matters because it turns AI tooling into infrastructure. That is the shift from demos to ecosystems.
+
+The teams that win with agentic systems will not be the teams that call the most tools. They will be the teams that define the cleanest boundaries.
+
 ---
 
-## The Future: Agentic Ecosystems
-
-As the ecosystem grows, we will see the rise of **MCP Marketplaces** where researchers and developers share specialized servers. Imagine a "Bioinformatics MCP Server" that gives any LLM the ability to analyze genomic data with zero custom code.
-
-This is the foundation of true **Agentic Autonomy**. 
-
----
-*Authored by Birat Gautam. Exploring the limits of AI-human collaboration.*
+*If you build one MCP server well, you can reuse it across many hosts. That is the real multiplier.*

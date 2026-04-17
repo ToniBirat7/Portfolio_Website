@@ -34,19 +34,67 @@ const BlogHome = () => {
     );
   }
 
+  const featuredPosts = posts.slice(0, 3);
+  const focusTopics = [
+    ...new Set(posts.flatMap((post) => post.tags).filter(Boolean)),
+  ].slice(0, 6);
+
   return (
-    <div className="blog-page">
+    <div className="blog-page blog-home-page">
       <BlogSEO post={{ slug: '' }} type="list" />
       <BlogNav />
 
       <main className="blog-home">
         <header className="blog-hero">
+          <span className="blog-hero-kicker">Field notes for builders</span>
           <h1>Birat&apos;s Notebook</h1>
           <p>
-            Deep dives into AI Agents, MLOps, and the systems behind
-            intelligence.
+            Practical, opinionated posts on AI systems, production engineering,
+            and the lessons that only show up after you ship.
           </p>
+          <div className="blog-hero-metrics" aria-label="Blog summary">
+            <div>
+              <strong>{posts.length}</strong>
+              <span>articles</span>
+            </div>
+            <div>
+              <strong>{focusTopics.length}</strong>
+              <span>topics</span>
+            </div>
+            <div>
+              <strong>reader-first</strong>
+              <span>editorial focus</span>
+            </div>
+          </div>
+          {focusTopics.length > 0 && (
+            <div className="blog-topic-row" aria-label="Focus topics">
+              {focusTopics.map((topic) => (
+                <span key={topic} className="blog-topic-pill">
+                  {topic}
+                </span>
+              ))}
+            </div>
+          )}
         </header>
+
+        {featuredPosts.length > 0 && (
+          <section className="featured-posts" aria-label="Featured articles">
+            <h2>Featured reads</h2>
+            <div className="featured-grid">
+              {featuredPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  to={`/blog/${post.slug}`}
+                  className="featured-card"
+                >
+                  <span className="featured-tag">Featured</span>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         <NewsletterSignup source="blog_home" />
 

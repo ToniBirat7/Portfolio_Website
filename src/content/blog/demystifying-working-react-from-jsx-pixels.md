@@ -1,237 +1,142 @@
 ---
 title: "Demystifying the Working of ReactJs: From JSX to Pixels"
 date: "2024-08-30"
-dateModified: "2024-08-30"
-tags: ["React", "JSX", "Babel", "Vite", "Frontend"]
-excerpt: "A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds."
-readTime: 15
-coverImage: "/blog/react-jsx-pixels/image-01.jpg"
+dateModified: "2026-04-17"
+tags: ["React", "JSX", "Babel", "Vite", "Frontend", "Build Tools", "Rendering"]
+topic: "Frontend Fundamentals"
+difficulty: "Beginner"
+excerpt: "A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen."
+readTime: 12
 author: "Birat Gautam"
-authorUrl: "https://np.linkedin.com/in/biratgautam7"
+authorUrl: "https://birat.codes/#profile"
 ---
 
-> Source: LinkedIn article by Birat Gautam
-> Original URL: https://www.linkedin.com/pulse/demystifying-working-react-from-jsx-pixels-birat-gautam-4rqif/
+React feels magical when you are new to it. You write a component, run the app, and pixels appear. But in reality, there is a very concrete pipeline from source code to browser rendering.
 
-Ever wondered how React transforms complex UI code into blazing-fast websites? Or how JSX, a seemingly simple syntax that turns into powerful JavaScript under the hood? Let’s dive into the magic that powers modern web development.
+This article breaks that pipeline into practical steps so you can reason about performance, debugging, and build output with confidence.
 
-To understand the working of React and JSX under the hood, this article is divided into two parts.
+## The high-level pipeline
 
----
+```mermaid
+flowchart LR
+	A[Write JSX in source files] --> B[Transform JSX to JavaScript]
+	B --> C[Bundle modules and assets]
+	C --> D[Ship optimized files]
+	D --> E[Browser downloads and executes]
+	E --> F[React renders to DOM]
+```
 
-## Part One: Without JSX
+If you understand each stage, React becomes much less mysterious.
 
-Before diving deep into React without JSX, keep one thing in mind.
+## Stage 1: What the browser understands
 
-A browser directly understands HTML, CSS, and JavaScript. It does not understand JSX. That is why transpilers like Babel and build tools like Webpack or Vite are used to convert JSX into browser-executable JavaScript.
+A browser can parse HTML, CSS, and JavaScript. It cannot parse JSX syntax like this directly:
 
-### Example
+```jsx
+const node = <h1>Hello, React!</h1>;
+```
 
-Suppose we have a simple HTML file with a root div. We want to render an h1 containing "Hello, React!" inside this div using React.
+When JSX reaches the browser untransformed, you get errors like unexpected token `<`.
 
-![Original Article Image 1](/blog/react-jsx-pixels/image-03.jpg)
+That is why JSX needs a transformation step before execution.
 
-If we open this HTML file in the browser, the h1 renders inside #root because we used React.createElement() to build the element and ReactDOM to render it.
+![JSX source example](/blog/react-jsx-pixels/image-05.jpg)
 
-React.createElement() is just a JavaScript function exposed by the React library loaded in the page.
+## Stage 2: What JSX really becomes
 
-### How React and ReactDOM become available globally
+JSX is syntax sugar. It is translated into JavaScript function calls.
 
-They are available because we load their script files in the HTML page.
+```jsx
+const node = <h1 className="title">Hello</h1>;
+```
 
-When the browser parses HTML top-to-bottom and finds a script tag, it:
-1. Downloads the script from src.
-2. Blocks further parsing until download completes.
-3. Executes the script immediately.
-4. Exposes globals like React and ReactDOM to window.
+becomes roughly:
 
-Example CDN links used in explanation:
-- https://unpkg.com/react@17/umd/react.development.js
-- https://unpkg.com/react-dom@17/umd/react-dom.development.js
+```js
+const node = React.createElement("h1", { className: "title" }, "Hello");
+```
 
-### Accessing React and ReactDOM in console
+This translation is why JSX feels declarative while still being plain JavaScript at runtime.
 
-Because both are attached to window, they can be inspected directly in browser console.
+![JSX transform illustration](/blog/react-jsx-pixels/image-10.jpg)
 
-![Original Article Image 2](/blog/react-jsx-pixels/image-04.jpg)
+## Stage 3: Babel and syntax transforms
 
-### Problem and solution
+Babel is one of the tools that can transform modern syntax (including JSX) into JavaScript your environment can execute.
 
-If those libraries are downloaded every page load, performance suffers due to repeated HTTP requests.
+Typical flow:
 
-Common solution:
-- Use bundlers (Webpack/Vite) to ship one optimized bundle.
+1. Parse source into an AST.
+2. Apply transformation plugins.
+3. Emit transformed JavaScript.
 
-If bundling is not used, browser caching may still reduce repeated downloads.
+In modern Vite projects, you normally do not wire Babel manually for basic React JSX support, but the conceptual transform step still exists.
 
----
+## Stage 4: Vite in development vs production
 
-## Part Two: With JSX
+Vite has two personalities:
 
-In the earlier example, no JSX was used, so no transpiler was required.
+1. Development mode: fast server and on-demand module transforms.
+2. Production build: optimized bundling, minification, and hashed assets.
 
-### What changes when JSX is used
+```mermaid
+flowchart TB
+	A[npm run dev] --> B[Fast local server]
+	B --> C[On-demand transforms]
 
-If we rewrite the same logic using JSX syntax, a browser cannot execute it directly.
+	D[npm run build] --> E[Dependency graph]
+	E --> F[Rollup bundle]
+	F --> G[Minified hashed assets in dist]
+```
 
-![Original Article Image 3](/blog/react-jsx-pixels/image-05.jpg)
+That split is one reason Vite feels fast while still producing production-grade output.
 
-If run directly, you will see an error like:
-- Uncaught SyntaxError: Unexpected token '<'
+## Stage 5: What npm run build actually does
 
-### What is JSX
+When you run a production build, Vite typically does the following:
 
-JSX (JavaScript XML) is a syntax extension that lets you write HTML-like UI code in JavaScript files.
+1. Reads your config and entry points.
+2. Resolves imports and builds the module graph.
+3. Bundles JavaScript and CSS.
+4. Applies optimizations (tree-shaking, minification, hashing).
+5. Writes final assets to dist.
 
-It is not a separate language. It is syntactic sugar that gets transformed into React.createElement() calls.
+![Vite build output example](/blog/react-jsx-pixels/image-16.jpg)
 
-![Original Article Image 4](/blog/react-jsx-pixels/image-06.jpg)
+Those hashed filenames are intentional. They help long-term browser caching and safe cache-busting on deploy.
 
-### Features of JSX
+## Stage 6: From bundle to pixels
 
-1. Embedding expressions with {}.
+At runtime, the browser loads index.html and the referenced bundle(s). React then mounts into a root element and updates the DOM as state changes.
 
-![Original Article Image 5](/blog/react-jsx-pixels/image-07.jpg)
-
-2. Passing attributes.
-
-![Original Article Image 6](/blog/react-jsx-pixels/image-08.jpg)
-
-In JSX, use className instead of class because class is a reserved keyword in JavaScript.
-
-3. Inline styles using JavaScript objects.
-
-![Original Article Image 7](/blog/react-jsx-pixels/image-09.jpg)
-
-### JSX to JavaScript
-
-To execute JSX in browsers, it must be transpiled to plain JavaScript equivalent.
-
-![Original Article Image 8](/blog/react-jsx-pixels/image-10.jpg)
-
----
-
-## What is a Transpiler?
-
-A transpiler converts source code from one language/syntax to equivalent source code in another.
-
-In React's JSX context, Babel converts JSX into valid JavaScript.
-
-### Babel transpilation flow
-
-1. Input code: developer writes JSX in .jsx files.
-2. Parsing: Babel builds an AST.
-3. Transformation: Babel converts JSX nodes and modern syntax as configured.
-4. Output: Babel emits plain JavaScript.
-5. Execution: browser runs emitted JavaScript.
-
----
-
-## Babel Configuration
-
-There are two common ways to configure Babel:
-
-### 1. Babel via CDN
-
-You can include Babel in HTML for demos/small cases, then mark scripts with type="text/babel".
-
-![Original Article Image 9](/blog/react-jsx-pixels/image-11.jpg)
-
-How browser behaves:
-- Loads React and ReactDOM first.
-- Loads Babel.
-- Babel transpiles text/babel scripts in browser.
-- Browser executes transpiled output.
-
-Important note:
-- Babel-in-browser is not recommended for production because runtime transpilation adds overhead.
-
-### 2. Babel/transformation via build tools
-
-In production React apps, transpilation and bundling are handled by build tools like Vite or Webpack.
-
-For the walkthrough, Vite is used.
-
-![Original Article Image 10](/blog/react-jsx-pixels/image-12.jpg)
-![Original Article Image 11](/blog/react-jsx-pixels/image-13.jpg)
-
----
-
-## What is a Build Tool?
-
-A build tool automates compilation, transformation, bundling, optimization, and output generation.
-
-For React apps, a build tool bundles dependencies (including framework code) and outputs deployment-ready assets.
-
-### Vite walkthrough summary
-
-- Create project.
-- Install React and ReactDOM.
-- Build components in JSX.
-- Configure build behavior.
-- Run dev server.
-- Run production build.
-
-![Original Article Image 12](/blog/react-jsx-pixels/image-14.jpg)
-![Original Article Image 13](/blog/react-jsx-pixels/image-15.jpg)
-
-### Why Vite is fast
-
-Vite uses esbuild for fast transformation and Rollup for production bundling of assets.
-
----
-
-## Understanding `npm run build` in Vite
-
-When you run build:
-
-1. Vite reads config.
-2. Builds dependency graph from entry points.
-3. Bundles app code and dependencies.
-4. Minifies and optimizes output.
-5. Writes production files to dist.
-
-![Original Article Image 14](/blog/react-jsx-pixels/image-16.jpg)
-
-The dist folder typically contains:
-- Optimized index.html
-- Bundled hashed JS/CSS files
-- Copied and optimized static assets
-
----
-
-## How Browser Works After Build
-
-Once deployed:
-
-1. Browser requests dist/index.html.
-2. Browser downloads optimized hashed assets.
-3. Browser executes bundled JavaScript.
-4. React mounts app into root element.
-
-Now React/ReactDOM do not need separate CDN downloads because they are bundled.
-
-![Original Article Image 15](/blog/react-jsx-pixels/image-17.jpg)
-
----
-
-## Final Thoughts
-
-This write-up explained:
-- How React/ReactDOM become globally available without JSX.
-- Why browsers fail on raw JSX.
-- How Babel transpiles JSX.
-- How Vite build flow prepares production-ready output.
-- How browser behavior differs before and after build.
-
-Understanding these internals helps developers build more efficient React applications and reason better about performance, tooling, and deployment.
-
----
-
-## Local Image Archive from Original Post
-
-For completeness, the available downloaded media assets from the original article are archived in:
-
-- `/public/blog/react-jsx-pixels/image-01.jpg` through `/public/blog/react-jsx-pixels/image-17.jpg`
-
-If you want, I can additionally map each image to exact original section labels once we run OCR on the screenshots.
+```mermaid
+sequenceDiagram
+	participant Browser
+	participant Bundle
+	participant React
+	participant DOM
+	Browser->>Bundle: Download JS/CSS assets
+	Bundle->>React: Initialize app
+	React->>DOM: Mount to #root
+	React->>DOM: Apply updates on state/props changes
+```
+
+The browser never executes JSX directly in production. It executes the transformed and bundled JavaScript.
+
+## Practical debugging tips from this model
+
+- If JSX syntax errors appear in browser, transformation likely did not run.
+- If app works in dev but not in build, inspect bundling assumptions and dynamic imports.
+- If styles or scripts look stale, verify hashed asset references and cache behavior.
+- If initial load is slow, inspect bundle composition and split points.
+
+## Why this matters
+
+Knowing the JSX-to-pixels path helps you:
+
+- Debug faster.
+- Build better mental models of React.
+- Make smarter performance decisions.
+- Understand what your deployment pipeline is actually shipping.
+
+React becomes easier once you stop treating it as magic and start treating it as a predictable toolchain.

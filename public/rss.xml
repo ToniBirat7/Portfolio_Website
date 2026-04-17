@@ -5,128 +5,152 @@
     <link>https://birat.codes/blog</link>
     <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
     <language>en-US</language>
-    <lastBuildDate>Thu, 16 Apr 2026 18:52:06 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2026 06:41:24 GMT</lastBuildDate>
     <item>
       <title>When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff</title>
       <link>https://birat.codes/blog/agent-confidence-thresholds</link>
       <guid>https://birat.codes/blog/agent-confidence-thresholds</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Agents need explicit rejection regions and must know their limits. Appropriate autonomy beats unlimited autonomy. Learn to build confidence thresholds that keep humans in the loop.</description>
+      <description>Agents need rejection regions and escalation policies. The right goal is not maximum autonomy, but appropriate autonomy with clear human handoff points.</description>
       <category>Agentic AI</category>
       <category>Human-AI Collaboration</category>
       <category>Risk Management</category>
+      <category>Decision Policy</category>
+      <category>Autonomy</category>
     </item>
     <item>
       <title>Observability for Black-Box Agents: Tracing Decisions in Production</title>
       <link>https://birat.codes/blog/agent-observability</link>
       <guid>https://birat.codes/blog/agent-observability</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Agent observability requires reasoning traces, not just logs. You need to see why the agent acted, not just what it did.</description>
+      <description>Agent observability is about reconstructing decisions, not just timing requests. You need traces that show what the agent saw, believed, and decided.</description>
       <category>Agentic AI</category>
       <category>Observability</category>
       <category>Production Systems</category>
+      <category>Debugging</category>
+      <category>Tracing</category>
     </item>
     <item>
       <title>The Hallucination Budget: Quantifying Risk for Mission-Critical Agents</title>
       <link>https://birat.codes/blog/hallucination-budget</link>
       <guid>https://birat.codes/blog/hallucination-budget</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Hallucinations aren&apos;t random. They&apos;re predictable under specific input conditions. Here&apos;s how to quantify your cost-of-correction and build agents that fail safely.</description>
+      <description>Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk.</description>
       <category>Agentic AI</category>
       <category>Risk Management</category>
       <category>Production Systems</category>
+      <category>Safety</category>
+      <category>Evaluation</category>
     </item>
     <item>
       <title>Agents in the Loop: Designing for Human-AI Collaboration Instead of Replacement</title>
       <link>https://birat.codes/blog/human-ai-collaboration</link>
       <guid>https://birat.codes/blog/human-ai-collaboration</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>The best production agents augment human expertise, not replace it. This requires different architecture: partial tasks, confidence signals, and designed interruption points.</description>
+      <description>The best agents do not replace people. They reduce human effort on routine work, surface confidence clearly, and make intervention cheap when the case is borderline.</description>
       <category>Agentic AI</category>
       <category>Human-AI Collaboration</category>
       <category>UX Design</category>
+      <category>Workflow Design</category>
+      <category>Decision Support</category>
     </item>
     <item>
       <title>The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average</title>
       <link>https://birat.codes/blog/latency-percentiles</link>
       <guid>https://birat.codes/blog/latency-percentiles</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Agentic latency isn&apos;t Gaussian—it&apos;s multimodal and heavy-tailed. User experience is determined by percentiles, not averages.</description>
+      <description>Agent latency is heavy-tailed, not normal. The user experience is governed by tail latency, stage budgets, and the failure paths that inflate p95 and p99.</description>
       <category>Agentic AI</category>
       <category>Performance</category>
       <category>Production Systems</category>
+      <category>Observability</category>
+      <category>SRE</category>
     </item>
     <item>
       <title>Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model</title>
       <link>https://birat.codes/blog/orchestrating-agents-scale</link>
       <guid>https://birat.codes/blog/orchestrating-agents-scale</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Why throwing a bigger model at multi-agent problems is a trap. Specialized agents + orchestration layers beat a single monolithic agent every time.</description>
+      <description>Coordination complexity does not disappear when you use a bigger model. A supervisor plus specialized agents usually scales better than one monolithic agent.</description>
       <category>Agentic AI</category>
       <category>Multi-Agent Systems</category>
       <category>Architecture</category>
+      <category>Orchestration</category>
+      <category>Workflows</category>
     </item>
     <item>
       <title>Prompt Injection in Agents: Defense Patterns That Actually Work</title>
       <link>https://birat.codes/blog/prompt-injection-defense</link>
       <guid>https://birat.codes/blog/prompt-injection-defense</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Prompt injection in agents isn&apos;t a ChatGPT problem—it&apos;s an architecture problem. Real defenses are architectural, not literary.</description>
+      <description>Prompt injection is not a prompt-writing bug. It is an architecture problem across retrieval, memory, tools, and output handling.</description>
       <category>Agentic AI</category>
       <category>Security</category>
       <category>Production Systems</category>
+      <category>Prompt Injection</category>
+      <category>Input Validation</category>
     </item>
     <item>
       <title>State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems</title>
       <link>https://birat.codes/blog/state-management-agent-memory</link>
       <guid>https://birat.codes/blog/state-management-agent-memory</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Vector databases are sexy. Event-sourcing is not. Here&apos;s why deterministic, versioned memory is what mission-critical agents actually need for reproducibility and compliance.</description>
+      <description>Vector search is useful, but deterministic event logs are what make long-running agents auditable, reproducible, and safe to debug after the fact.</description>
       <category>Agentic AI</category>
       <category>State Management</category>
       <category>Production Systems</category>
+      <category>Event Sourcing</category>
+      <category>Compliance</category>
     </item>
     <item>
       <title>Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should</title>
       <link>https://birat.codes/blog/token-economics-agent-architecture</link>
       <guid>https://birat.codes/blog/token-economics-agent-architecture</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>You&apos;re optimizing prompts when you should be optimizing architecture. Token efficiency is architectural, not literary.</description>
+      <description>Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls.</description>
       <category>Agentic AI</category>
       <category>Cost Optimization</category>
       <category>Architecture</category>
+      <category>Caching</category>
+      <category>Model Routing</category>
     </item>
     <item>
       <title>The Tool-Use Illusion: Why Most Agent Frameworks Fail at Production Scale</title>
       <link>https://birat.codes/blog/tool-use-illusion</link>
       <guid>https://birat.codes/blog/tool-use-illusion</guid>
       <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Why adding more tools to your agent stack creates exponential latency costs. Discover why orchestrating failures—not accumulating tools—is the real bottleneck.</description>
+      <description>Adding more tools does not make an agent smarter if every decision adds latency, retries, and hidden orchestration cost. Here is how to design tool flows that stay fast and debuggable.</description>
       <category>Agentic AI</category>
       <category>Production Systems</category>
       <category>Architecture</category>
+      <category>Latency</category>
+      <category>Tooling</category>
     </item>
     <item>
       <title>The Architecture of Agency: Model Context Protocol (MCP)</title>
       <link>https://birat.codes/blog/model-context-protocol-mcp-intro</link>
       <guid>https://birat.codes/blog/model-context-protocol-mcp-intro</guid>
       <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Exploring the Model Context Protocol (MCP) — the new standard for connecting AI models to external tools, data, and environments.</description>
+      <description>MCP turns tool integration from custom glue code into a protocol. This guide explains the architecture, the trade-offs, and how to build a server that is actually useful in production.</description>
       <category>Agentic AI</category>
       <category>MCP</category>
       <category>AI Systems</category>
+      <category>Developer Experience</category>
+      <category>Tooling</category>
     </item>
     <item>
       <title>Demystifying the Working of ReactJs: From JSX to Pixels</title>
       <link>https://birat.codes/blog/demystifying-working-react-from-jsx-pixels</link>
       <guid>https://birat.codes/blog/demystifying-working-react-from-jsx-pixels</guid>
       <pubDate>Fri, 30 Aug 2024 00:00:00 GMT</pubDate>
-      <description>A beginner-friendly deep dive into how React and JSX work under the hood, from createElement to transpilation and production builds.</description>
+      <description>A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen.</description>
       <category>React</category>
       <category>JSX</category>
       <category>Babel</category>
       <category>Vite</category>
       <category>Frontend</category>
+      <category>Build Tools</category>
+      <category>Rendering</category>
     </item>
   </channel>
 </rss>

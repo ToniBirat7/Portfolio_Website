@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
-import { getPostBySlug, getAdjacentPosts } from '../../utils/blogLoader';
+import {
+  getAdjacentPosts,
+  getPostBySlug,
+  getRelatedPosts,
+} from '../../utils/blogLoader';
 import BlogNav from './BlogNav';
 import BlogSEO from './BlogSEO';
 import PostBody from './PostBody';
@@ -63,19 +67,19 @@ const TableOfContents = ({ toc }) => {
 
   return (
     <aside className="toc-sidebar" aria-label="Table of contents">
-      <div className="toc-sticky">
-        <h4 className="toc-title">On this page</h4>
+      <details className="toc-sticky" open>
+        <summary className="toc-summary">On this page</summary>
         <ul className="toc-list">
           {toc.map(({ id, text, level }) => (
             <li
               key={id}
-              className={`toc-item ${level === 3 ? 'toc-sub' : ''} ${activeId === id ? 'toc-active' : ''}`}
+              className={`toc-item ${level >= 3 ? 'toc-sub' : ''} ${activeId === id ? 'toc-active' : ''}`}
             >
               <a href={`#${id}`}>{text}</a>
             </li>
           ))}
         </ul>
-      </div>
+      </details>
     </aside>
   );
 };
@@ -222,15 +226,21 @@ const BlogPost = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [adjacent, setAdjacent] = useState({ prev: null, next: null });
+  const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
+  const hasInlineAds =
+    Boolean(import.meta.env.VITE_ADSENSE_CLIENT_ID) &&
+    Boolean(import.meta.env.VITE_ADSENSE_BLOG_SLOT_ID);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const load = async () => {
       const data = await getPostBySlug(slug);
       const adj = await getAdjacentPosts(slug);
+      const rel = await getRelatedPosts(slug, 3);
       setPost(data);
       setAdjacent(adj);
+      setRelated(rel);
       setLoading(false);
     };
     load();
@@ -291,7 +301,7 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="blog-page">
+    <div className="blog-page blog-post-page">
       <BlogSEO post={post} />
       <ReadingProgress />
       <BlogNav />
@@ -331,7 +341,6 @@ const BlogPost = () => {
               alt={post.title}
               loading="eager"
               decoding="async"
-              fetchPriority="high"
             />
           </figure>
         )}
@@ -343,7 +352,9 @@ const BlogPost = () => {
         </div>
 
         {/* ── Ad Slot (inline, after content) ── */}
-        <AdSlot placement="blog-inline" width="300px" height="250px" />
+        {hasInlineAds && (
+          <AdSlot placement="blog-inline" width="300px" height="250px" />
+        )}
 
         <NewsletterSignup source="blog_post" postSlug={post.slug} />
 
@@ -382,6 +393,25 @@ const BlogPost = () => {
               )}
             </div>
           </nav>
+
+          {related.length > 0 && (
+            <section className="related-posts" aria-label="Related posts">
+              <h2>Read next</h2>
+              <div className="related-post-grid">
+                {related.map((item) => (
+                  <Link
+                    key={item.slug}
+                    to={`/blog/${item.slug}`}
+                    className="related-post-card"
+                  >
+                    <span className="related-label">Related</span>
+                    <strong>{item.title}</strong>
+                    <p>{item.excerpt}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
         </footer>
       </article>
 

@@ -1,87 +1,145 @@
 ---
 title: "Observability for Black-Box Agents: Tracing Decisions in Production"
 date: "2026-04-16"
-dateModified: "2026-04-16"
-tags: ["Agentic AI", "Observability", "Production Systems"]
-excerpt: "Agent observability requires reasoning traces, not just logs. You need to see why the agent acted, not just what it did."
-readTime: 16
+dateModified: "2026-04-17"
+tags: ["Agentic AI", "Observability", "Production Systems", "Debugging", "Tracing"]
+topic: "Production Systems"
+difficulty: "Intermediate"
+excerpt: "Agent observability is about reconstructing decisions, not just timing requests. You need traces that show what the agent saw, believed, and decided."
+readTime: 15
 author: "Birat Gautam"
 authorUrl: "https://birat.codes/#profile"
 ---
 
-## The Observability Gap
+## Why normal logs are not enough
 
-Traditional APM tools track which service was slow. But with agents, the real questions are:
+Traditional logging tells you that a request failed.
 
-- **Why did the agent make this decision?**
-- **What facts influenced it?**
-- **Where was the error in reasoning?**
+Agent observability has to answer a harder question: why did the system choose that action in the first place?
 
-These questions require *reasoning traces*, not distributed traces.
+For agents, the useful unit of inspection is not a service call. It is a decision path.
 
-### What to Instrument
+```mermaid
+flowchart TB
+  A[User request] --> B[Intent classification]
+  B --> C[Retrieve facts]
+  C --> D[Reason over facts]
+  D --> E{Confidence high enough?}
+  E -- yes --> F[Execute tool or respond]
+  E -- no --> G[Escalate or ask clarifying question]
+```
+
+If you cannot replay this path, you cannot really debug the agent.
+
+## What to record at each step
+
+Good traces are structured, not just verbose.
+
+1. The input the step received.
+2. The output the step produced.
+3. The confidence or score attached to the step.
+4. The sources that influenced the decision.
+5. The tool call or side effect that followed.
+
+That is enough to reconstruct most failures without dumping the full prompt into every log line.
+
+## A trace schema that stays useful
 
 ```python
+from dataclasses import dataclass, asdict
+from typing import Any
+import time
+
+
+@dataclass
+class ReasoningEvent:
+    decision_id: str
+    step: str
+    input_snapshot: dict[str, Any]
+    output_snapshot: dict[str, Any]
+    confidence: float
+    sources: list[str]
+    reasoning: str
+    created_at: float
+
+
 class ReasoningTracer:
     def __init__(self):
-        self.traces = []
-    
-    def log_reasoning_step(self, 
-                          step_type: str,
-                          input_data: dict,
-                          output: dict,
-                          confidence: float,
-                          reasoning: str):
-        """Log a single reasoning step."""
-        self.traces.append({
-            "type": step_type,  # "retrieve", "classify", "decide"
-            "input": input_data,
-            "output": output,
-            "confidence": confidence,
-            "reasoning": reasoning,
-            "timestamp": time.time()
-        })
-    
-    def get_decision_trace(self, decision_id: str) -> list:
-        """Retrieve the complete reasoning path for a decision."""
-        return [
-            t for t in self.traces 
-            if t.get("decision_id") == decision_id
-        ]
+        self.events: list[ReasoningEvent] = []
+
+    def record(self, event: ReasoningEvent) -> None:
+        self.events.append(event)
+
+    def replay(self, decision_id: str) -> list[ReasoningEvent]:
+        return [event for event in self.events if event.decision_id == decision_id]
 ```
 
-### Debugging Workflows
+This gives you a few important properties.
 
-When an agent fails, reconstruct its reasoning:
+- You can query one decision end to end.
+- You can compare decisions across releases.
+- You can build dashboards around confidence drift, not just error counts.
+
+## How a failure gets debugged
+
+When an agent makes a bad call, walk the trace in order.
 
 ```python
-def debug_agent_failure(decision_id: str):
-    trace = tracer.get_decision_trace(decision_id)
-    
-    for step in trace:
-        print(f"Step: {step['type']}")
-        print(f"  Confidence: {step['confidence']:.2f}")
-        print(f"  Reasoning: {step['reasoning']}")
-        print(f"  Output: {step['output']}\n")
-    
-    # Find where confidence dropped
-    low_confidence_steps = [s for s in trace if s['confidence'] < 0.7]
-    print(f"Low-confidence steps: {len(low_confidence_steps)}")
+def inspect_decision(tracer: ReasoningTracer, decision_id: str) -> None:
+    for event in tracer.replay(decision_id):
+        print(f"[{event.step}] confidence={event.confidence:.2f}")
+        print(f"sources={', '.join(event.sources)}")
+        print(f"reasoning={event.reasoning}")
+        print(f"output={event.output_snapshot}\n")
+
+    weakest = min(tracer.replay(decision_id), key=lambda event: event.confidence)
+    print(f"weakest step: {weakest.step}")
 ```
 
-### Actionable Takeaways
+That pattern makes the failure obvious. Most bugs are not random. They are one of these:
 
-- [ ] Implement structured logging for every reasoning step
-- [ ] Capture reasoning text, not just model outputs
-- [ ] Store confidence scores per step
-- [ ] Build tools to replay agent reasoning for a specific decision
-- [ ] Correlate decision outcomes with confidence levels
-- [ ] Use patterns to identify systematic reasoning failures
+- Bad retrieval.
+- Weak confidence calibration.
+- Over-trusting a tool result.
+- A prompt or policy change that altered the decision boundary.
 
----
+## Dashboards that matter
+
+The right dashboard shows decision quality over time.
+
+- Step-level latency.
+- Step-level confidence distributions.
+- Override rate for human-in-the-loop decisions.
+- Retry counts per tool.
+- Outcomes grouped by request type.
+
+```mermaid
+flowchart LR
+  A[Trace events] --> B[Metrics]
+  A --> C[Searchable logs]
+  A --> D[Decision replay]
+  B --> E[Dashboards]
+  C --> E
+  D --> F[Root cause analysis]
+```
+
+That combination is what turns observability into a debugging tool instead of a compliance checkbox.
+
+## What not to do
+
+- Do not log only final answers.
+- Do not store raw reasoning text without redaction rules.
+- Do not merge every step into one giant blob.
+- Do not treat confidence as a decorative field.
+
+## The practical rule
+
+If you cannot answer “what did the agent know when it acted?”, your observability layer is incomplete.
+
+The goal is not perfect introspection. The goal is a replayable decision history that makes production failures boring to debug.
 
 ## Related Posts
 
+- [The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average](/blog/latency-percentiles)
 - [State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems](/blog/state-management-agent-memory)
 - [The Hallucination Budget: Quantifying Risk for Mission-Critical Agents](/blog/hallucination-budget)
-- [When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff](/blog/agent-confidence-thresholds)

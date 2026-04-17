@@ -1,16 +1,18 @@
 .newsletter-card {
   max-width: 680px;
-  margin: 0 auto 2rem;
-  border: 1px solid rgba(100, 255, 218, 0.1);
-  border-radius: 16px;
-  padding: 1.2rem 1.1rem;
+  margin: 0 auto 1.2rem;
+  border: 1px solid rgba(100, 255, 218, 0.12);
+  border-radius: 20px;
+  padding: 1.25rem 1.2rem;
   background:
     radial-gradient(
       circle at 90% 10%,
-      rgba(100, 255, 218, 0.12),
+      rgba(100, 255, 218, 0.16),
       transparent 40%
     ),
-    rgba(8, 19, 36, 0.82);
+    linear-gradient(140deg, rgba(100, 255, 218, 0.08), transparent 46%),
+    rgba(8, 19, 36, 0.85);
+  box-shadow: 0 16px 42px rgba(2, 10, 24, 0.28);
 }
 
 .newsletter-kicker {
@@ -25,11 +27,11 @@
   margin: 0.35rem 0 0.45rem;
   color: var(--white);
   font-family: var(--font-heading);
-  font-size: 1.35rem;
+  font-size: 1.3rem;
 }
 
 .newsletter-copy p {
-  margin: 0 0 1rem;
+  margin: 0 0 0.85rem;
   color: var(--text-secondary);
   line-height: 1.5;
 }
@@ -55,6 +57,15 @@
   background: rgba(10, 25, 47, 0.6);
   color: var(--white);
   padding: 0.72rem 1rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.newsletter-row input:focus {
+  outline: none;
+  border-color: rgba(100, 255, 218, 0.5);
+  box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.12);
 }
 
 .newsletter-row button {
@@ -67,6 +78,14 @@
   letter-spacing: 0.6px;
   padding: 0.72rem 1.1rem;
   cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.2s ease;
+}
+
+.newsletter-row button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(100, 255, 218, 0.22);
 }
 
 .newsletter-feedback {
