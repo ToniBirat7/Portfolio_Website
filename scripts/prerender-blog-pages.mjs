@@ -12,6 +12,42 @@ const CONTENT_DIR = path.join(ROOT, 'src', 'content', 'blog');
 const DIST_DIR = path.join(ROOT, 'dist');
 const SITE_URL = 'https://birat.codes';
 const BLOG_BASE = `${SITE_URL}/blog`;
+const ADSENSE_SCRIPT_SRC =
+  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+
+function readEnvFile(filePath) {
+  return fs
+    .readFile(filePath, 'utf8')
+    .then((content) =>
+      content
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line && !line.startsWith('#'))
+        .reduce((accumulator, line) => {
+          const separatorIndex = line.indexOf('=');
+          if (separatorIndex === -1) return accumulator;
+          const key = line.slice(0, separatorIndex).trim();
+          const value = line.slice(separatorIndex + 1).trim();
+          accumulator[key] = value;
+          return accumulator;
+        }, {}),
+    )
+    .catch(() => ({}));
+}
+
+async function loadAdsenseConfig() {
+  const envFile = await readEnvFile(path.join(ROOT, '.env.production'));
+  return {
+    clientId:
+      process.env.VITE_ADSENSE_CLIENT_ID ||
+      envFile.VITE_ADSENSE_CLIENT_ID ||
+      '',
+    slotId:
+      process.env.VITE_ADSENSE_BLOG_SLOT_ID ||
+      envFile.VITE_ADSENSE_BLOG_SLOT_ID ||
+      '',
+  };
+}
 
 function escapeHtml(str) {
   return String(str)
@@ -68,7 +104,14 @@ async function loadPosts() {
   return posts;
 }
 
-function pageShell({ title, description, canonical, bodyHtml, schema }) {
+function pageShell({
+  title,
+  description,
+  canonical,
+  bodyHtml,
+  schema,
+  adsenseClientId,
+}) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -84,6 +127,7 @@ function pageShell({ title, description, canonical, bodyHtml, schema }) {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
+  ${adsenseClientId ? `<script async src="${ADSENSE_SCRIPT_SRC}?client=${escapeHtml(adsenseClientId)}" crossorigin="anonymous"></script>` : ''}
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
   <style>
     :root { color-scheme: dark; }
@@ -105,6 +149,8 @@ function pageShell({ title, description, canonical, bodyHtml, schema }) {
     img { max-width: 100%; height: auto; border-radius: 8px; }
     pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
   </style>
 </head>
 <body>
@@ -114,7 +160,7 @@ function pageShell({ title, description, canonical, bodyHtml, schema }) {
 `;
 }
 
-function renderPostHtml(post) {
+function renderPostHtml(post, adsenseConfig) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -147,6 +193,23 @@ function renderPostHtml(post) {
       ${post.difficulty ? `<p class="meta">Difficulty: ${escapeHtml(post.difficulty)}</p>` : ''}
       ${post.coverImage ? `<p><img src="${escapeHtml(post.coverImage)}" alt="${escapeHtml(post.title)}" /></p>` : ''}
       ${post.html}
+      ${
+        adsenseConfig.clientId && adsenseConfig.slotId
+          ? `
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="${escapeHtml(adsenseConfig.clientId)}"
+          data-ad-slot="${escapeHtml(adsenseConfig.slotId)}"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+      `
+          : ''
+      }
     </article>
   </main>
   `;
@@ -157,10 +220,11 @@ function renderPostHtml(post) {
     canonical: post.url,
     bodyHtml: body,
     schema,
+    adsenseClientId: adsenseConfig.clientId,
   });
 }
 
-function renderBlogHomeHtml(posts) {
+function renderBlogHomeHtml(posts, adsenseConfig) {
   const list = posts
     .map(
       (post) => `
@@ -199,6 +263,7 @@ function renderBlogHomeHtml(posts) {
     canonical: BLOG_BASE,
     bodyHtml: body,
     schema,
+    adsenseClientId: adsenseConfig.clientId,
   });
 }
 
@@ -208,6 +273,7 @@ async function ensureDir(p) {
 
 async function main() {
   const posts = await loadPosts();
+  const adsenseConfig = await loadAdsenseConfig();
 
   if (!posts.length) {
     console.log('No posts found. Skipping prerender step.');
@@ -216,7 +282,7 @@ async function main() {
 
   await ensureDir(path.join(DIST_DIR, 'blog'));
 
-  const blogIndexHtml = renderBlogHomeHtml(posts);
+  const blogIndexHtml = renderBlogHomeHtml(posts, adsenseConfig);
   await fs.writeFile(
     path.join(DIST_DIR, 'blog', 'index.html'),
     blogIndexHtml,
@@ -228,7 +294,7 @@ async function main() {
     await ensureDir(postDir);
     await fs.writeFile(
       path.join(postDir, 'index.html'),
-      renderPostHtml(post),
+      renderPostHtml(post, adsenseConfig),
       'utf8',
     );
   }
