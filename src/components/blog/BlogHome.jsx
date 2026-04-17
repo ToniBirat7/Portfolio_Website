@@ -155,6 +155,8 @@ const BlogHome = () => {
         <p className="site-footer-links">
           <a href="/about">About</a>
           <span> · </span>
+          <a href="/contact">Contact</a>
+          <span> · </span>
           <a href="/privacy-policy">Privacy Policy</a>
           <span> · </span>
           <a href="/terms">Terms</a>

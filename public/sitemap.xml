@@ -2,22 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://birat.codes/</loc>
-    <lastmod>2026-04-17T06:41:24.215Z</lastmod>
+    <lastmod>2026-04-17T09:24:12.393Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/about</loc>
-    <lastmod>2026-04-17T06:41:24.215Z</lastmod>
+    <lastmod>2026-04-17T09:24:12.393Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/contact</loc>
+    <lastmod>2026-04-17T09:24:12.393Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/privacy-policy</loc>
-    <lastmod>2026-04-17T06:41:24.215Z</lastmod>
+    <lastmod>2026-04-17T09:24:12.393Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/terms</loc>
-    <lastmod>2026-04-17T06:41:24.215Z</lastmod>
+    <lastmod>2026-04-17T09:24:12.393Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/blog</loc>
+    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/agent-memory-architecture-cold-hot-state</loc>
+    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/eval-driven-agent-release-process</loc>
+    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/guardrails-policy-engine-for-agent-tools</loc>
+    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/rag-retrieval-quality-slos</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>

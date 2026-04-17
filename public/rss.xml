@@ -5,7 +5,55 @@
     <link>https://birat.codes/blog</link>
     <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
     <language>en-US</language>
-    <lastBuildDate>Fri, 17 Apr 2026 06:41:24 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2026 09:24:12 GMT</lastBuildDate>
+    <item>
+      <title>Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents</title>
+      <link>https://birat.codes/blog/agent-memory-architecture-cold-hot-state</link>
+      <guid>https://birat.codes/blog/agent-memory-architecture-cold-hot-state</guid>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely.</description>
+      <category>Agentic AI</category>
+      <category>Memory</category>
+      <category>Architecture</category>
+      <category>State Management</category>
+      <category>Scalability</category>
+    </item>
+    <item>
+      <title>Eval-Driven Releases: How to Ship Agent Changes Without Guessing</title>
+      <link>https://birat.codes/blog/eval-driven-agent-release-process</link>
+      <guid>https://birat.codes/blog/eval-driven-agent-release-process</guid>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Agent quality is a release engineering problem. A stable eval suite with quality gates is the only reliable way to ship model, prompt, and tool changes safely.</description>
+      <category>Agentic AI</category>
+      <category>Evals</category>
+      <category>CI/CD</category>
+      <category>Quality Engineering</category>
+      <category>Production Systems</category>
+    </item>
+    <item>
+      <title>From Prompts to Policy Engines: Guardrails That Survive Real Traffic</title>
+      <link>https://birat.codes/blog/guardrails-policy-engine-for-agent-tools</link>
+      <guid>https://birat.codes/blog/guardrails-policy-engine-for-agent-tools</guid>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Prompt-only guardrails fail under scale. Durable safety comes from explicit policy engines that evaluate intent, context, and tool permissions before execution.</description>
+      <category>Agentic AI</category>
+      <category>Security</category>
+      <category>Guardrails</category>
+      <category>Policy Engine</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure</title>
+      <link>https://birat.codes/blog/rag-retrieval-quality-slos</link>
+      <guid>https://birat.codes/blog/rag-retrieval-quality-slos</guid>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak.</description>
+      <category>RAG</category>
+      <category>Search Quality</category>
+      <category>Production Systems</category>
+      <category>SLO</category>
+      <category>Observability</category>
+    </item>
     <item>
       <title>When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff</title>
       <link>https://birat.codes/blog/agent-confidence-thresholds</link>

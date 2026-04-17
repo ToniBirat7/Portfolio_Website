@@ -319,6 +319,29 @@
   margin: 0.75rem auto 0.9rem !important;
 }
 
+.adsense-debug {
+  max-width: 680px;
+  margin: 0.35rem auto 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2px;
+  border: 1px solid transparent;
+}
+
+.adsense-debug.is-ready {
+  color: #8df5ce;
+  background: rgba(42, 123, 90, 0.2);
+  border-color: rgba(116, 232, 184, 0.35);
+}
+
+.adsense-debug.is-missing {
+  color: #ffdca8;
+  background: rgba(121, 87, 34, 0.22);
+  border-color: rgba(255, 199, 112, 0.4);
+}
+
 .blog-post-page .newsletter-card {
   margin: 0.8rem auto 1.1rem;
 }

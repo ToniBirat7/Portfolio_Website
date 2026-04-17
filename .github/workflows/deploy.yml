@@ -71,6 +71,21 @@ jobs:
 
             # Install and build on the server
             npm ci
+
+            # Build-time AdSense config for Vite production bundle.
+            # We enforce the publisher ID and preserve any existing slot ID on the VM.
+            if [ -f .env.production ]; then
+              if grep -q '^VITE_ADSENSE_CLIENT_ID=' .env.production; then
+                sed -i 's/^VITE_ADSENSE_CLIENT_ID=.*/VITE_ADSENSE_CLIENT_ID=ca-pub-1567291488769443/' .env.production
+              else
+                echo 'VITE_ADSENSE_CLIENT_ID=ca-pub-1567291488769443' >> .env.production
+              fi
+            else
+              cat > .env.production <<'EOF'
+              VITE_ADSENSE_CLIENT_ID=ca-pub-1567291488769443
+              EOF
+            fi
+
             npm run build
 
             # Copy the built files to the web server directory

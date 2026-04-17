@@ -97,6 +97,10 @@ function App() {
             path="/about"
             element={<Page filename="about" title="About" />}
           />
+          <Route
+            path="/contact"
+            element={<Page filename="contact" title="Contact" />}
+          />
         </Routes>
       </Suspense>
     </>

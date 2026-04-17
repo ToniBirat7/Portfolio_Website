@@ -12,6 +12,11 @@ import PostBody from './PostBody';
 import AdSlot from '../AdSlot';
 import './BlogPost.css';
 import { trackEvent, trackScrollDepth } from '../../utils/analytics.js';
+import {
+  ADSENSE_BLOG_SLOT_ID,
+  ADSENSE_CLIENT_ID,
+  hasBlogAdSlot,
+} from '../../utils/adsense.js';
 import NewsletterSignup from './NewsletterSignup.jsx';
 
 /* ── Reading Progress Bar ──────────────────────── */
@@ -228,9 +233,8 @@ const BlogPost = () => {
   const [adjacent, setAdjacent] = useState({ prev: null, next: null });
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
-  const hasInlineAds =
-    Boolean(import.meta.env.VITE_ADSENSE_CLIENT_ID) &&
-    Boolean(import.meta.env.VITE_ADSENSE_BLOG_SLOT_ID);
+  const hasInlineAds = hasBlogAdSlot;
+  const showAdDebug = import.meta.env.DEV;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -354,6 +358,19 @@ const BlogPost = () => {
         {/* ── Ad Slot (inline, after content) ── */}
         {hasInlineAds && (
           <AdSlot placement="blog-inline" width="300px" height="250px" />
+        )}
+
+        {showAdDebug && (
+          <div
+            className={`adsense-debug ${hasInlineAds ? 'is-ready' : 'is-missing'}`}
+            role="status"
+            aria-live="polite"
+          >
+            <strong>AdSense debug:</strong>{' '}
+            {hasInlineAds
+              ? `READY (client ${ADSENSE_CLIENT_ID}, slot ${ADSENSE_BLOG_SLOT_ID})`
+              : 'MISSING SLOT CONFIG (set VITE_ADSENSE_BLOG_SLOT_ID in .env.*)'}
+          </div>
         )}
 
         <NewsletterSignup source="blog_post" postSlug={post.slug} />

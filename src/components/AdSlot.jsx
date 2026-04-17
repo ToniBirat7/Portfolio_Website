@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { trackEvent } from '../utils/analytics';
+import {
+  ADSENSE_BLOG_SLOT_ID,
+  ADSENSE_CLIENT_ID,
+  hasBlogAdSlot,
+} from '../utils/adsense';
 import './AdSlot.css';
 
 /**
@@ -40,24 +45,10 @@ export default function AdSlot({
               viewport_width: window.innerWidth,
             });
 
-            // Load ads script if not already loaded (for AdSense)
-            if (!window.adsbygoogle) {
-              window.adsbygoogle = window.adsbygoogle || [];
-              const script = document.createElement('script');
-              script.src =
-                'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-              script.async = true;
-              script.crossOrigin = 'anonymous';
-              document.head.appendChild(script);
-            }
-
-            // Push ad to AdSense queue when ids are configured
-            if (
-              window.adsbygoogle &&
-              import.meta.env.VITE_ADSENSE_CLIENT_ID &&
-              import.meta.env.VITE_ADSENSE_BLOG_SLOT_ID
-            ) {
+            // Script is loaded once in index.html; queue ads only when configured.
+            if (hasBlogAdSlot) {
               try {
+                window.adsbygoogle = window.adsbygoogle || [];
                 window.adsbygoogle.push({});
               } catch (e) {
                 // AdSense push failed silently
@@ -102,8 +93,8 @@ export default function AdSlot({
         }}
         data-ad-layout="in-article"
         data-ad-format="fluid"
-        data-ad-client={import.meta.env.VITE_ADSENSE_CLIENT_ID || ''}
-        data-ad-slot={import.meta.env.VITE_ADSENSE_BLOG_SLOT_ID || ''}
+        data-ad-client={ADSENSE_CLIENT_ID}
+        data-ad-slot={ADSENSE_BLOG_SLOT_ID}
       />
     </div>
   );

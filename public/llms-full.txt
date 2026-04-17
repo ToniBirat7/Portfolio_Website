@@ -2,6 +2,54 @@
 
 > Expanded context view for AI assistants. Includes article metadata plus content excerpts.
 
+## Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents
+
+- URL: https://birat.codes/blog/agent-memory-architecture-cold-hot-state
+- Published: 2026-04-17
+- Updated: 2026-04-17
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: Production Systems
+- Tags: Agentic AI, Memory, Architecture, State Management, Scalability
+
+Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely.
+
+## Eval-Driven Releases: How to Ship Agent Changes Without Guessing
+
+- URL: https://birat.codes/blog/eval-driven-agent-release-process
+- Published: 2026-04-17
+- Updated: 2026-04-17
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: Production Systems
+- Tags: Agentic AI, Evals, CI/CD, Quality Engineering, Production Systems
+
+Agent quality is a release engineering problem. A stable eval suite with quality gates is the only reliable way to ship model, prompt, and tool changes safely.
+
+## From Prompts to Policy Engines: Guardrails That Survive Real Traffic
+
+- URL: https://birat.codes/blog/guardrails-policy-engine-for-agent-tools
+- Published: 2026-04-17
+- Updated: 2026-04-17
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: Security
+- Tags: Agentic AI, Security, Guardrails, Policy Engine, Tooling
+
+Prompt-only guardrails fail under scale. Durable safety comes from explicit policy engines that evaluate intent, context, and tool permissions before execution.
+
+## RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure
+
+- URL: https://birat.codes/blog/rag-retrieval-quality-slos
+- Published: 2026-04-17
+- Updated: 2026-04-17
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: Production Systems
+- Tags: RAG, Search Quality, Production Systems, SLO, Observability
+
+Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak.
+
 ## When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff
 
 - URL: https://birat.codes/blog/agent-confidence-thresholds

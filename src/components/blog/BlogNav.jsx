@@ -19,6 +19,9 @@ const BlogNav = () => {
           <Link to="/about" className="blog-nav-icon" aria-label="About">
             <i className="fas fa-user" aria-hidden="true"></i>
           </Link>
+          <Link to="/contact" className="blog-nav-icon" aria-label="Contact">
+            <i className="fas fa-envelope" aria-hidden="true"></i>
+          </Link>
           <Link
             to="/privacy-policy"
             className="blog-nav-icon"

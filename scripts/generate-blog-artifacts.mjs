@@ -90,6 +90,10 @@ function buildSitemap(posts) {
       lastmod: new Date().toISOString(),
     },
     {
+      loc: `${SITE_URL}/contact`,
+      lastmod: new Date().toISOString(),
+    },
+    {
       loc: `${SITE_URL}/privacy-policy`,
       lastmod: new Date().toISOString(),
     },
@@ -170,6 +174,7 @@ function buildLlmsTxt(posts) {
     '',
     `- [Portfolio Home](${SITE_URL}/): Overview, profile, projects, achievements, and contact.`,
     `- [About](${SITE_URL}/about): Author background and credentials.`,
+    `- [Contact](${SITE_URL}/contact): Direct contact channels and collaboration details.`,
     `- [Privacy Policy](${SITE_URL}/privacy-policy): Data handling and privacy disclosures.`,
     `- [Terms of Service](${SITE_URL}/terms): Site usage terms and legal conditions.`,
     `- [Blog Home](${BLOG_BASE}): All technical posts with metadata.`,
