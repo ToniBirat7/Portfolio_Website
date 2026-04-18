@@ -166,15 +166,22 @@ const PostBody = ({ content, postSlug }) => {
           h4: ({ children }) => (
             <h4 id={slugify(toPlainText(children))}>{children}</h4>
           ),
-          img: ({ src, alt }) => (
-            <img
-              className="post-md-image"
-              src={normalizeImageSrc(src)}
-              alt={alt || ''}
-              loading="lazy"
-              decoding="async"
-            />
-          ),
+          img: ({ src, alt, title }) => {
+            const caption = title?.trim();
+
+            return (
+              <figure className="post-figure">
+                <img
+                  className="post-md-image"
+                  src={normalizeImageSrc(src)}
+                  alt={alt || ''}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {caption && <figcaption>{caption}</figcaption>}
+              </figure>
+            );
+          },
           blockquote: ({ children }) => {
             const text = toPlainText(children).trim();
             const calloutMatch = text.match(
