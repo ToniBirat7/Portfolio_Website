@@ -122,3 +122,18 @@ export function toDateOnly(input) {
   if (!iso) return null;
   return iso.split('T')[0];
 }
+
+export function isPostPublished(attributes = {}, now = new Date()) {
+  if (!attributes || typeof attributes !== 'object') return true;
+
+  if (attributes.draft === true) return false;
+  if (attributes.published === false) return false;
+
+  const publishLikeDate =
+    attributes.publishDate || attributes.publishedAt || attributes.date || null;
+
+  const iso = toIsoDate(publishLikeDate);
+  if (!iso) return true;
+
+  return new Date(iso).getTime() <= now.getTime();
+}

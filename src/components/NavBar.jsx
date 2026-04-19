@@ -13,27 +13,26 @@ const sections = [
 ];
 
 const NavBar = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('root');
 
   const handleScrollTo = (id) => {
     const section = document.getElementById(id);
     if (section) {
+      const nav = document.querySelector('.navbar');
+      const navHeight = nav?.offsetHeight || 70;
+      const sectionTop =
+        section.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+
       window.scrollTo({
-        top: section.offsetTop,
+        top: Math.max(sectionTop, 0),
         behavior: 'smooth',
       });
+
+      if (window.history?.replaceState) {
+        window.history.replaceState(null, '', `#${id}`);
+      }
     }
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY >= window.innerHeight);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -56,10 +55,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav
-      className={`navbar ${isVisible ? 'visible' : ''}`}
-      aria-label="Main navigation"
-    >
+    <nav className="navbar" aria-label="Main navigation">
       <ul>
         {[
           { id: 'root', label: 'Home' },

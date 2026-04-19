@@ -1,8 +1,7 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import mermaid from 'mermaid';
 import { trackEvent } from '../../utils/analytics.js';
 import {
   getUrlHost,
@@ -12,11 +11,36 @@ import {
 } from '../../utils/linkAttribution.js';
 import './PostBody.css';
 
-mermaid.initialize({
-  startOnLoad: false,
-  securityLevel: 'strict',
-  theme: 'dark',
-});
+let mermaidLoader;
+
+const SUPPORTED_MERMAID_TYPES = [
+  /^\s*graph\b/i,
+  /^\s*flowchart\b/i,
+  /^\s*sequenceDiagram\b/i,
+  /^\s*timeline\b/i,
+  /^\s*quadrantChart\b/i,
+];
+
+const isSupportedMermaidChart = (chart) =>
+  SUPPORTED_MERMAID_TYPES.some((pattern) => pattern.test(chart || ''));
+
+const loadMermaid = async () => {
+  if (!mermaidLoader) {
+    mermaidLoader = import(
+      /* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+    ).then((module) => {
+      const mermaidApi = module.default;
+      mermaidApi.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: 'dark',
+      });
+      return mermaidApi;
+    });
+  }
+
+  return mermaidLoader;
+};
 
 const CopyButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
@@ -29,13 +53,7 @@ const CopyButton = ({ text }) => {
 
   return (
     <button className="code-copy" onClick={handleCopy} title="Copy code">
-      {copied ? (
-        <>
-          <i className="fas fa-check"></i> Copied
-        </>
-      ) : (
-        <i className="far fa-copy"></i>
-      )}
+      {copied ? <>Done</> : <>Copy</>}
     </button>
   );
 };
@@ -74,10 +92,15 @@ const normalizeImageSrc = (value) => {
 };
 
 const MermaidBlock = ({ chart }) => {
-  const id = useId();
-  const containerId = `mermaid-${id.replace(/:/g, '')}`;
+  const containerIdRef = useRef(
+    `mermaid-${Math.random().toString(36).slice(2, 10)}`,
+  );
+  const containerId = containerIdRef.current;
+  const supported = isSupportedMermaidChart(chart);
 
   useEffect(() => {
+    if (!supported) return undefined;
+
     let active = true;
 
     const render = async () => {
@@ -85,6 +108,7 @@ const MermaidBlock = ({ chart }) => {
       if (!target) return;
 
       try {
+        const mermaid = await loadMermaid();
         const { svg } = await mermaid.render(containerId, chart);
         if (active) target.innerHTML = svg;
       } catch {
@@ -97,7 +121,20 @@ const MermaidBlock = ({ chart }) => {
     return () => {
       active = false;
     };
-  }, [chart, containerId]);
+  }, [chart, containerId, supported]);
+
+  if (!supported) {
+    return (
+      <div className="code-block">
+        <div className="code-block-header">
+          <span className="code-lang">mermaid</span>
+        </div>
+        <pre className="code-block-body">
+          <code>{chart}</code>
+        </pre>
+      </div>
+    );
+  }
 
   return <div id={containerId} className="mermaid-block" />;
 };
@@ -133,6 +170,19 @@ const PostBody = ({ content, postSlug }) => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          pre: ({ children }) => {
+            const child = Array.isArray(children) ? children[0] : children;
+
+            if (child?.type === MermaidBlock) {
+              return child;
+            }
+
+            if (child?.props?.className?.includes('code-block')) {
+              return child;
+            }
+
+            return <pre>{children}</pre>;
+          },
           code({ inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
             const codeString = String(children).replace(/\n$/, '');
@@ -170,7 +220,7 @@ const PostBody = ({ content, postSlug }) => {
             const caption = title?.trim();
 
             return (
-              <figure className="post-figure">
+              <div className="post-figure">
                 <img
                   className="post-md-image"
                   src={normalizeImageSrc(src)}
@@ -178,8 +228,8 @@ const PostBody = ({ content, postSlug }) => {
                   loading="lazy"
                   decoding="async"
                 />
-                {caption && <figcaption>{caption}</figcaption>}
-              </figure>
+                {caption && <div className="post-caption">{caption}</div>}
+              </div>
             );
           },
           blockquote: ({ children }) => {

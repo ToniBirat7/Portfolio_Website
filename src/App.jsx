@@ -24,9 +24,11 @@ function AnalyticsBridge() {
   useEffect(() => {
     initializeAnalytics();
 
-    // Load icon font stylesheet lazily to keep first paint lightweight.
+    // Load icon font only for portfolio routes where icon-heavy cards are used.
+    const shouldLoadFontAwesome = !location.pathname.startsWith('/blog');
     const existing = document.querySelector('link[data-fontawesome="true"]');
-    if (!existing) {
+
+    if (shouldLoadFontAwesome && !existing) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href =

@@ -2,30 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://birat.codes/</loc>
-    <lastmod>2026-04-17T09:56:07.697Z</lastmod>
+    <lastmod>2026-04-19T05:06:59.386Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/about</loc>
-    <lastmod>2026-04-17T09:56:07.697Z</lastmod>
+    <lastmod>2026-04-19T05:06:59.386Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/contact</loc>
-    <lastmod>2026-04-17T09:56:07.697Z</lastmod>
+    <lastmod>2026-04-19T05:06:59.386Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/privacy-policy</loc>
-    <lastmod>2026-04-17T09:56:07.697Z</lastmod>
+    <lastmod>2026-04-19T05:06:59.386Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/terms</loc>
-    <lastmod>2026-04-17T09:56:07.697Z</lastmod>
+    <lastmod>2026-04-19T05:06:59.386Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/blog</loc>
-    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-04-18T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/gemma-4-local-agentic-ai-deployment-lessons</loc>
+    <lastmod>2026-04-18T00:00:00.000Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/blog/agent-memory-architecture-cold-hot-state</loc>
+    <lastmod>2026-04-17T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/context-management-is-workflow-design</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>

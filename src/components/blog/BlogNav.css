@@ -38,6 +38,18 @@
   letter-spacing: 0.5px;
 }
 
+.blog-nav-back svg,
+.blog-nav-icon svg {
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
 .blog-nav-back:hover {
   color: var(--primary-color);
   gap: 0.65rem;
@@ -85,6 +97,12 @@
   transform: translateY(-2px);
   border-color: rgba(100, 255, 218, 0.15);
   background: rgba(100, 255, 218, 0.08);
+}
+
+.blog-nav-back:focus-visible,
+.blog-nav-icon:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
 }
 
 @media (max-width: 600px) {

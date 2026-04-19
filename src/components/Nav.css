@@ -12,16 +12,11 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-primary);
-  transition: opacity 0.3s ease, background-color 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1000;
-  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
-}
-
-.navbar.visible {
+  transition: background-color 0.3s ease;
   opacity: 1;
   pointer-events: auto;
+  z-index: 1100;
+  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
 }
 
 .navbar .logo {
@@ -47,7 +42,7 @@
 
 /* Underline slide-in effect */
 .navbar ul li::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0;
   left: 50%;

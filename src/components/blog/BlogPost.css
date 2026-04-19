@@ -14,6 +14,17 @@
   box-shadow: 0 0 8px var(--primary-glow);
 }
 
+.share-row a:focus-visible,
+.share-row button:focus-visible,
+.post-cta a:focus-visible,
+.post-cta button:focus-visible,
+.blog-nav a:focus-visible,
+.blog-nav button:focus-visible,
+.toc-item a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
 .blog-post-page {
   font-family: var(--blog-font-body);
   --font-heading: var(--blog-font-heading);
@@ -105,6 +116,17 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+.post-figure {
+  margin: 1.25rem 0;
+}
+
+.post-caption {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
 }
 
 /* ── Content + TOC Grid ─────────────────────────── */

@@ -10,7 +10,9 @@ html {
 
 /* Background Image */
 .hero-container {
-  background-image: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)), url("/Bg.png");
+  background-image:
+    linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)),
+    url('/Bg.png');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -89,9 +91,44 @@ html {
 .hover-char:hover {
   color: var(--primary-color);
   transform: translateY(-3px) scale(1.2);
-  text-shadow: 0 0 10px var(--primary-color),
-               0 0 20px rgba(100, 255, 218, 0.3);
+  text-shadow:
+    0 0 10px var(--primary-color),
+    0 0 20px rgba(100, 255, 218, 0.3);
   z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .overlay,
+  .hover-char,
+  .quote,
+  .nepali-word,
+  .hero-container::before,
+  .hero-container::after,
+  .cursor,
+  .typing-text {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .overlay {
+    will-change: auto;
+  }
+
+  .hover-char {
+    opacity: 1;
+    transform: none;
+  }
+
+  .nepali-word:hover,
+  .hover-char:hover {
+    transform: none;
+    text-shadow: none;
+    filter: none;
+  }
 }
 
 @keyframes charFadeIn {
@@ -106,8 +143,12 @@ html {
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -130,7 +171,11 @@ html {
 }
 
 @keyframes bounce-nepali {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -145,8 +190,8 @@ html {
 .nepali-word:hover {
   background: linear-gradient(
     135deg,
-    #DC143C 0%,
-    #DC143C 35%,
+    #dc143c 0%,
+    #dc143c 35%,
     #ffffff 50%,
     #003893 65%,
     #003893 100%
@@ -157,7 +202,9 @@ html {
   color: transparent;
   text-shadow: none;
   filter: drop-shadow(0 0 12px rgba(220, 20, 60, 0.4));
-  animation: flagShimmer 2s ease infinite, bounce-nepali 1.5s ease infinite;
+  animation:
+    flagShimmer 2s ease infinite,
+    bounce-nepali 1.5s ease infinite;
   background-size: 200% 200%;
 }
 
@@ -210,7 +257,7 @@ html {
 
 /* Scroll indicator - mouse icon */
 .hero-container::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 30px;
   left: 50%;
@@ -223,7 +270,7 @@ html {
 }
 
 .hero-container::before {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 46px;
   left: 50%;
@@ -237,7 +284,8 @@ html {
 }
 
 @keyframes scrollBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
@@ -257,11 +305,20 @@ html {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

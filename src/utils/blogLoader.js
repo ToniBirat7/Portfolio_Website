@@ -1,6 +1,7 @@
 import {
   calcReadTime,
   extractTOC,
+  isPostPublished,
   normalizeFaqs,
   normalizeStringArray,
   parseFrontmatter,
@@ -71,6 +72,10 @@ export const getPosts = async () => {
       const slug = path.split('/').pop().replace('.md', '');
       const { attributes, content } = parseFrontmatter(raw);
 
+      if (!isPostPublished(attributes)) {
+        return null;
+      }
+
       // Normalize tags to always be an array
       let tags = normalizeStringArray(attributes.tags);
       // Also keep legacy single `tag` field
@@ -112,6 +117,7 @@ export const getPosts = async () => {
         toc: extractTOC(content),
       };
     })
+    .filter(Boolean)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 };
 

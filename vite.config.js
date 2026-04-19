@@ -7,12 +7,36 @@ export default defineConfig({
   base: '/',
   assetsInclude: ['**/*.md'],
   build: {
+    chunkSizeWarningLimit: 700,
     modulePreload: { polyfill: false },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'markdown-vendor': ['react-markdown', 'remark-gfm', 'marked'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+
+          if (
+            id.includes('/react/') ||
+            id.includes('/react-dom/') ||
+            id.includes('/react-router-dom/')
+          ) {
+            return 'react-vendor';
+          }
+
+          if (
+            id.includes('/react-markdown/') ||
+            id.includes('/remark-gfm/') ||
+            id.includes('/marked/')
+          ) {
+            return 'markdown-vendor';
+          }
+
+          if (id.includes('/katex/')) {
+            return 'katex-vendor';
+          }
+
+          if (id.includes('/cytoscape/')) {
+            return 'cytoscape-vendor';
+          }
         },
       },
     },

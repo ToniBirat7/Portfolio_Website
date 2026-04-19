@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
+  isPostPublished,
   normalizeFaqs,
   normalizeStringArray,
   parseFrontmatter,
@@ -42,13 +43,19 @@ async function loadPosts() {
     const { attributes, content } = parseFrontmatter(raw);
     const slug = slugFromFile(file.name);
 
+    if (!isPostPublished(attributes)) {
+      continue;
+    }
+
     let tags = normalizeStringArray(attributes.tags);
     if (!tags.length && attributes.tag) tags = [attributes.tag];
     const relatedTags = normalizeStringArray(attributes.relatedTags);
     const faqs = normalizeFaqs(attributes.faqs);
 
     const datePublished =
-      toIsoDate(attributes.date) || new Date().toISOString();
+      toIsoDate(
+        attributes.publishDate || attributes.publishedAt || attributes.date,
+      ) || new Date().toISOString();
     const dateModified =
       toIsoDate(
         attributes.dateModified || attributes.updated || attributes.date,

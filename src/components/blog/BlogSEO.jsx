@@ -67,14 +67,22 @@ const BlogSEO = ({ post, type = 'article' }) => {
       setMeta('property', 'og:title', post.title);
       setMeta('property', 'og:description', description);
       setMeta('property', 'og:url', postUrl);
-      if (post.coverImage) {
-        setMeta('property', 'og:image', `${siteUrl}${post.coverImage}`);
-      }
+      setMeta(
+        'property',
+        'og:image',
+        post.coverImage ? `${siteUrl}${post.coverImage}` : `${siteUrl}/pp.jpg`,
+      );
+      setMeta('property', 'og:image:alt', post.title);
 
       // Twitter Card
       setMeta('name', 'twitter:card', 'summary_large_image');
       setMeta('name', 'twitter:title', post.title);
       setMeta('name', 'twitter:description', description);
+      setMeta(
+        'name',
+        'twitter:image',
+        post.coverImage ? `${siteUrl}${post.coverImage}` : `${siteUrl}/pp.jpg`,
+      );
 
       // Canonical
       let canonical = document.querySelector('link[rel="canonical"]');
@@ -175,34 +183,22 @@ const BlogSEO = ({ post, type = 'article' }) => {
         '@graph': schemas,
       });
     } else {
-      setMeta(
-        'name',
-        'description',
-        'Deep dives into AI Agents, MLOps, and the systems behind intelligence.',
-      );
+      const listTitle =
+        "Birat's Notebook — Deep dives into AI, MLOps & Engineering";
+      const listDescription =
+        'Deep dives into AI Agents, MLOps, and the systems behind intelligence.';
+
+      setMeta('name', 'description', listDescription);
       setMeta('property', 'og:type', 'website');
-      setMeta(
-        'property',
-        'og:title',
-        "Birat's Notebook — Deep dives into AI, MLOps & Engineering",
-      );
-      setMeta(
-        'property',
-        'og:description',
-        'Deep dives into AI Agents, MLOps, and the systems behind intelligence.',
-      );
+      setMeta('property', 'og:title', listTitle);
+      setMeta('property', 'og:description', listDescription);
       setMeta('property', 'og:url', `${siteUrl}/blog`);
+      setMeta('property', 'og:image', `${siteUrl}/pp.jpg`);
+      setMeta('property', 'og:image:alt', listTitle);
       setMeta('name', 'twitter:card', 'summary_large_image');
-      setMeta(
-        'name',
-        'twitter:title',
-        "Birat's Notebook — Deep dives into AI, MLOps & Engineering",
-      );
-      setMeta(
-        'name',
-        'twitter:description',
-        'Deep dives into AI Agents, MLOps, and the systems behind intelligence.',
-      );
+      setMeta('name', 'twitter:title', listTitle);
+      setMeta('name', 'twitter:description', listDescription);
+      setMeta('name', 'twitter:image', `${siteUrl}/pp.jpg`);
 
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) {
