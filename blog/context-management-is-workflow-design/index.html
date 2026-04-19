@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Management Is Actually Workflow Design | Birat Gautam</title>
+  <meta name="description" content="The 1M token window didn&#39;t just give us more room—it exposed a hidden layer of AI development nobody was talking about. How you manage context reveals how well you understand your own work." />
+  <link rel="canonical" href="https://birat.codes/blog/context-management-is-workflow-design" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Context Management Is Actually Workflow Design | Birat Gautam" />
+  <meta property="og:description" content="The 1M token window didn&#39;t just give us more room—it exposed a hidden layer of AI development nobody was talking about. How you manage context reveals how well you understand your own work." />
+  <meta property="og:url" content="https://birat.codes/blog/context-management-is-workflow-design" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="Context Management Is Actually Workflow Design | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2026-04-17T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Context Management Is Actually Workflow Design | Birat Gautam" />
+  <meta name="twitter:description" content="The 1M token window didn&#39;t just give us more room—it exposed a hidden layer of AI development nobody was talking about. How you manage context reveals how well you understand your own work." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Context Management Is Actually Workflow Design","description":"The 1M token window didn't just give us more room—it exposed a hidden layer of AI development nobody was talking about. How you manage context reveals how well you understand your own work.","datePublished":"2026-04-17T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/context-management-is-workflow-design","author":{"@type":"Person","name":"Birat","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>Context Management Is Actually Workflow Design</h1>
+      <div class="meta">Fri Apr 17 2026 • Birat</div>
+      
+      
+      
+      
+      <p>When Thariq released that article on session management with 1M context windows, I realized I&#39;d been thinking about this wrong for months. I kept treating context management as a <em>constraint</em>—something to optimize around, like minimizing API calls or reducing latency. But after working with Claude Code on increasingly complex projects, I see now that it&#39;s the opposite. Context management is actually workflow design, and the way you handle it says everything about how clearly you&#39;ve defined your task.</p>
+<p><img src="/blog-images/context-management/wikimania-planning-whiteboard.jpg" alt="A whiteboard planning session showing structured work breakdown" title="Image: Stevie Benton (WMUK), CC BY-SA 4.0, via Wikimedia Commons."></p>
+<p>Here&#39;s what shifted for me: <strong>I was getting bad compacts not because Claude was failing, but because I hadn&#39;t decided what I was actually doing.</strong></p>
+<h2>The Hidden Tax of Unclear Intentions</h2>
+<p>Last month I spun up a subagent to refactor a chunk of authentication middleware, thinking &quot;I&#39;ll just have it explore the options.&quot; The subagent came back with a synthesis, I pulled it back into the parent session, and then spent three turns asking Claude to &quot;clean this up&quot; and &quot;make it more idiomatic.&quot; </p>
+<p>What was actually happening? I didn&#39;t know if I wanted a minimal refactor or a full rewrite. I didn&#39;t have opinions about the tradeoffs, so I kept pushing Claude to guess mine. By the third turn, the context was polluted with rejected attempts and my own indecision.</p>
+<p>The problem wasn&#39;t context rot. It was that I was using Claude as a substitute for thinking.</p>
+<p>Here&#39;s the pattern I&#39;ve noticed: <strong>the better you define your task upfront, the easier context management becomes.</strong> When I switched to writing a one-paragraph brief before starting work—&quot;We&#39;re refactoring auth middleware. Constraint: no changes to the login flow. Files that matter: auth.ts, middleware.ts, routes.ts. Approach: move token validation into a decorator pattern&quot;—the compacts started working cleanly. Claude could actually predict where the work was going because I&#39;d already done that prediction myself.</p>
+<h2>Rewind Is Where Expertise Shows</h2>
+<p>Thariq mentioned rewind as a habit of good context management. I&#39;d agree, but I&#39;d push further: <strong>rewind is where you learn how to think clearly about incremental work.</strong></p>
+<p>Most people—me included, at first—use rewind as a &quot;fix my mistake&quot; button. Claude tries an approach, it breaks, you rewind and tell it to try again. That&#39;s fine, it works, but you&#39;re still in reactive mode.</p>
+<p>The shift happens when you start rewinding <em>proactively</em>. You&#39;re not rewinding because something went wrong; you&#39;re rewinding because you realized the direction was wrong. For instance, Claude reads five files to understand a codebase structure. As it&#39;s exploring, you realize it&#39;s going down a path that won&#39;t work—not because of an error, but because you now understand the architecture better than when you started. You rewind to just after the file reads and re-prompt with what you learned.</p>
+<p>This feels like a small thing, but it&#39;s actually the cognitive move that matters: you&#39;re training yourself to intervene <em>when you have clarity</em>, not when there&#39;s a failure. That changes how you work with the tool entirely.</p>
+<p>The old flow: &quot;Let&#39;s try this approach.&quot; → Wait for failure → React and correct. The new flow: &quot;I see where this is heading.&quot; → Rewind → &quot;Here&#39;s actually what matters.&quot;</p>
+<h2>Why Fresh Sessions Beat Long Context Most of the Time</h2>
+<p>This is where I&#39;ll diverge slightly from what I&#39;d expect most people to hear. The 1M context window makes it <em>possible</em> to keep working in a single session for hours. It doesn&#39;t make it optimal.</p>
+<p><img src="/blog-images/context-management/desk-laptop-notebook-table.jpg" alt="A desk setup with a laptop and notebook ready for focused work" title="Image: CC0 via Wikimedia Commons."></p>
+<p>I&#39;ve done both. I&#39;ve kept a session open and hit 800k tokens, compacting twice, and still getting useful work. I&#39;ve also started fresh sessions five times in a single working day. The fresh sessions almost always produce cleaner code.</p>
+<p>The reason isn&#39;t that Claude forgets things. It&#39;s that <em>you</em> think differently in a fresh session. When you start fresh, you&#39;re forced to articulate what you actually need. When you keep the same session open, you&#39;re coasting on the previous context. Your mental model doesn&#39;t get refreshed, so the work drifts.</p>
+<p>I notice this most in longer projects. Day one, I build a feature in a single session, maybe two. By day three, I <em>always</em> start fresh—not because Claude&#39;s model has degraded (though context rot is real), but because I&#39;ve learned things that make my initial approach slightly off-target. A fresh session forces me to incorporate that learning into the brief itself, which changes everything downstream.</p>
+<p><strong>The hidden cost of keeping context is that you&#39;re betting against your own learning.</strong> Every hour you keep a session open is an hour you&#39;re not forcing yourself to articulate what&#39;s changed.</p>
+<h2>Subagents Changed How I Think About Intermediate Work</h2>
+<p>Before 1M context, the question was &quot;Can I fit this in one session?&quot; Now the question is &quot;Do I need this work <em>in</em> my context, or just its result?&quot;</p>
+<p>That&#39;s a subtle shift, but it restructures your entire workflow.</p>
+<p>I used to try to keep long debugging sessions alive because I was worried I&#39;d lose details if I ended it. Now I&#39;ll spin off a subagent to debug a weird issue and just ask for a synthesis. &quot;Here&#39;s the error trace. Debug it. Tell me (1) what it was, (2) why it happened, (3) how you fixed it.&quot; </p>
+<p>The parent session gets a clean summary. The subagent&#39;s messy exploration—all the false leads, the test outputs, the intermediate learnings—just disappears. This is less about context window optimization and more about <em>attention budget</em>. My attention is now free to think about what&#39;s next, not marinating in the debugging session.</p>
+<p>But here&#39;s the psychological part: <strong>this only works if you have absolute clarity on what problem the subagent is solving.</strong> If you spin off a subagent and then realize halfway through that you actually needed to keep watching the exploration, you&#39;re in trouble. So the practice of delegating to subagents has made me much better at defining tasks upfront.</p>
+<p>Again, it&#39;s workflow design, not context management.</p>
+<h2>The Compact Problem That Nobody&#39;s Really Solved</h2>
+<p>Thariq&#39;s point about bad compacts hit close. I&#39;ve had the exact experience: autocompact fires after a long debugging session, I ask the model something related but slightly different, and the context just doesn&#39;t have it anymore.</p>
+<p>The suggestion is &quot;use /compact proactively with a description.&quot; That works, but only if you&#39;re paying attention. It&#39;s adding friction to a moment when you&#39;re tired (after a long session).</p>
+<p>What I&#39;ve started doing instead is <em>less</em> compelling but more reliable: I rarely let a session get long enough to trigger autocompact. I compact proactively at around 400k tokens, <em>before</em> the model is in context rot territory and struggling to predict where the work is going. This is a cost (I&#39;m compacting earlier than necessary), but the benefit is that my compact always works because the model still has enough clarity to make good decisions about what matters.</p>
+<p>It feels like giving up the efficiency of the 1M window. But I think it&#39;s actually respecting it. The window exists, but the sweet spot for clear thinking is probably more like 300-500k tokens. Going beyond that is optimizing for the wrong thing.</p>
+<h2>What This Teaches You About Your Own Brain</h2>
+<p>The deeper insight here is that context management with Claude is a mirror for how you think about your own work. If you find yourself needing long sessions with multiple compacts, it often means:</p>
+<ol>
+<li><p><strong>You&#39;re not breaking work into clear chunks.</strong> Each session should ideally be one &quot;thing&quot;—one feature, one fix, one investigation.</p>
+</li>
+<li><p><strong>You&#39;re discovering requirements as you work rather than defining them upfront.</strong> This is sometimes unavoidable, but if it&#39;s frequent, you need more planning time before you start coding.</p>
+</li>
+<li><p><strong>You&#39;re using the tool to explore rather than execute.</strong> Exploration is valid, but it shouldn&#39;t look like &quot;I&#39;ll build this and see what happens.&quot; It should look like &quot;I&#39;ll research the three approaches and decide which one.&quot;</p>
+</li>
+<li><p><strong>You don&#39;t have strong opinions about the work.</strong> When I have clear opinions about architecture, tradeoffs, and constraints, Claude follows them cleanly. When I&#39;m uncertain, the context starts to fray because we&#39;re both second-guessing.</p>
+</li>
+</ol>
+<p>This is actually useful feedback <em>outside</em> of working with Claude Code. The habits that make you good at session management—clear task definition, strong opinions, deliberate exploration—are the same habits that make you a better engineer generally.</p>
+<h2>The Real Win: Workflow Clarity</h2>
+<p>At the end of this, the 1M window isn&#39;t valuable because it&#39;s large. It&#39;s valuable because it&#39;s <em>large enough</em> that you can&#39;t blame the tool for your unclear thinking anymore. You have enough room to do real work. Now the bottleneck is you.</p>
+<p>This is both liberating and slightly humbling.</p>
+<p>I&#39;ve probably saved 3-4 hours of context management overhead by getting better at defining tasks and being more deliberate about when to keep a session versus start fresh. But the real win is that I&#39;m shipping code faster because I spend less time in indecision. The context management habits are forcing me to think through the work before I start it, which changes the execution entirely.</p>
+<p>Thariq&#39;s guide is excellent—it&#39;s the tactical playbook. But the strategic insight is that good context management <em>looks like</em> clarity of intention. If you&#39;re struggling with sessions, compacts, and subagents, the fix probably isn&#39;t learning more tricks. It&#39;s getting clearer about what you&#39;re trying to do.</p>
+<p>The 1M tokens didn&#39;t change Claude. It changed what we can no longer hide from.</p>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>

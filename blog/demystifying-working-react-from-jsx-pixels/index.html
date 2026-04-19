@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demystifying the Working of ReactJs: From JSX to Pixels | Birat Gautam</title>
+  <meta name="description" content="A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen." />
+  <link rel="canonical" href="https://birat.codes/blog/demystifying-working-react-from-jsx-pixels" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Demystifying the Working of ReactJs: From JSX to Pixels | Birat Gautam" />
+  <meta property="og:description" content="A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen." />
+  <meta property="og:url" content="https://birat.codes/blog/demystifying-working-react-from-jsx-pixels" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="Demystifying the Working of ReactJs: From JSX to Pixels | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2024-08-30T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Demystifying the Working of ReactJs: From JSX to Pixels | Birat Gautam" />
+  <meta name="twitter:description" content="A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Demystifying the Working of ReactJs: From JSX to Pixels","description":"A practical walkthrough of what actually happens from JSX authoring to browser rendering, including Babel transforms, Vite build stages, and how React finally updates pixels on screen.","datePublished":"2024-08-30T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/demystifying-working-react-from-jsx-pixels","author":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>Demystifying the Working of ReactJs: From JSX to Pixels</h1>
+      <div class="meta">Fri Aug 30 2024 • Birat Gautam</div>
+      <div class="tags"><span class="tag">React</span><span class="tag">JSX</span><span class="tag">Babel</span><span class="tag">Vite</span><span class="tag">Frontend</span><span class="tag">Build Tools</span><span class="tag">Rendering</span></div>
+      
+      <p class="meta">Difficulty: Beginner</p>
+      
+      <p>React feels magical when you are new to it. You write a component, run the app, and pixels appear. But in reality, there is a very concrete pipeline from source code to browser rendering.</p>
+<p>This article breaks that pipeline into practical steps so you can reason about performance, debugging, and build output with confidence.</p>
+<h2>The high-level pipeline</h2>
+<pre><code class="language-mermaid">flowchart LR
+	A[Write JSX in source files] --&gt; B[Transform JSX to JavaScript]
+	B --&gt; C[Bundle modules and assets]
+	C --&gt; D[Ship optimized files]
+	D --&gt; E[Browser downloads and executes]
+	E --&gt; F[React renders to DOM]
+</code></pre>
+<p>If you understand each stage, React becomes much less mysterious.</p>
+<h2>Stage 1: What the browser understands</h2>
+<p>A browser can parse HTML, CSS, and JavaScript. It cannot parse JSX syntax like this directly:</p>
+<pre><code class="language-jsx">const node = &lt;h1&gt;Hello, React!&lt;/h1&gt;;
+</code></pre>
+<p>When JSX reaches the browser untransformed, you get errors like unexpected token <code>&lt;</code>.</p>
+<p>That is why JSX needs a transformation step before execution.</p>
+<p><img src="/blog/react-jsx-pixels/image-05.jpg" alt="JSX source example"></p>
+<h2>Stage 2: What JSX really becomes</h2>
+<p>JSX is syntax sugar. It is translated into JavaScript function calls.</p>
+<pre><code class="language-jsx">const node = &lt;h1 className=&quot;title&quot;&gt;Hello&lt;/h1&gt;;
+</code></pre>
+<p>becomes roughly:</p>
+<pre><code class="language-js">const node = React.createElement(&quot;h1&quot;, { className: &quot;title&quot; }, &quot;Hello&quot;);
+</code></pre>
+<p>This translation is why JSX feels declarative while still being plain JavaScript at runtime.</p>
+<p><img src="/blog/react-jsx-pixels/image-10.jpg" alt="JSX transform illustration"></p>
+<h2>Stage 3: Babel and syntax transforms</h2>
+<p>Babel is one of the tools that can transform modern syntax (including JSX) into JavaScript your environment can execute.</p>
+<p>Typical flow:</p>
+<ol>
+<li>Parse source into an AST.</li>
+<li>Apply transformation plugins.</li>
+<li>Emit transformed JavaScript.</li>
+</ol>
+<p>In modern Vite projects, you normally do not wire Babel manually for basic React JSX support, but the conceptual transform step still exists.</p>
+<h2>Stage 4: Vite in development vs production</h2>
+<p>Vite has two personalities:</p>
+<ol>
+<li>Development mode: fast server and on-demand module transforms.</li>
+<li>Production build: optimized bundling, minification, and hashed assets.</li>
+</ol>
+<pre><code class="language-mermaid">flowchart TB
+	A[npm run dev] --&gt; B[Fast local server]
+	B --&gt; C[On-demand transforms]
+
+	D[npm run build] --&gt; E[Dependency graph]
+	E --&gt; F[Rollup bundle]
+	F --&gt; G[Minified hashed assets in dist]
+</code></pre>
+<p>That split is one reason Vite feels fast while still producing production-grade output.</p>
+<h2>Stage 5: What npm run build actually does</h2>
+<p>When you run a production build, Vite typically does the following:</p>
+<ol>
+<li>Reads your config and entry points.</li>
+<li>Resolves imports and builds the module graph.</li>
+<li>Bundles JavaScript and CSS.</li>
+<li>Applies optimizations (tree-shaking, minification, hashing).</li>
+<li>Writes final assets to dist.</li>
+</ol>
+<p><img src="/blog/react-jsx-pixels/image-16.jpg" alt="Vite build output example"></p>
+<p>Those hashed filenames are intentional. They help long-term browser caching and safe cache-busting on deploy.</p>
+<h2>Stage 6: From bundle to pixels</h2>
+<p>At runtime, the browser loads index.html and the referenced bundle(s). React then mounts into a root element and updates the DOM as state changes.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+	participant Browser
+	participant Bundle
+	participant React
+	participant DOM
+	Browser-&gt;&gt;Bundle: Download JS/CSS assets
+	Bundle-&gt;&gt;React: Initialize app
+	React-&gt;&gt;DOM: Mount to #root
+	React-&gt;&gt;DOM: Apply updates on state/props changes
+</code></pre>
+<p>The browser never executes JSX directly in production. It executes the transformed and bundled JavaScript.</p>
+<h2>Practical debugging tips from this model</h2>
+<ul>
+<li>If JSX syntax errors appear in browser, transformation likely did not run.</li>
+<li>If app works in dev but not in build, inspect bundling assumptions and dynamic imports.</li>
+<li>If styles or scripts look stale, verify hashed asset references and cache behavior.</li>
+<li>If initial load is slow, inspect bundle composition and split points.</li>
+</ul>
+<h2>Why this matters</h2>
+<p>Knowing the JSX-to-pixels path helps you:</p>
+<ul>
+<li>Debug faster.</li>
+<li>Build better mental models of React.</li>
+<li>Make smarter performance decisions.</li>
+<li>Understand what your deployment pipeline is actually shipping.</li>
+</ul>
+<p>React becomes easier once you stop treating it as magic and start treating it as a predictable toolchain.</p>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>

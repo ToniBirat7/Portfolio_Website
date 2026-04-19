@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents | Birat Gautam</title>
+  <meta name="description" content="Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely." />
+  <link rel="canonical" href="https://birat.codes/blog/agent-memory-architecture-cold-hot-state" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents | Birat Gautam" />
+  <meta property="og:description" content="Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely." />
+  <meta property="og:url" content="https://birat.codes/blog/agent-memory-architecture-cold-hot-state" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2026-04-17T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents | Birat Gautam" />
+  <meta name="twitter:description" content="Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents","description":"Long-running agent quality depends on memory architecture, not just context window size. Separate hot execution state from cold historical memory to scale safely.","datePublished":"2026-04-17T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/agent-memory-architecture-cold-hot-state","author":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents</h1>
+      <div class="meta">Fri Apr 17 2026 • Birat Gautam</div>
+      <div class="tags"><span class="tag">Agentic AI</span><span class="tag">Memory</span><span class="tag">Architecture</span><span class="tag">State Management</span><span class="tag">Scalability</span></div>
+      
+      <p class="meta">Difficulty: Advanced</p>
+      
+      <h2>Context windows are not a memory architecture</h2>
+<p>A larger context window can delay memory design decisions, but it cannot replace them.</p>
+<p>Production agents fail when they treat all past information as equally important. The result is bloated prompts, slow responses, and contradictory behavior.</p>
+<p>The fix is architectural: separate memory by purpose and time horizon.</p>
+<h2>Use hot memory for active execution</h2>
+<p>Hot memory contains only what is needed for the current decision loop.</p>
+<p>Examples:</p>
+<ul>
+<li>Current task goal</li>
+<li>Latest tool outputs</li>
+<li>Active constraints and policy flags</li>
+<li>Session-level user intent</li>
+</ul>
+<p>Hot memory should be compact, structured, and aggressively pruned.</p>
+<h2>Use cold memory for historical context</h2>
+<p>Cold memory is durable history you retrieve when relevant.</p>
+<p>Examples:</p>
+<ul>
+<li>Past decisions and outcomes</li>
+<li>User preferences over time</li>
+<li>Incident and escalation history</li>
+<li>Domain-specific reference facts</li>
+</ul>
+<pre><code class="language-mermaid">flowchart LR
+  A[Incoming request] --&gt; B[Hot state store]
+  A --&gt; C[Cold memory index]
+  C --&gt; D[Retriever]
+  D --&gt; B
+  B --&gt; E[Agent reasoning]
+  E --&gt; F[Action + writeback]
+  F --&gt; C
+</code></pre>
+<p>This keeps active reasoning focused while preserving long-term context.</p>
+<h2>Introduce memory write policies</h2>
+<p>Not every event should become memory.</p>
+<p>Useful write rules:</p>
+<ol>
+<li>Only persist high-signal events (confirmed preferences, outcomes, corrections).</li>
+<li>Tag memory entries with confidence and source.</li>
+<li>Expire low-value ephemeral traces.</li>
+<li>Require schema validation before writes.</li>
+</ol>
+<pre><code class="language-python">from dataclasses import dataclass
+from datetime import datetime
+
+
+@dataclass
+class MemoryEvent:
+    event_type: str
+    payload: dict
+    confidence: float
+    source: str
+    created_at: datetime
+
+
+def should_persist(event: MemoryEvent) -&gt; bool:
+    high_value_types = {&quot;preference_confirmed&quot;, &quot;decision_outcome&quot;, &quot;policy_override&quot;}
+    return event.event_type in high_value_types and event.confidence &gt;= 0.8
+</code></pre>
+<p>Without this filter, memory becomes noise that degrades future decisions.</p>
+<h2>Retrieval should be policy-aware</h2>
+<p>When assembling context from cold memory, apply filters:</p>
+<ul>
+<li>Relevance to current task</li>
+<li>Recency and validity window</li>
+<li>Trust level by source</li>
+<li>Conflict resolution between entries</li>
+</ul>
+<p>Returning every similar memory chunk is not intelligence. It is context pollution.</p>
+<h2>Design for contradiction handling</h2>
+<p>User preferences and policies change. Memory systems must support conflict management.</p>
+<p>Patterns that help:</p>
+<ul>
+<li>Keep immutable event logs for auditability.</li>
+<li>Build derived &quot;current state&quot; views from events.</li>
+<li>Record superseded entries instead of deleting history.</li>
+</ul>
+<p>This makes explanations and rollback far easier.</p>
+<h2>Performance and cost benefits</h2>
+<p>A hot/cold design improves:</p>
+<ul>
+<li>Latency: smaller active context.</li>
+<li>Cost: fewer unnecessary tokens.</li>
+<li>Stability: less contradiction in prompts.</li>
+<li>Debuggability: clearer state boundaries.</li>
+</ul>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant U as User
+  participant Orchestrator
+  participant Hot as Hot Store
+  participant Cold as Cold Memory
+  U-&gt;&gt;Orchestrator: New request
+  Orchestrator-&gt;&gt;Hot: Load session state
+  Orchestrator-&gt;&gt;Cold: Retrieve relevant history
+  Cold--&gt;&gt;Orchestrator: Ranked memory snippets
+  Orchestrator-&gt;&gt;Hot: Compose execution state
+  Orchestrator--&gt;&gt;U: Response
+</code></pre>
+<h2>Operational checklist</h2>
+<p>Before shipping long-running memory:</p>
+<ul>
+<li>Define persistence policy and schema.</li>
+<li>Add memory quality metrics (hit quality, contradiction rate, stale recall).</li>
+<li>Add retention and deletion controls.</li>
+<li>Add explainability hooks for what memory influenced decisions.</li>
+</ul>
+<p>Memory architecture is product behavior architecture.</p>
+<h2>Practical takeaway</h2>
+<p>Reliable long-running agents need explicit memory tiers.</p>
+<p>Keep hot state minimal, keep cold memory durable and searchable, and enforce strict write/retrieval policies to avoid context drift.</p>
+<h2>Related Posts</h2>
+<ul>
+<li><a href="/blog/state-management-agent-memory">State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems</a></li>
+<li><a href="/blog/token-economics-agent-architecture">Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should</a></li>
+<li><a href="/blog/orchestrating-agents-scale">Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model</a></li>
+</ul>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>

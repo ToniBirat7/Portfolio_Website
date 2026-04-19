@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure | Birat Gautam</title>
+  <meta name="description" content="Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak." />
+  <link rel="canonical" href="https://birat.codes/blog/rag-retrieval-quality-slos" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure | Birat Gautam" />
+  <meta property="og:description" content="Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak." />
+  <meta property="og:url" content="https://birat.codes/blog/rag-retrieval-quality-slos" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2026-04-17T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure | Birat Gautam" />
+  <meta name="twitter:description" content="Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure","description":"Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak.","datePublished":"2026-04-17T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/rag-retrieval-quality-slos","author":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure</h1>
+      <div class="meta">Fri Apr 17 2026 • Birat Gautam</div>
+      <div class="tags"><span class="tag">RAG</span><span class="tag">Search Quality</span><span class="tag">Production Systems</span><span class="tag">SLO</span><span class="tag">Observability</span></div>
+      
+      <p class="meta">Difficulty: Advanced</p>
+      
+      <h2>Generation quality is capped by retrieval quality</h2>
+<p>A model cannot faithfully answer what it never retrieved.</p>
+<p>Teams often tune prompts while ignoring retrieval drift. That creates a dangerous illusion: fluent answers that are grounded in weak evidence.</p>
+<p>If RAG is core to your product, retrieval quality needs service-level objectives, not occasional dashboard checks.</p>
+<h2>Define retrieval SLOs in plain language</h2>
+<p>Your SLOs should match what users care about.</p>
+<p>Useful retrieval SLOs:</p>
+<ol>
+<li>Coverage SLO: At least one relevant chunk appears in top-k for known-good queries.</li>
+<li>Precision SLO: Top-k is not overloaded with irrelevant chunks.</li>
+<li>Freshness SLO: Returned content reflects recent source updates.</li>
+<li>Latency SLO: Retrieval completes within a strict budget.</li>
+</ol>
+<pre><code class="language-mermaid">flowchart TB
+  Q[User query] --&gt; R[Retriever]
+  R --&gt; S{Retrieval SLO checks}
+  S -- pass --&gt; G[Generator]
+  S -- fail --&gt; H[Fallback / Escalation]
+  G --&gt; O[Answer + citations]
+</code></pre>
+<p>That decision gate protects users from confident nonsense.</p>
+<h2>Instrument retrieval separately from generation</h2>
+<p>You need independent telemetry for each stage.</p>
+<p>Track retrieval metrics per request:</p>
+<ul>
+<li>Candidate count</li>
+<li>Top-k scores</li>
+<li>Chunk-source diversity</li>
+<li>Freshness timestamp lag</li>
+<li>Null or low-confidence retrieval rate</li>
+</ul>
+<pre><code class="language-python">def retrieval_health(top_k_chunks: list[dict], threshold: float = 0.72) -&gt; dict:
+    if not top_k_chunks:
+        return {&quot;ok&quot;: False, &quot;reason&quot;: &quot;no_chunks&quot;}
+
+    best_score = top_k_chunks[0][&quot;score&quot;]
+    diverse_sources = len({c[&quot;source_id&quot;] for c in top_k_chunks}) &gt;= 2
+
+    ok = best_score &gt;= threshold and diverse_sources
+    return {
+        &quot;ok&quot;: ok,
+        &quot;best_score&quot;: best_score,
+        &quot;diverse_sources&quot;: diverse_sources,
+    }
+</code></pre>
+<p>If retrieval health fails, block final answers or shift to a safe fallback.</p>
+<h2>Build failure-aware response policy</h2>
+<p>When evidence is weak, the product should behave differently.</p>
+<p>Reasonable fallback policy:</p>
+<ul>
+<li>Ask a clarification question.</li>
+<li>Narrow scope to verified sources.</li>
+<li>Escalate to human support for high-risk intents.</li>
+<li>Explicitly state uncertainty and avoid fabricated certainty.</li>
+</ul>
+<p>This turns silent failure into visible uncertainty, which is far safer.</p>
+<h2>Calibrate top-k and reranking with real traffic</h2>
+<p>Default values are rarely optimal.</p>
+<p>Calibrate on representative query slices:</p>
+<ul>
+<li>Short keyword queries</li>
+<li>Multi-hop informational questions</li>
+<li>Entity-heavy internal questions</li>
+<li>Misspelled/noisy user text</li>
+</ul>
+<pre><code class="language-mermaid">quadrantChart
+  title Retrieval Quality Tradeoffs
+  x-axis Low precision --&gt; High precision
+  y-axis Low recall --&gt; High recall
+  quadrant-1 Ideal zone
+  quadrant-2 Over-filtered
+  quadrant-3 Under-performing
+  quadrant-4 Noisy retrieval
+  k=3 no rerank: [0.72, 0.58]
+  k=8 with rerank: [0.84, 0.81]
+  k=20 no filter: [0.49, 0.87]
+  k=5 strict filter: [0.89, 0.52]
+</code></pre>
+<p>Tune for your risk profile, not benchmark vanity.</p>
+<h2>Source freshness is a first-class metric</h2>
+<p>Many production incidents come from stale documents that remain highly ranked.</p>
+<p>Mitigations:</p>
+<ul>
+<li>Track ingestion lag.</li>
+<li>Apply source version tags in index metadata.</li>
+<li>Penalize stale chunks during rerank.</li>
+<li>Trigger fast-path reindex for critical sources.</li>
+</ul>
+<p>A &quot;correct but outdated&quot; answer can be as harmful as a wrong one.</p>
+<h2>Test retrieval with adversarial and edge queries</h2>
+<p>A strong retrieval system should survive:</p>
+<ul>
+<li>Synonym drift and paraphrases</li>
+<li>Query injection patterns in source documents</li>
+<li>Similar but conflicting policy documents</li>
+<li>Missing source scenarios</li>
+</ul>
+<p>These tests should run in CI, not only during incident response.</p>
+<h2>Practical takeaway</h2>
+<p>Reliable RAG is not a prompt trick. It is a retrieval reliability discipline.</p>
+<p>Set SLOs, monitor them continuously, and refuse to answer with high confidence when evidence quality is below threshold.</p>
+<h2>Related Posts</h2>
+<ul>
+<li><a href="/blog/prompt-injection-defense">Prompt Injection in Agents: Defense Patterns That Actually Work</a></li>
+<li><a href="/blog/agent-observability">Observability for Black-Box Agents: Tracing Decisions in Production</a></li>
+<li><a href="/blog/latency-percentiles">The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average</a></li>
+</ul>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>

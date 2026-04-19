@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hallucination Budget: Quantifying Risk for Mission-Critical Agents | Birat Gautam</title>
+  <meta name="description" content="Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk." />
+  <link rel="canonical" href="https://birat.codes/blog/hallucination-budget" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The Hallucination Budget: Quantifying Risk for Mission-Critical Agents | Birat Gautam" />
+  <meta property="og:description" content="Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk." />
+  <meta property="og:url" content="https://birat.codes/blog/hallucination-budget" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="The Hallucination Budget: Quantifying Risk for Mission-Critical Agents | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2026-04-16T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Hallucination Budget: Quantifying Risk for Mission-Critical Agents | Birat Gautam" />
+  <meta name="twitter:description" content="Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Hallucination Budget: Quantifying Risk for Mission-Critical Agents","description":"Hallucinations are not random. They cluster by input type, failure mode, and downstream cost, which means they can be budgeted like any other production risk.","datePublished":"2026-04-16T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/hallucination-budget","author":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>The Hallucination Budget: Quantifying Risk for Mission-Critical Agents</h1>
+      <div class="meta">Thu Apr 16 2026 • Birat Gautam</div>
+      <div class="tags"><span class="tag">Agentic AI</span><span class="tag">Risk Management</span><span class="tag">Production Systems</span><span class="tag">Safety</span><span class="tag">Evaluation</span></div>
+      
+      <p class="meta">Difficulty: Advanced</p>
+      
+      <h2>Hallucinations are a risk profile, not a mystery</h2>
+<p>The useful question is not whether a model can hallucinate.</p>
+<p>The useful question is: what kind of hallucination, how often, and what does it cost when it slips through?</p>
+<p>In production, hallucinations cluster around a small set of situations: conflicting sources, novel inputs, overconfident synthesis, and domains where the model can sound plausible while being wrong.</p>
+<pre><code class="language-mermaid">flowchart TB
+  A[Input conditions] --&gt; B{Failure mode}
+  B --&gt; C[Wrong fact]
+  B --&gt; D[Wrong policy]
+  B --&gt; E[Wrong action]
+  C --&gt; F[Low correction cost]
+  D --&gt; G[Medium correction cost]
+  E --&gt; H[High correction cost]
+</code></pre>
+<p>That structure is what makes a hallucination budget possible.</p>
+<h2>Classify the failure modes first</h2>
+<p>Not all hallucinations carry the same risk.</p>
+<ol>
+<li>Feature claims: the agent invents product capabilities.</li>
+<li>Pricing claims: the agent states the wrong plan or discount.</li>
+<li>Availability claims: the agent says a service exists when it does not.</li>
+<li>Timeline claims: the agent invents a delivery date or roadmap.</li>
+<li>Procedural claims: the agent tells a user to do the wrong next step.</li>
+</ol>
+<p>These categories matter because each one has a different correction cost.</p>
+<h2>Turn hallucination rate into business risk</h2>
+<p>A flat accuracy metric hides the actual damage.</p>
+<p>What matters is the expected cost of a mistake.</p>
+<pre><code class="language-python">from dataclasses import dataclass
+from enum import Enum
+
+
+class HallucinationType(Enum):
+    FEATURE = &quot;feature&quot;
+    PRICING = &quot;pricing&quot;
+    AVAILABILITY = &quot;availability&quot;
+    TIMELINE = &quot;timeline&quot;
+    PROCEDURE = &quot;procedure&quot;
+
+
+@dataclass
+class HallucinationEvent:
+    kind: HallucinationType
+    confidence: float
+    caught: bool
+    correction_cost: float
+
+
+def budget(events: list[HallucinationEvent]) -&gt; dict[str, float]:
+    total_cost = sum(event.correction_cost for event in events)
+    caught_rate = sum(1 for event in events if event.caught) / max(1, len(events))
+    return {&quot;total_cost&quot;: total_cost, &quot;caught_rate&quot;: caught_rate}
+</code></pre>
+<p>This is the metric that matters in production: how much damage the model causes before the correction loop catches it.</p>
+<h2>Build a risk matrix</h2>
+<pre><code class="language-mermaid">quadrantChart
+  title Hallucination Risk Matrix
+  x-axis Low frequency --&gt; High frequency
+  y-axis Low cost --&gt; High cost
+  quadrant-1 Critical
+  quadrant-2 Watch closely
+  quadrant-3 Tolerate with guardrails
+  quadrant-4 Rare but expensive
+  pricing claims: [0.82, 0.86]
+  availability claims: [0.62, 0.74]
+  feature claims: [0.44, 0.30]
+  timeline claims: [0.72, 0.68]
+  procedure claims: [0.58, 0.88]
+</code></pre>
+<p>The top-right quadrant is where engineering time should go first.</p>
+<h2>Defenses should match the cost</h2>
+<p>Cheap mistakes can be handled with lightweight validation.</p>
+<p>Expensive mistakes need stricter controls.</p>
+<ul>
+<li>Low-cost claims: post-generation checks and user-visible disclaimers.</li>
+<li>Medium-cost claims: retrieval validation and source citations.</li>
+<li>High-cost claims: schema-checked answers, policy gates, or human review.</li>
+<li>Critical claims: do not let the model commit the action alone.</li>
+</ul>
+<p>The point is not to eliminate all hallucinations. The point is to spend defense effort where the expected loss is highest.</p>
+<h2>What to measure every day</h2>
+<ul>
+<li>Hallucination type frequency.</li>
+<li>Correction cost by type.</li>
+<li>Time to detection.</li>
+<li>Time to correction.</li>
+<li>Confidence versus actual correctness.</li>
+</ul>
+<p>If confidence is high and correctness is low, calibration is broken.</p>
+<h2>Practical rule</h2>
+<p>Treat hallucination risk like any other production risk budget.</p>
+<p>If the agent can be wrong, classify the wrongness, estimate the cost, and put the expensive cases behind stronger controls.</p>
+<h2>Related Posts</h2>
+<ul>
+<li><a href="/blog/agent-observability">Observability for Black-Box Agents: Tracing Decisions in Production</a></li>
+<li><a href="/blog/agent-confidence-thresholds">When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff</a></li>
+<li><a href="/blog/state-management-agent-memory">State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems</a></li>
+</ul>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>

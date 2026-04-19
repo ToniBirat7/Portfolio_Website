@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should | Birat Gautam</title>
+  <meta name="description" content="Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls." />
+  <link rel="canonical" href="https://birat.codes/blog/token-economics-agent-architecture" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should | Birat Gautam" />
+  <meta property="og:description" content="Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls." />
+  <meta property="og:url" content="https://birat.codes/blog/token-economics-agent-architecture" />
+  <meta property="og:image" content="https://birat.codes/pp.jpg" />
+  <meta property="og:image:alt" content="Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should | Birat Gautam" />
+  
+  <meta property="article:published_time" content="2026-04-16T00:00:00.000Z" />
+  <meta property="article:modified_time" content="2026-04-17T00:00:00.000Z" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should | Birat Gautam" />
+  <meta name="twitter:description" content="Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls." />
+  <meta name="twitter:image" content="https://birat.codes/pp.jpg" />
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should","description":"Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls.","datePublished":"2026-04-16T00:00:00.000Z","dateModified":"2026-04-17T00:00:00.000Z","mainEntityOfPage":"https://birat.codes/blog/token-economics-agent-architecture","author":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes/#profile"},"publisher":{"@type":"Person","name":"Birat Gautam","url":"https://birat.codes"}}</script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #0a192f;
+      color: #c9d1d9;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.8;
+      padding: 6rem 1rem 5rem;
+    }
+    main { max-width: 760px; margin: 0 auto; }
+    a { color: #64ffda; }
+    h1, h2, h3 { color: #e6f1ff; font-family: "Outfit", sans-serif; line-height: 1.2; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .meta { color: #8892b0; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+    .tag { border: 1px solid rgba(100,255,218,0.2); color: #64ffda; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    pre { background: #161b22; padding: 1rem; overflow-x: auto; border-radius: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ad-slot { margin: 2rem 0; display: flex; justify-content: center; }
+    .ad-slot ins { display: block; width: 100%; max-width: 300px; min-height: 250px; }
+    .blog-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .blog-nav-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(100, 255, 218, 0.12);
+      background: rgba(8, 20, 37, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(2, 10, 24, 0.35);
+    }
+    .blog-nav-back {
+      text-decoration: none;
+      color: #8892b0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .blog-nav-back:hover { color: #64ffda; }
+    .blog-nav-brand {
+      text-decoration: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #e6f1ff;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .brand-dot { color: #64ffda; }
+    .brand-slash { color: #8892b0; opacity: 0.5; }
+    .blog-nav-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .blog-nav-icon {
+      color: #8892b0;
+      text-decoration: none;
+      padding: 0.42rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(100, 255, 218, 0.02);
+      transition: color 0.2s, transform 0.15s;
+    }
+    .blog-nav-icon:hover {
+      color: #64ffda;
+      transform: translateY(-2px);
+      border-color: rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.08);
+    }
+    .blog-nav-back svg,
+    .blog-nav-icon svg {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 600px) {
+      .blog-nav {
+        height: 66px;
+      }
+      .blog-nav-content {
+        width: calc(100% - 1rem);
+        padding: 0 0.7rem;
+        height: 50px;
+        border-radius: 14px;
+      }
+      .blog-nav-back span { display: none; }
+      .blog-nav-brand { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="blog-nav" aria-label="Blog navigation">
+    <div class="blog-nav-content">
+      <a href="/" class="blog-nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6" /></svg>
+        <span>Portfolio</span>
+      </a>
+      <a href="/blog" class="blog-nav-brand">birat<span class="brand-dot">.</span>codes<span class="brand-slash">/</span>blog</a>
+      <div class="blog-nav-actions">
+        <a href="/about" class="blog-nav-icon" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 10-16 0" /><circle cx="12" cy="8" r="4" /></svg></a>
+        <a href="/contact" class="blog-nav-icon" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg></a>
+        <a href="/privacy-policy" class="blog-nav-icon" aria-label="Privacy Policy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" /></svg></a>
+        <a href="/terms" class="blog-nav-icon" aria-label="Terms of Service"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /></svg></a>
+        <a href="/rss.xml" class="blog-nav-icon" aria-label="RSS Feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9" /><path d="M4 4a16 16 0 0116 16" /><circle cx="6" cy="18" r="1.5" /></svg></a>
+        <a href="https://github.com/ToniBirat7" target="_blank" rel="noopener noreferrer" class="blog-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.72c-2.78.61-3.37-1.16-3.37-1.16-.46-1.18-1.13-1.5-1.13-1.5-.92-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.9 1.55 2.36 1.1 2.93.84.09-.66.35-1.1.64-1.35-2.22-.26-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.03a9.4 9.4 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.42.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.35 4.67-4.58 4.93.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0012 2z" /></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <main>
+    <p><a href="/blog">Back to all posts</a></p>
+    <article>
+      <h1>Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should</h1>
+      <div class="meta">Thu Apr 16 2026 • Birat Gautam</div>
+      <div class="tags"><span class="tag">Agentic AI</span><span class="tag">Cost Optimization</span><span class="tag">Architecture</span><span class="tag">Caching</span><span class="tag">Model Routing</span></div>
+      
+      <p class="meta">Difficulty: Intermediate</p>
+      
+      <h2>The real cost is structural</h2>
+<p>Teams often tune prompts first because it feels cheap and visible.</p>
+<p>The problem is that prompt polish only affects a small part of the bill. The real cost comes from how often you call the model, how much context you send, and how many times you repeat work.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[User request] --&gt; B[Intake and route]
+  B --&gt; C[Retrieve data]
+  C --&gt; D[Model call]
+  D --&gt; E{Enough confidence?}
+  E -- yes --&gt; F[Return]
+  E -- no --&gt; G[Escalate to larger model]
+</code></pre>
+<p>The cheapest token is the one you never spend.</p>
+<h2>Measure cost by request type</h2>
+<p>The first step is not optimization. It is attribution.</p>
+<ul>
+<li>How many tokens does one request type consume?</li>
+<li>Which stage repeats the same work?</li>
+<li>Which request path needs the expensive model at all?</li>
+</ul>
+<pre><code class="language-python">from dataclasses import dataclass
+
+
+@dataclass
+class TokenRecord:
+    request_type: str
+    prompt_tokens: int
+    completion_tokens: int
+    model: str
+
+
+def request_cost(record: TokenRecord, rate_per_1k: float) -&gt; float:
+    total_tokens = record.prompt_tokens + record.completion_tokens
+    return (total_tokens / 1000) * rate_per_1k
+</code></pre>
+<p>If you do not know the cost per request type, you cannot decide which optimization matters.</p>
+<h2>Where the waste usually is</h2>
+<ol>
+<li>Repeating classification that could happen outside the model.</li>
+<li>Sending too much context when only a small slice is needed.</li>
+<li>Re-running retrieval for requests within the same session.</li>
+<li>Using the largest model for tasks that a smaller model can handle.</li>
+</ol>
+<pre><code class="language-mermaid">barChart
+  title Token Waste by Stage
+  x-axis Intake --&gt; Retrieval --&gt; Generation --&gt; Retry paths
+  y-axis Tokens
+  data: 400, 1800, 1200, 900
+</code></pre>
+<p>The pattern is clear: the architecture, not the wording, drives most of the spend.</p>
+<h2>The four highest-leverage levers</h2>
+<h3>1. Cache aggressively where the result is reusable</h3>
+<p>Session-level facts, policies, and recent lookups should not be recomputed for every turn.</p>
+<h3>2. Route tasks to the smallest model that can handle them</h3>
+<p>Use a cheap model for classification, extraction, and simple routing. Escalate only when the task actually needs it.</p>
+<h3>3. Prune context before it reaches the model</h3>
+<p>If only one paragraph matters, send one paragraph.</p>
+<h3>4. Cascade by confidence</h3>
+<p>Try the cheap path first. Escalate only on uncertainty.</p>
+<pre><code class="language-python">class ModelRouter:
+    def choose_model(self, task: str, context_length: int) -&gt; str:
+        if task in {&quot;classification&quot;, &quot;extraction&quot;}:
+            return &quot;small-model&quot;
+        if context_length &gt; 3000:
+            return &quot;large-model&quot;
+        return &quot;mid-model&quot;
+</code></pre>
+<h2>Budget the system, not the prompt</h2>
+<p>Think in terms of total monthly impact.</p>
+<pre><code class="language-text">Baseline monthly cost: $50,000
+Caching and reuse:     -$12,000
+Context pruning:       -$10,000
+Routing:               -$9,000
+Confidence cascade:    -$8,000
+Retry reduction:       -$4,000
+Remaining cost:        $7,000
+</code></pre>
+<p>The exact numbers will differ, but the shape usually does not.</p>
+<h2>Practical rule</h2>
+<p>If you want a lower bill, change the architecture first.</p>
+<p>Prompt refinement is a finishing pass. It is not the primary cost control mechanism.</p>
+<h2>Related Posts</h2>
+<ul>
+<li><a href="/blog/orchestrating-agents-scale">Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model</a></li>
+<li><a href="/blog/hallucination-budget">The Hallucination Budget: Quantifying Risk for Mission-Critical Agents</a></li>
+<li><a href="/blog/state-management-agent-memory">State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems</a></li>
+</ul>
+
+      
+    </article>
+  </main>
+  
+</body>
+</html>
