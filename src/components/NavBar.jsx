@@ -14,6 +14,7 @@ const sections = [
 
 const NavBar = () => {
   const [activeSection, setActiveSection] = useState('root');
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleScrollTo = (id) => {
     const section = document.getElementById(id);
@@ -54,8 +55,35 @@ const NavBar = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const updateVisibility = () => {
+      const profileSection = document.getElementById('profile');
+      if (!profileSection) {
+        setIsVisible(false);
+        return;
+      }
+
+      const nav = document.querySelector('.navbar');
+      const navHeight = nav?.offsetHeight || 70;
+      const revealOffset = profileSection.offsetTop - navHeight;
+      setIsVisible(window.scrollY >= Math.max(revealOffset, 0));
+    };
+
+    updateVisibility();
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+
+    return () => {
+      window.removeEventListener('scroll', updateVisibility);
+      window.removeEventListener('resize', updateVisibility);
+    };
+  }, []);
+
   return (
-    <nav className="navbar" aria-label="Main navigation">
+    <nav
+      className={`navbar ${isVisible ? 'navbar-visible' : 'navbar-hidden'}`}
+      aria-label="Main navigation"
+    >
       <ul>
         {[
           { id: 'root', label: 'Home' },

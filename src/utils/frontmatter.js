@@ -83,10 +83,13 @@ export function extractTOC(markdown) {
   let match;
 
   while ((match = regex.exec(markdown)) !== null) {
+    const cleanText = stripMarkdown(match[2].trim());
+    if (!cleanText) continue;
+
     headings.push({
       level: match[1].length,
-      text: match[2].trim(),
-      id: slugifyHeading(match[2]),
+      text: cleanText,
+      id: slugifyHeading(cleanText),
     });
   }
 

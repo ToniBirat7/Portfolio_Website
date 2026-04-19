@@ -211,6 +211,16 @@
   font-family: var(--font-mono) !important;
   background: transparent !important;
   line-height: 1.65 !important;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+}
+
+.code-block-body code {
+  display: block;
+  min-width: max-content;
 }
 
 /* ── Images / Figures ──────────────────────────── */

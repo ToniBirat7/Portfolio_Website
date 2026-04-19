@@ -12,11 +12,26 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-primary);
-  transition: background-color 0.3s ease;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    background-color 0.3s ease;
   opacity: 1;
   pointer-events: auto;
   z-index: 1100;
   box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+}
+
+.navbar.navbar-hidden {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.navbar.navbar-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .navbar .logo {

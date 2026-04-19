@@ -23,14 +23,24 @@ const SocialIcon = ({ name }) => {
   switch (name) {
     case 'x':
       return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+          fill="none"
+        >
           <path d="M4 4l16 16" />
           <path d="M20 4L4 20" />
         </svg>
       );
     case 'linkedin':
       return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+          fill="none"
+        >
           <path d="M6 9v10" />
           <circle cx="6" cy="6.5" r="1.5" />
           <path d="M10 19V9" />
@@ -39,7 +49,12 @@ const SocialIcon = ({ name }) => {
       );
     case 'link':
       return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+          fill="none"
+        >
           <path d="M10 13a5 5 0 017 0l1 1a5 5 0 01-7 7l-1-1" />
           <path d="M14 11a5 5 0 00-7 0l-1 1a5 5 0 007 7l1-1" />
         </svg>
