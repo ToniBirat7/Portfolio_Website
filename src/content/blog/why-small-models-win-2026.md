@@ -1,6 +1,6 @@
 ---
 title: "Small Models Actually Win: Why Qwen 35B Beats GPT-5 at Economics (And Often Quality)"
-date: 2026-04-24
+date: 2026-04-20
 author: Birat Gautam
 excerpt: "The LLM industry sold you a lie: bigger is better. In 2026, smaller models are outcompeting frontier models on the metrics that actually matter—cost, latency, and real-world accuracy. Here's the economics breakdown and why you should care."
 tags: ["LLMs", "Economics", "Model Efficiency", "Qwen", "Open Source"]

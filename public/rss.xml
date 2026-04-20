@@ -5,7 +5,31 @@
     <link>https://birat.codes/blog</link>
     <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
     <language>en-US</language>
-    <lastBuildDate>Sun, 19 Apr 2026 09:28:46 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2026 05:34:39 GMT</lastBuildDate>
+    <item>
+      <title>Why Your LLM Bill is 10x Too High (And How vLLM + Speculative Decoding Fixes It)</title>
+      <link>https://birat.codes/blog/inference-optimization-speculative-decoding</link>
+      <guid>https://birat.codes/blog/inference-optimization-speculative-decoding</guid>
+      <pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Your inference infrastructure is burning money. A typical LLM serving setup wastes 60-70% of compute on token generation. Here&apos;s how vLLM&apos;s PagedAttention + speculative decoding can cut your costs by 70% without sacrificing quality.</description>
+      <category>LLMs</category>
+      <category>Infrastructure</category>
+      <category>Cost Optimization</category>
+      <category>vLLM</category>
+      <category>Production ML</category>
+    </item>
+    <item>
+      <title>Small Models Actually Win: Why Qwen 35B Beats GPT-5 at Economics (And Often Quality)</title>
+      <link>https://birat.codes/blog/why-small-models-win-2026</link>
+      <guid>https://birat.codes/blog/why-small-models-win-2026</guid>
+      <pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate>
+      <description>The LLM industry sold you a lie: bigger is better. In 2026, smaller models are outcompeting frontier models on the metrics that actually matter—cost, latency, and real-world accuracy. Here&apos;s the economics breakdown and why you should care.</description>
+      <category>LLMs</category>
+      <category>Economics</category>
+      <category>Model Efficiency</category>
+      <category>Qwen</category>
+      <category>Open Source</category>
+    </item>
     <item>
       <title>I Tested Gemma 4 for Local Agentic AI: Architecture, Benchmarks, Prompting, and Deployment Lessons</title>
       <link>https://birat.codes/blog/gemma-4-local-agentic-ai-deployment-lessons</link>
