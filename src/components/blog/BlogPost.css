@@ -215,6 +215,57 @@
   margin-left: -1px;
 }
 
+.inline-related-posts {
+  max-width: 680px;
+  margin: 2rem auto 0;
+}
+
+.inline-related-posts h2 {
+  font-family: var(--font-heading);
+  color: var(--white);
+  font-size: 1.18rem;
+  margin-bottom: 0.9rem;
+}
+
+.inline-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.inline-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 255, 218, 0.08);
+  background: rgba(8, 19, 36, 0.6);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.inline-related-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(100, 255, 218, 0.2);
+}
+
+.inline-related-card strong {
+  color: var(--white);
+  line-height: 1.3;
+  font-size: 0.95rem;
+}
+
+.inline-related-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
 /* ── Post Footer ────────────────────────────────── */
 .post-end {
   max-width: 680px;
@@ -539,6 +590,10 @@
   }
   .toc-sticky {
     position: static;
+  }
+
+  .inline-related-grid {
+    grid-template-columns: 1fr;
   }
 }
 

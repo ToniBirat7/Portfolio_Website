@@ -1,5 +1,5 @@
-import { useEffect, lazy, Suspense } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect, useState, lazy, Suspense } from 'react';
+import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import CareerHighlights from './components/CareerHighlights';
 import HeroSection from './components/HeroPage';
 import NavBar from './components/NavBar';
@@ -10,6 +10,7 @@ import Research from './components/Research.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import Contact from './components/Contact.jsx';
 import { initializeAnalytics, trackPageView } from './utils/analytics.js';
+import { getPosts } from './utils/blogLoader.js';
 
 const BlogHome = lazy(() => import('./components/blog/BlogHome.jsx'));
 const BlogPost = lazy(() => import('./components/blog/BlogPost.jsx'));
@@ -48,18 +49,61 @@ function AnalyticsBridge() {
   return null;
 }
 
+function BlogSpotlight() {
+  const [featuredPost, setFeaturedPost] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadFeaturedPost = async () => {
+      const posts = await getPosts();
+      const latestPost = posts[0] || null;
+
+      if (active) {
+        setFeaturedPost(latestPost);
+      }
+    };
+
+    loadFeaturedPost();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (!featuredPost) return null;
+
+  return (
+    <section className="blog-spotlight" aria-label="Latest blog post">
+      <div className="blog-spotlight-inner">
+        <div>
+          <p className="blog-spotlight-kicker">Latest deep dive</p>
+          <h2>{featuredPost.title}</h2>
+          <p>{featuredPost.excerpt}</p>
+        </div>
+        <Link to={`/blog/${featuredPost.slug}`} className="blog-spotlight-link">
+          Read the post
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function Portfolio() {
   return (
     <>
       <ScrollProgress />
       <NavBar />
-      <HeroSection />
-      <Profile />
-      <CareerHighlights />
-      <Research />
-      <Project />
-      <AwardsAchievements />
-      <Contact />
+      <main>
+        <HeroSection />
+        <BlogSpotlight />
+        <Profile />
+        <CareerHighlights />
+        <Research />
+        <Project />
+        <AwardsAchievements />
+        <Contact />
+      </main>
       <footer className="site-footer">
         <p>
           &copy; {new Date().getFullYear()} Birat Gautam. All rights reserved.

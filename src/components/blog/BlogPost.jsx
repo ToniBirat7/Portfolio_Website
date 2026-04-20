@@ -355,116 +355,64 @@ const BlogPost = () => {
       <ReadingProgress />
       <BlogNav />
 
-      <article className="post-article">
-        {/* ── Header ── */}
-        <header className="post-hero">
-          <div className="post-hero-meta">
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </time>
-            <span className="meta-sep">•</span>
-            <span>{post.readTime} min read</span>
-            {post.difficulty && (
-              <>
-                <span className="meta-sep">•</span>
-                <span className="meta-pill">{post.difficulty}</span>
-              </>
-            )}
-          </div>
-          <h1>{post.title}</h1>
-          <p className="post-hero-desc">{post.excerpt}</p>
-          <div className="post-hero-author">
-            <span>By {post.author}</span>
-          </div>
-        </header>
-
-        {/* ── Cover Image ── */}
-        {post.coverImage && (
-          <figure className="post-cover">
-            <img
-              src={post.coverImage}
-              alt={post.title}
-              loading="eager"
-              decoding="async"
-            />
-          </figure>
-        )}
-
-        {/* ── Content + TOC Grid ── */}
-        <div className="post-grid">
-          <PostBody content={post.content} postSlug={post.slug} />
-          <TableOfContents toc={post.toc} />
-        </div>
-
-        {/* ── Ad Slot (inline, after content) ── */}
-        {hasInlineAds && (
-          <AdSlot placement="blog-inline" width="300px" height="250px" />
-        )}
-
-        {showAdDebug && (
-          <div
-            className={`adsense-debug ${hasInlineAds ? 'is-ready' : 'is-missing'}`}
-            role="status"
-            aria-live="polite"
-          >
-            <strong>AdSense debug:</strong>{' '}
-            {hasInlineAds
-              ? `READY (client ${ADSENSE_CLIENT_ID}, slot ${ADSENSE_BLOG_SLOT_ID})`
-              : 'MISSING SLOT CONFIG (set VITE_ADSENSE_BLOG_SLOT_ID in .env.*)'}
-          </div>
-        )}
-
-        <NewsletterSignup source="blog_post" postSlug={post.slug} />
-
-        <MonetizationPanel post={post} />
-
-        {/* ── Post Footer ── */}
-        <footer className="post-end">
-          {/* Tags */}
-          <div className="post-end-tags">
-            {post.tags.map((tag) => (
-              <span className="tag-pill" key={tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Share */}
-          <ShareRow title={post.title} />
-
-          {/* Prev/Next */}
-          <nav className="post-adjacent" aria-label="Adjacent posts">
-            <div className="adj-link adj-prev">
-              {adjacent.prev && (
-                <Link to={`/blog/${adjacent.prev.slug}`}>
-                  <span className="adj-label">← Previous</span>
-                  <span className="adj-title">{adjacent.prev.title}</span>
-                </Link>
+      <main>
+        <article className="post-article">
+          {/* ── Header ── */}
+          <header className="post-hero">
+            <div className="post-hero-meta">
+              <time dateTime={post.date}>
+                {new Date(post.date).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </time>
+              <span className="meta-sep">•</span>
+              <span>{post.readTime} min read</span>
+              {post.difficulty && (
+                <>
+                  <span className="meta-sep">•</span>
+                  <span className="meta-pill">{post.difficulty}</span>
+                </>
               )}
             </div>
-            <div className="adj-link adj-next">
-              {adjacent.next && (
-                <Link to={`/blog/${adjacent.next.slug}`}>
-                  <span className="adj-label">Next →</span>
-                  <span className="adj-title">{adjacent.next.title}</span>
-                </Link>
-              )}
+            <h1>{post.title}</h1>
+            <p className="post-hero-desc">{post.excerpt}</p>
+            <div className="post-hero-author">
+              <span>By {post.author}</span>
             </div>
-          </nav>
+          </header>
+
+          {/* ── Cover Image ── */}
+          {post.coverImage && (
+            <figure className="post-cover">
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          )}
+
+          {/* ── Content + TOC Grid ── */}
+          <div className="post-grid">
+            <PostBody content={post.content} postSlug={post.slug} />
+            <TableOfContents toc={post.toc} />
+          </div>
 
           {related.length > 0 && (
-            <section className="related-posts" aria-label="Related posts">
-              <h2>Read next</h2>
-              <div className="related-post-grid">
+            <section
+              className="inline-related-posts"
+              aria-label="Related deep dives"
+            >
+              <h2>Related deep dives</h2>
+              <div className="inline-related-grid">
                 {related.map((item) => (
                   <Link
                     key={item.slug}
                     to={`/blog/${item.slug}`}
-                    className="related-post-card"
+                    className="inline-related-card"
                   >
                     <span className="related-label">Related</span>
                     <strong>{item.title}</strong>
@@ -474,8 +422,65 @@ const BlogPost = () => {
               </div>
             </section>
           )}
-        </footer>
-      </article>
+
+          {/* ── Ad Slot (inline, after content) ── */}
+          {hasInlineAds && (
+            <AdSlot placement="blog-inline" width="300px" height="250px" />
+          )}
+
+          {showAdDebug && (
+            <div
+              className={`adsense-debug ${hasInlineAds ? 'is-ready' : 'is-missing'}`}
+              role="status"
+              aria-live="polite"
+            >
+              <strong>AdSense debug:</strong>{' '}
+              {hasInlineAds
+                ? `READY (client ${ADSENSE_CLIENT_ID}, slot ${ADSENSE_BLOG_SLOT_ID})`
+                : 'MISSING SLOT CONFIG (set VITE_ADSENSE_BLOG_SLOT_ID in .env.*)'}
+            </div>
+          )}
+
+          <NewsletterSignup source="blog_post" postSlug={post.slug} />
+
+          <MonetizationPanel post={post} />
+
+          {/* ── Post Footer ── */}
+          <footer className="post-end">
+            {/* Tags */}
+            <div className="post-end-tags">
+              {post.tags.map((tag) => (
+                <span className="tag-pill" key={tag}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Share */}
+            <ShareRow title={post.title} />
+
+            {/* Prev/Next */}
+            <nav className="post-adjacent" aria-label="Adjacent posts">
+              <div className="adj-link adj-prev">
+                {adjacent.prev && (
+                  <Link to={`/blog/${adjacent.prev.slug}`}>
+                    <span className="adj-label">← Previous</span>
+                    <span className="adj-title">{adjacent.prev.title}</span>
+                  </Link>
+                )}
+              </div>
+              <div className="adj-link adj-next">
+                {adjacent.next && (
+                  <Link to={`/blog/${adjacent.next.slug}`}>
+                    <span className="adj-label">Next →</span>
+                    <span className="adj-title">{adjacent.next.title}</span>
+                  </Link>
+                )}
+              </div>
+            </nav>
+          </footer>
+        </article>
+      </main>
 
       <footer className="site-footer">
         <p>

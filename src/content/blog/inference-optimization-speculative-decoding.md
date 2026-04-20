@@ -1,5 +1,5 @@
 ---
-title: "Why Your LLM Bill is 10x Too High (And How vLLM + Speculative Decoding Fixes It)"
+title: "How to Cut LLM Inference Costs with vLLM and Speculative Decoding"
 date: 2026-04-20
 author: Birat Gautam
 excerpt: "Your inference infrastructure is burning money. A typical LLM serving setup wastes 60-70% of compute on token generation. Here's how vLLM's PagedAttention + speculative decoding can cut your costs by 70% without sacrificing quality."
@@ -34,6 +34,8 @@ This is called the **memory-bound bottleneck**. Your GPU spends 99% of time movi
 - vLLM + Speculative Decoding: Same 100 tokens costs $0.015
 
 That's **90% cost reduction** for the same quality output. This isn't theoretical—it's deployed on NVIDIA H100s in production right now.
+
+If you want the broader architecture view of where this money goes inside an agent stack, read [Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should](/blog/token-economics-agent-architecture).
 
 ## How PagedAttention Cuts Memory Waste
 

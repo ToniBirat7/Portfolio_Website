@@ -5,9 +5,9 @@
     <link>https://birat.codes/blog</link>
     <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
     <language>en-US</language>
-    <lastBuildDate>Mon, 20 Apr 2026 05:34:39 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2026 06:59:00 GMT</lastBuildDate>
     <item>
-      <title>Why Your LLM Bill is 10x Too High (And How vLLM + Speculative Decoding Fixes It)</title>
+      <title>How to Cut LLM Inference Costs with vLLM and Speculative Decoding</title>
       <link>https://birat.codes/blog/inference-optimization-speculative-decoding</link>
       <guid>https://birat.codes/blog/inference-optimization-speculative-decoding</guid>
       <pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate>

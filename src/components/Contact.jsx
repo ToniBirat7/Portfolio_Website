@@ -52,7 +52,7 @@ const Contact = () => {
           <div className="contact-info-item">
             <i className="fab fa-linkedin"></i>
             <div>
-              <h4>LinkedIn</h4>
+              <h3>LinkedIn</h3>
               <a
                 href="https://www.linkedin.com/in/biratgautam7/"
                 target="_blank"
@@ -71,7 +71,7 @@ const Contact = () => {
           <div className="contact-info-item">
             <i className="fab fa-github"></i>
             <div>
-              <h4>GitHub</h4>
+              <h3>GitHub</h3>
               <a
                 href="https://github.com/ToniBirat7"
                 target="_blank"

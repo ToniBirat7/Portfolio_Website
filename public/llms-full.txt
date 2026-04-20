@@ -2,7 +2,7 @@
 
 > Expanded context view for AI assistants. Includes article metadata plus content excerpts.
 
-## Why Your LLM Bill is 10x Too High (And How vLLM + Speculative Decoding Fixes It)
+## How to Cut LLM Inference Costs with vLLM and Speculative Decoding
 
 - URL: https://birat.codes/blog/inference-optimization-speculative-decoding
 - Published: 2026-04-20
