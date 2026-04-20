@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useInView } from "../hooks/useInView";
-import { projects, executionLogs } from "../data/projects";
-import "./Project.css";
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useInView } from '../hooks/useInView';
+import { projects, executionLogs } from '../data/projects';
+import './Project.css';
 
 const TerminalModal = ({ project, onClose }) => {
   const [logs, setLogs] = useState([]);
@@ -19,7 +19,7 @@ const TerminalModal = ({ project, onClose }) => {
     let currentLog = 0;
     const interval = setInterval(() => {
       if (currentLog < projectLogs.length) {
-        setLogs(prev => [...prev, projectLogs[currentLog]]);
+        setLogs((prev) => [...prev, projectLogs[currentLog]]);
         currentLog++;
       } else {
         setIsTyping(false);
@@ -37,7 +37,7 @@ const TerminalModal = ({ project, onClose }) => {
       aria-modal="true"
       aria-label={`Build logs for ${project.title}`}
     >
-      <div className="terminal-window" onClick={e => e.stopPropagation()}>
+      <div className="terminal-window" onClick={(e) => e.stopPropagation()}>
         <div className="terminal-header">
           <div className="terminal-buttons">
             <span className="dot red"></span>
@@ -45,11 +45,19 @@ const TerminalModal = ({ project, onClose }) => {
             <span className="dot green"></span>
           </div>
           <span className="terminal-title">birat@terminal:~/{project.id}</span>
-          <button className="terminal-close" onClick={handleClose} aria-label="Close build logs">&times;</button>
+          <button
+            className="terminal-close"
+            onClick={handleClose}
+            aria-label="Close build logs"
+          >
+            &times;
+          </button>
         </div>
         <div className="terminal-body">
           {logs.map((log, i) => (
-            <div key={i} className="log-line">{log}</div>
+            <div key={i} className="log-line">
+              {log}
+            </div>
           ))}
           {isTyping && <div className="command-line">_</div>}
           {!isTyping && (
@@ -77,7 +85,12 @@ const Project = () => {
   const [ref, inView] = useInView({ threshold: 0.1 });
 
   return (
-    <section className="project-gallery" id="project" aria-labelledby="project-heading" ref={ref}>
+    <section
+      className="project-gallery"
+      id="project"
+      aria-labelledby="project-heading"
+      ref={ref}
+    >
       <h2 id="project-heading">Project Gallery</h2>
       <div className="project-cards">
         {projects.map((project, index) => (
@@ -95,8 +108,9 @@ const Project = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="project-github-link"
+                aria-label={`Open ${project.title} repository on GitHub`}
               >
-                <i className="fab fa-github"></i>
+                <i className="fab fa-github" aria-hidden="true"></i>
               </a>
             </div>
             <div className="project-content">

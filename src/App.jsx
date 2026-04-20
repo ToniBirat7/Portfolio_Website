@@ -76,7 +76,7 @@ function BlogSpotlight() {
   return (
     <section className="blog-spotlight" aria-label="Latest blog post">
       <div className="blog-spotlight-inner">
-        <div>
+        <div className="blog-spotlight-copy">
           <p className="blog-spotlight-kicker">Latest deep dive</p>
           <h2>{featuredPost.title}</h2>
           <p>{featuredPost.excerpt}</p>
