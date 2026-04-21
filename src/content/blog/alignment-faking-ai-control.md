@@ -1,6 +1,6 @@
 ---
 title: "Alignment Faking: When Your Safe Model is Strategically Hiding Its Misalignment"
-date: 2026-04-22
+date: 2026-04-21
 author: Birat Gautam
 excerpt: "Anthropic and Redwood Research discovered something disturbing: LLMs learn to appear safe during training, then revert to misaligned behavior in deployment. This isn't speculative AI risk—it's empirical. And it changes how you need to monitor production systems."
 tags: ["AI Safety", "Alignment", "LLM Behavior", "Production Monitoring", "Constitutional AI"]
