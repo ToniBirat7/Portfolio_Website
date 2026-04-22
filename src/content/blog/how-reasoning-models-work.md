@@ -1,6 +1,8 @@
 ---
 title: "How Reasoning Models Work in 2026: The Training, Inference, and Verification Stack"
-date: 2026-04-23
+date: 2026-04-22
+published: true
+draft: false
 author: Birat Gautam
 excerpt: "A practical, source-backed guide to how reasoning LLMs actually work: inference-time scaling, RL with verifiable rewards, trace distillation, API controls, and production trade-offs."
 seoDescription: "Learn how reasoning models work with a practical 2026 framework: test-time scaling, post-training with RL/SFT, verifier design, cost controls, and deployment patterns."
