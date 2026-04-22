@@ -52,7 +52,7 @@ These terms and conditions are governed by and construed in accordance with the 
 For any questions about these Terms of Service, please contact:
 
 **Birat Gautam**  
-Email: [contact@birat.codes]
+Email: [contact@biratcodes.dev]
 
 ---
 

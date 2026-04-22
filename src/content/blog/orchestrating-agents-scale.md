@@ -8,7 +8,7 @@ difficulty: "Advanced"
 excerpt: "Coordination complexity does not disappear when you use a bigger model. A supervisor plus specialized agents usually scales better than one monolithic agent."
 readTime: 15
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 ---
 
 ## Bigger models do not solve coordination

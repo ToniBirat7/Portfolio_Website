@@ -58,7 +58,7 @@ I write about concrete, battle-tested patterns—not theoretical ideals.
 
 ## Get In Touch
 
-- **Email**: contact@birat.codes
+- **Email**: contact@biratcodes.dev
 - **GitHub**: https://github.com/ToniBirat7
 - **LinkedIn**: https://linkedin.com/in/birat-gautam
 

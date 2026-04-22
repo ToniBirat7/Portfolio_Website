@@ -8,7 +8,7 @@ difficulty: "Advanced"
 excerpt: "Prompt injection is not a prompt-writing bug. It is an architecture problem across retrieval, memory, tools, and output handling."
 readTime: 14
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 ---
 
 ## Treat injection as a trust-boundary problem

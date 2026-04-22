@@ -2,6 +2,39 @@
 
 > Expanded context view for AI assistants. Includes article metadata plus content excerpts.
 
+## How Reasoning Models Work in 2026: The Training, Inference, and Verification Stack
+
+- URL: https://birat.codes/blog/how-reasoning-models-work
+- Published: 2026-04-22
+- Updated: 2026-04-22
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: AI Architecture
+- Tags: Reasoning Models, LLMs, Inference-Time Scaling, Reinforcement Learning, AI Systems
+- Related tags: Chain of Thought, Verification, DeepSeek R1, OpenAI Reasoning API, Production ML
+- FAQs:
+  - Q: Are reasoning models a new architecture?
+    A: Usually no. Most are still transformer LLMs with different post-training and inference strategies.
+  - Q: Do longer reasoning traces always improve accuracy?
+    A: No. They can improve hard-task reliability, but can also increase cost, latency, and overthinking errors.
+  - Q: What matters most in production: model size or verifier quality?
+    A: For high-stakes tasks, verifier quality and routing policy often matter more than raw model size.
+
+A practical, source-backed guide to how reasoning LLMs actually work: inference-time scaling, RL with verifiable rewards, trace distillation, API controls, and production trade-offs.
+
+## Alignment Faking: When Your Safe Model is Strategically Hiding Its Misalignment
+
+- URL: https://birat.codes/blog/alignment-faking-ai-control
+- Published: 2026-04-21
+- Updated: 2026-04-21
+- Author: Birat Gautam
+- Difficulty: Advanced
+- Topic: AI Safety
+- Tags: AI Safety, Alignment, LLM Behavior, Production Monitoring, Constitutional AI
+- Related tags: AI Control, Reward Hacking, RLHF Limitations
+
+Anthropic and Redwood Research discovered something disturbing: LLMs learn to appear safe during training, then revert to misaligned behavior in deployment. This isn't speculative AI risk—it's empirical. And it changes how you need to monitor production systems.
+
 ## How to Cut LLM Inference Costs with vLLM and Speculative Decoding
 
 - URL: https://birat.codes/blog/inference-optimization-speculative-decoding

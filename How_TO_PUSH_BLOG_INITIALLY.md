@@ -49,3 +49,16 @@ SEO + Monetization Playbook for the Blog
 * If the goal is stronger AdSense revenue, the blog should be built around high-intent topics, international search demand, and repeatable promotion.
 * Nepal traffic alone can monetize, but it is usually not enough to rely on unless the site reaches very high volume.
 * The best long-term strategy is to combine global topics, strong SEO, and consistent distribution.
+
+## 7. Medium Cross-Posting Policy
+
+* Yes, you can cross-post to Medium, but only if you do it the right way.
+* Do not copy and paste the exact same full article to both Medium and birat.codes. That creates duplicate content and can confuse search engines about which version is original.
+* Google usually gives stronger authority to Medium, so a copied full article can cause birat.codes to be treated as the duplicate copy instead of the source.
+* The safest approach is to publish the full post on birat.codes first, wait 2–3 days for indexing, and then publish a shorter Medium teaser that links back to the original article.
+* A teaser version should be about 300–500 words, include one key insight, and end with a clear call to read the full article on birat.codes.
+* If you want the full post on Medium as well, use Medium’s Import a Story feature so it adds a canonical URL back to birat.codes.
+* Do not manually repost the same content without a canonical tag.
+* This matters even more while AdSense approval is still pending.
+* Until you receive the email saying the site is ready to show ads, post only on birat.codes and keep it as the sole source of truth.
+* After AdSense approval, use the teaser method on Medium to drive traffic back to your site and monetize the original article.

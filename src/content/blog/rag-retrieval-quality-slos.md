@@ -8,7 +8,7 @@ difficulty: "Advanced"
 excerpt: "Most RAG failures start before generation. Define retrieval SLOs, measure them continuously, and gate responses when evidence quality is weak."
 readTime: 15
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 ---
 
 ## Generation quality is capped by retrieval quality

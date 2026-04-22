@@ -5,7 +5,19 @@
     <link>https://birat.codes/blog</link>
     <description>Deep dives into AI Agents, MLOps, and the systems behind intelligence.</description>
     <language>en-US</language>
-    <lastBuildDate>Tue, 21 Apr 2026 12:27:27 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 22 Apr 2026 14:57:08 GMT</lastBuildDate>
+    <item>
+      <title>How Reasoning Models Work in 2026: The Training, Inference, and Verification Stack</title>
+      <link>https://birat.codes/blog/how-reasoning-models-work</link>
+      <guid>https://birat.codes/blog/how-reasoning-models-work</guid>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+      <description>A practical, source-backed guide to how reasoning LLMs actually work: inference-time scaling, RL with verifiable rewards, trace distillation, API controls, and production trade-offs.</description>
+      <category>Reasoning Models</category>
+      <category>LLMs</category>
+      <category>Inference-Time Scaling</category>
+      <category>Reinforcement Learning</category>
+      <category>AI Systems</category>
+    </item>
     <item>
       <title>Alignment Faking: When Your Safe Model is Strategically Hiding Its Misalignment</title>
       <link>https://birat.codes/blog/alignment-faking-ai-control</link>

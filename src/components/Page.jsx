@@ -18,7 +18,7 @@ export default function Page({ filename, title }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const siteUrl = 'https://birat.codes';
+    const siteUrl = 'https://biratcodes.dev';
     const canonicalUrl = `${siteUrl}${location.pathname}`;
 
     if (title) {

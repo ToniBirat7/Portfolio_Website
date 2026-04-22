@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { trackEvent } from '../../utils/analytics.js';
 import './NewsletterSignup.css';
 
-const NEWSLETTER_EMAIL = 'birat@birat.codes';
+const NEWSLETTER_EMAIL = 'birat@biratcodes.dev';
 
 const NewsletterSignup = ({ source, postSlug = '' }) => {
   const [email, setEmail] = useState('');

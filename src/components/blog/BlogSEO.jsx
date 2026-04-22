@@ -10,7 +10,7 @@ const BlogSEO = ({ post, type = 'article' }) => {
   useEffect(() => {
     if (!post) return;
 
-    const siteUrl = 'https://birat.codes';
+    const siteUrl = 'https://biratcodes.dev';
     const isArticle = type === 'article';
     const postUrl = isArticle
       ? `${siteUrl}/blog/${post.slug}`

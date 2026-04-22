@@ -52,7 +52,7 @@ You have the right to:
 - **Deletion**: Request that I delete your data
 - **Opt-out**: Disable analytics or unsubscribe from emails
 
-To exercise these rights, contact me at: [contact@birat.codes]
+To exercise these rights, contact me at: [contact@biratcodes.dev]
 
 ## Data Retention
 
@@ -80,7 +80,7 @@ I may update this Privacy Policy from time to time. I will notify you of materia
 If you have questions about this Privacy Policy or your privacy rights, please contact:
 
 **Birat Gautam**  
-Email: [contact@birat.codes]
+Email: [contact@biratcodes.dev]
 
 ---
 

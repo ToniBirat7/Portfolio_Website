@@ -107,7 +107,7 @@ export const getPosts = async () => {
         readTime: attributes.readTime || calcReadTime(content),
         coverImage: normalizeAssetPath(attributes.coverImage),
         author: attributes.author || 'Birat Gautam',
-        authorUrl: attributes.authorUrl || 'https://birat.codes/#profile',
+        authorUrl: attributes.authorUrl || 'https://biratcodes.dev/#profile',
         authorSameAs: normalizeStringArray(attributes.authorSameAs),
         difficulty: attributes.difficulty || '',
         topic: attributes.topic || tags[0] || '',

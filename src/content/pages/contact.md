@@ -9,7 +9,7 @@ If you want to discuss a project, collaboration, consulting, or a technical ques
 
 ## Primary Contact
 
-- Email: [birat@birat.codes](mailto:birat@birat.codes)
+- Email: [birat@biratcodes.dev](mailto:birat@biratcodes.dev)
 - LinkedIn: [linkedin.com/in/biratgautam7](https://www.linkedin.com/in/biratgautam7/)
 - GitHub: [github.com/ToniBirat7](https://github.com/ToniBirat7)
 

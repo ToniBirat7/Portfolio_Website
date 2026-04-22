@@ -8,7 +8,7 @@ difficulty: "Advanced"
 excerpt: "Vector search is useful, but deterministic event logs are what make long-running agents auditable, reproducible, and safe to debug after the fact."
 readTime: 15
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 ---
 
 ## Why semantic memory is not enough

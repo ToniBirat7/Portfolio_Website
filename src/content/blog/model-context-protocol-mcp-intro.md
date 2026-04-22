@@ -7,7 +7,7 @@ excerpt: "MCP turns tool integration from custom glue code into a protocol. This
 readTime: 16
 coverImage: "/blog/mcp/mcp.png"
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 difficulty: "intermediate"
 topic: "AI Systems"
 ---

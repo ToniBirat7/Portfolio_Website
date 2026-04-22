@@ -8,7 +8,7 @@ difficulty: "Intermediate"
 excerpt: "Token spend is usually an architecture problem, not a prompt-writing problem. The biggest savings come from routing, caching, pruning, and fewer unnecessary model calls."
 readTime: 13
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 ---
 
 ## The real cost is structural

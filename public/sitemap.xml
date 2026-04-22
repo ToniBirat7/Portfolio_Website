@@ -2,27 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://birat.codes/</loc>
-    <lastmod>2026-04-21T12:27:27.183Z</lastmod>
+    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/about</loc>
-    <lastmod>2026-04-21T12:27:27.183Z</lastmod>
+    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/contact</loc>
-    <lastmod>2026-04-21T12:27:27.183Z</lastmod>
+    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/privacy-policy</loc>
-    <lastmod>2026-04-21T12:27:27.183Z</lastmod>
+    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/terms</loc>
-    <lastmod>2026-04-21T12:27:27.183Z</lastmod>
+    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/blog</loc>
-    <lastmod>2026-04-21T00:00:00.000Z</lastmod>
+    <lastmod>2026-04-22T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://birat.codes/blog/how-reasoning-models-work</loc>
+    <lastmod>2026-04-22T00:00:00.000Z</lastmod>
   </url>
   <url>
     <loc>https://birat.codes/blog/alignment-faking-ai-control</loc>

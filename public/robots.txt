@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://birat.codes/sitemap.xml
+Sitemap: https://biratcodes.dev/sitemap.xml

@@ -6,7 +6,7 @@ tags: ["Agentic AI", "Production Systems", "Architecture", "Latency", "Tooling"]
 excerpt: "Adding more tools does not make an agent smarter if every decision adds latency, retries, and hidden orchestration cost. Here is how to design tool flows that stay fast and debuggable."
 readTime: 17
 author: "Birat Gautam"
-authorUrl: "https://birat.codes/#profile"
+authorUrl: "https://biratcodes.dev/#profile"
 difficulty: "advanced"
 topic: "Production Systems"
 ---
