@@ -4,7 +4,7 @@
 
 ## How Reasoning Models Work in 2026: The Training, Inference, and Verification Stack
 
-- URL: https://birat.codes/blog/how-reasoning-models-work
+- URL: https://biratcodes.dev/blog/how-reasoning-models-work
 - Published: 2026-04-22
 - Updated: 2026-04-22
 - Author: Birat Gautam
@@ -24,7 +24,7 @@ A practical, source-backed guide to how reasoning LLMs actually work: inference-
 
 ## Alignment Faking: When Your Safe Model is Strategically Hiding Its Misalignment
 
-- URL: https://birat.codes/blog/alignment-faking-ai-control
+- URL: https://biratcodes.dev/blog/alignment-faking-ai-control
 - Published: 2026-04-21
 - Updated: 2026-04-21
 - Author: Birat Gautam
@@ -37,7 +37,7 @@ Anthropic and Redwood Research discovered something disturbing: LLMs learn to ap
 
 ## How to Cut LLM Inference Costs with vLLM and Speculative Decoding
 
-- URL: https://birat.codes/blog/inference-optimization-speculative-decoding
+- URL: https://biratcodes.dev/blog/inference-optimization-speculative-decoding
 - Published: 2026-04-20
 - Updated: 2026-04-20
 - Author: Birat Gautam
@@ -50,7 +50,7 @@ Your inference infrastructure is burning money. A typical LLM serving setup wast
 
 ## Small Models Actually Win: Why Qwen 35B Beats GPT-5 at Economics (And Often Quality)
 
-- URL: https://birat.codes/blog/why-small-models-win-2026
+- URL: https://biratcodes.dev/blog/why-small-models-win-2026
 - Published: 2026-04-20
 - Updated: 2026-04-20
 - Author: Birat Gautam
@@ -63,7 +63,7 @@ The LLM industry sold you a lie: bigger is better. In 2026, smaller models are o
 
 ## I Tested Gemma 4 for Local Agentic AI: Architecture, Benchmarks, Prompting, and Deployment Lessons
 
-- URL: https://birat.codes/blog/gemma-4-local-agentic-ai-deployment-lessons
+- URL: https://biratcodes.dev/blog/gemma-4-local-agentic-ai-deployment-lessons
 - Published: 2026-04-18
 - Updated: 2026-04-18
 - Author: Birat Gautam
@@ -76,7 +76,7 @@ From Android on-device flows to workstation-grade MoE serving, this hands-on Gem
 
 ## Hot vs Cold Memory: State Architecture Patterns for Long-Running Agents
 
-- URL: https://birat.codes/blog/agent-memory-architecture-cold-hot-state
+- URL: https://biratcodes.dev/blog/agent-memory-architecture-cold-hot-state
 - Published: 2026-04-17
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -88,7 +88,7 @@ Long-running agent quality depends on memory architecture, not just context wind
 
 ## Context Management Is Actually Workflow Design
 
-- URL: https://birat.codes/blog/context-management-is-workflow-design
+- URL: https://biratcodes.dev/blog/context-management-is-workflow-design
 - Published: 2026-04-17
 - Updated: 2026-04-17
 - Author: Birat
@@ -97,7 +97,7 @@ The 1M token window didn't just give us more room—it exposed a hidden layer of
 
 ## Eval-Driven Releases: How to Ship Agent Changes Without Guessing
 
-- URL: https://birat.codes/blog/eval-driven-agent-release-process
+- URL: https://biratcodes.dev/blog/eval-driven-agent-release-process
 - Published: 2026-04-17
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -109,7 +109,7 @@ Agent quality is a release engineering problem. A stable eval suite with quality
 
 ## From Prompts to Policy Engines: Guardrails That Survive Real Traffic
 
-- URL: https://birat.codes/blog/guardrails-policy-engine-for-agent-tools
+- URL: https://biratcodes.dev/blog/guardrails-policy-engine-for-agent-tools
 - Published: 2026-04-17
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -121,7 +121,7 @@ Prompt-only guardrails fail under scale. Durable safety comes from explicit poli
 
 ## RAG Reliability by Design: Retrieval Quality SLOs That Prevent Silent Failure
 
-- URL: https://birat.codes/blog/rag-retrieval-quality-slos
+- URL: https://biratcodes.dev/blog/rag-retrieval-quality-slos
 - Published: 2026-04-17
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -133,7 +133,7 @@ Most RAG failures start before generation. Define retrieval SLOs, measure them c
 
 ## When Agents Should Not Decide: Building Confidence Thresholds for Human Handoff
 
-- URL: https://birat.codes/blog/agent-confidence-thresholds
+- URL: https://biratcodes.dev/blog/agent-confidence-thresholds
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -145,7 +145,7 @@ Agents need rejection regions and escalation policies. The right goal is not max
 
 ## Observability for Black-Box Agents: Tracing Decisions in Production
 
-- URL: https://birat.codes/blog/agent-observability
+- URL: https://biratcodes.dev/blog/agent-observability
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -157,7 +157,7 @@ Agent observability is about reconstructing decisions, not just timing requests.
 
 ## The Hallucination Budget: Quantifying Risk for Mission-Critical Agents
 
-- URL: https://birat.codes/blog/hallucination-budget
+- URL: https://biratcodes.dev/blog/hallucination-budget
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -169,7 +169,7 @@ Hallucinations are not random. They cluster by input type, failure mode, and dow
 
 ## Agents in the Loop: Designing for Human-AI Collaboration Instead of Replacement
 
-- URL: https://birat.codes/blog/human-ai-collaboration
+- URL: https://biratcodes.dev/blog/human-ai-collaboration
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -181,7 +181,7 @@ The best agents do not replace people. They reduce human effort on routine work,
 
 ## The Latency Trap: Why 99th-Percentile Response Time Matters More Than Average
 
-- URL: https://birat.codes/blog/latency-percentiles
+- URL: https://biratcodes.dev/blog/latency-percentiles
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -193,7 +193,7 @@ Agent latency is heavy-tailed, not normal. The user experience is governed by ta
 
 ## Orchestrating Agents at Scale: When You Need a Supervisor, Not a Bigger Model
 
-- URL: https://birat.codes/blog/orchestrating-agents-scale
+- URL: https://biratcodes.dev/blog/orchestrating-agents-scale
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -205,7 +205,7 @@ Coordination complexity does not disappear when you use a bigger model. A superv
 
 ## Prompt Injection in Agents: Defense Patterns That Actually Work
 
-- URL: https://birat.codes/blog/prompt-injection-defense
+- URL: https://biratcodes.dev/blog/prompt-injection-defense
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -217,7 +217,7 @@ Prompt injection is not a prompt-writing bug. It is an architecture problem acro
 
 ## State Management Without the Mess: Deterministic Agent Memory for Long-Running Systems
 
-- URL: https://birat.codes/blog/state-management-agent-memory
+- URL: https://biratcodes.dev/blog/state-management-agent-memory
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -229,7 +229,7 @@ Vector search is useful, but deterministic event logs are what make long-running
 
 ## Token Economics: Why Your Agent Architecture Is Costing 10x More Than It Should
 
-- URL: https://birat.codes/blog/token-economics-agent-architecture
+- URL: https://biratcodes.dev/blog/token-economics-agent-architecture
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -241,7 +241,7 @@ Token spend is usually an architecture problem, not a prompt-writing problem. Th
 
 ## The Tool-Use Illusion: Why Most Agent Frameworks Fail at Production Scale
 
-- URL: https://birat.codes/blog/tool-use-illusion
+- URL: https://biratcodes.dev/blog/tool-use-illusion
 - Published: 2026-04-16
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -253,7 +253,7 @@ Adding more tools does not make an agent smarter if every decision adds latency,
 
 ## The Architecture of Agency: Model Context Protocol (MCP)
 
-- URL: https://birat.codes/blog/model-context-protocol-mcp-intro
+- URL: https://biratcodes.dev/blog/model-context-protocol-mcp-intro
 - Published: 2026-04-15
 - Updated: 2026-04-17
 - Author: Birat Gautam
@@ -265,7 +265,7 @@ MCP turns tool integration from custom glue code into a protocol. This guide exp
 
 ## Demystifying the Working of ReactJs: From JSX to Pixels
 
-- URL: https://birat.codes/blog/demystifying-working-react-from-jsx-pixels
+- URL: https://biratcodes.dev/blog/demystifying-working-react-from-jsx-pixels
 - Published: 2024-08-30
 - Updated: 2026-04-17
 - Author: Birat Gautam

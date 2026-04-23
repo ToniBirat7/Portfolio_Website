@@ -5,7 +5,7 @@ description: "Privacy Policy for Portfolio Website"
 
 # Privacy Policy
 
-**Last Updated: April 16, 2026**
+**Last Updated: April 23, 2026**
 
 ## Introduction
 
@@ -42,7 +42,7 @@ I do **not** sell, rent, or share your personal data with third parties without 
 
 This website uses:
 - **Google Analytics 4**: For usage analytics. See [Google's Privacy Policy](https://policies.google.com/privacy)
-- **Vercel**: For hosting. See [Vercel's Privacy Policy](https://vercel.com/legal/privacy-policy)
+- **Site hosting and delivery**: Served from my own web infrastructure with HTTPS and security headers
 
 ## Your Rights
 
@@ -52,7 +52,8 @@ You have the right to:
 - **Deletion**: Request that I delete your data
 - **Opt-out**: Disable analytics or unsubscribe from emails
 
-To exercise these rights, contact me at: [contact@biratcodes.dev]
+To exercise these rights, contact me at: [contact@birat.codes]
+To exercise these rights, contact me at: [info@biratcodes.dev]
 
 ## Data Retention
 
@@ -64,7 +65,7 @@ To exercise these rights, contact me at: [contact@biratcodes.dev]
 
 I implement reasonable technical measures to protect your data, including:
 - HTTPS encryption for all connections
-- Secure hosting on Vercel
+- Security headers and standard web hosting controls
 - No storage of sensitive information (passwords, etc.)
 
 ## Children's Privacy
@@ -80,7 +81,7 @@ I may update this Privacy Policy from time to time. I will notify you of materia
 If you have questions about this Privacy Policy or your privacy rights, please contact:
 
 **Birat Gautam**  
-Email: [contact@biratcodes.dev]
+Email: [info@biratcodes.dev]
 
 ---
 

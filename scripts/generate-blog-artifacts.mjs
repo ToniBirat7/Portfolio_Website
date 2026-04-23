@@ -13,7 +13,7 @@ import {
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', 'blog');
 const PUBLIC_DIR = path.join(ROOT, 'public');
-const SITE_URL = 'https://birat.codes';
+const SITE_URL = 'https://biratcodes.dev';
 const BLOG_BASE = `${SITE_URL}/blog`;
 
 function slugFromFile(fileName) {

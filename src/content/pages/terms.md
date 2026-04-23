@@ -5,11 +5,13 @@ description: "Terms of Service for Portfolio Website"
 
 # Terms of Service
 
-**Last Updated: April 16, 2026**
+**Last Updated: April 23, 2026**
 
 ## 1. Acceptance of Terms
 
 By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+
+This website may be accessed through both biratcodes.dev and birat.codes. Unless noted otherwise, both domains serve the same content.
 
 ## 2. Use License
 
@@ -52,8 +54,8 @@ These terms and conditions are governed by and construed in accordance with the 
 For any questions about these Terms of Service, please contact:
 
 **Birat Gautam**  
-Email: [contact@biratcodes.dev]
+Email: [info@biratcodes.dev]
 
 ---
 
-*Last Updated: April 16, 2026*
+*Last Updated: April 23, 2026*

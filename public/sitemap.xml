@@ -1,115 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://birat.codes/</loc>
-    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
+    <loc>https://biratcodes.dev/</loc>
+    <lastmod>2026-04-23T16:59:19.700Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/about</loc>
-    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
+    <loc>https://biratcodes.dev/about</loc>
+    <lastmod>2026-04-23T16:59:19.700Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/contact</loc>
-    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
+    <loc>https://biratcodes.dev/contact</loc>
+    <lastmod>2026-04-23T16:59:19.700Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/privacy-policy</loc>
-    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
+    <loc>https://biratcodes.dev/privacy-policy</loc>
+    <lastmod>2026-04-23T16:59:19.700Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/terms</loc>
-    <lastmod>2026-04-22T14:57:08.448Z</lastmod>
+    <loc>https://biratcodes.dev/terms</loc>
+    <lastmod>2026-04-23T16:59:19.700Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog</loc>
+    <loc>https://biratcodes.dev/blog</loc>
     <lastmod>2026-04-22T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/how-reasoning-models-work</loc>
+    <loc>https://biratcodes.dev/blog/how-reasoning-models-work</loc>
     <lastmod>2026-04-22T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/alignment-faking-ai-control</loc>
+    <loc>https://biratcodes.dev/blog/alignment-faking-ai-control</loc>
     <lastmod>2026-04-21T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/inference-optimization-speculative-decoding</loc>
+    <loc>https://biratcodes.dev/blog/inference-optimization-speculative-decoding</loc>
     <lastmod>2026-04-20T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/why-small-models-win-2026</loc>
+    <loc>https://biratcodes.dev/blog/why-small-models-win-2026</loc>
     <lastmod>2026-04-20T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/gemma-4-local-agentic-ai-deployment-lessons</loc>
+    <loc>https://biratcodes.dev/blog/gemma-4-local-agentic-ai-deployment-lessons</loc>
     <lastmod>2026-04-18T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/agent-memory-architecture-cold-hot-state</loc>
+    <loc>https://biratcodes.dev/blog/agent-memory-architecture-cold-hot-state</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/context-management-is-workflow-design</loc>
+    <loc>https://biratcodes.dev/blog/context-management-is-workflow-design</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/eval-driven-agent-release-process</loc>
+    <loc>https://biratcodes.dev/blog/eval-driven-agent-release-process</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/guardrails-policy-engine-for-agent-tools</loc>
+    <loc>https://biratcodes.dev/blog/guardrails-policy-engine-for-agent-tools</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/rag-retrieval-quality-slos</loc>
+    <loc>https://biratcodes.dev/blog/rag-retrieval-quality-slos</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/agent-confidence-thresholds</loc>
+    <loc>https://biratcodes.dev/blog/agent-confidence-thresholds</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/agent-observability</loc>
+    <loc>https://biratcodes.dev/blog/agent-observability</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/hallucination-budget</loc>
+    <loc>https://biratcodes.dev/blog/hallucination-budget</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/human-ai-collaboration</loc>
+    <loc>https://biratcodes.dev/blog/human-ai-collaboration</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/latency-percentiles</loc>
+    <loc>https://biratcodes.dev/blog/latency-percentiles</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/orchestrating-agents-scale</loc>
+    <loc>https://biratcodes.dev/blog/orchestrating-agents-scale</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/prompt-injection-defense</loc>
+    <loc>https://biratcodes.dev/blog/prompt-injection-defense</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/state-management-agent-memory</loc>
+    <loc>https://biratcodes.dev/blog/state-management-agent-memory</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/token-economics-agent-architecture</loc>
+    <loc>https://biratcodes.dev/blog/token-economics-agent-architecture</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/tool-use-illusion</loc>
+    <loc>https://biratcodes.dev/blog/tool-use-illusion</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/model-context-protocol-mcp-intro</loc>
+    <loc>https://biratcodes.dev/blog/model-context-protocol-mcp-intro</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
   <url>
-    <loc>https://birat.codes/blog/demystifying-working-react-from-jsx-pixels</loc>
+    <loc>https://biratcodes.dev/blog/demystifying-working-react-from-jsx-pixels</loc>
     <lastmod>2026-04-17T00:00:00.000Z</lastmod>
   </url>
 </urlset>
