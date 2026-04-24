@@ -8,7 +8,7 @@ difficulty: "Intermediate"
 excerpt: "Agent latency is heavy-tailed, not normal. The user experience is governed by tail latency, stage budgets, and the failure paths that inflate p95 and p99."
 readTime: 12
 author: "Birat Gautam"
-authorUrl: "https://biratcodes.dev/#profile"
+authorUrl: "https://birat.codes/#profile"
 ---
 
 ## Why averages fail in agent systems
